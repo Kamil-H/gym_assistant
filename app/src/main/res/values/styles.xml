@@ -1,0 +1,73 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:spinnerStyle">@style/spinnerStyle</item>
+    </style>
+
+    <style name="editTextStyle" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:backgroundTint">@color/colorText</item>
+    </style>
+    
+    <style name="spinnerStyle" parent="@style/Widget.AppCompat.Spinner.Underlined">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:backgroundTint">@color/colorText</item>
+        <item name="android:popupBackground">@color/colorCard</item>
+        <item name="android:spinnerMode">dropdown</item>
+    </style>
+
+    <style name="titleTextSmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="titleTextBig">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="whiteText">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="myDialog" parent="Theme.AppCompat.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="progressDialog" parent="Theme.AppCompat.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorBackground</item>
+    </style>
+
+    <style name="Text" parent="AppTheme">
+        <item name="colorAccent">@color/colorText</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

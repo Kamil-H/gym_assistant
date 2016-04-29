@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.gymassistant.MainActivity">
+
+    <item
+        android:id="@+id/youtube"
+        app:showAsAction="always"
+        android:title="@string/youtube"
+        android:icon="@drawable/youtube_play"/>
+
+    <item
+        android:id="@+id/favorites"
+        app:showAsAction="always"
+        android:title="@string/favorites"
+        android:icon="@drawable/ic_favorite_white_24dp"/>
+
+</menu>

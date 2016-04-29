@@ -1,0 +1,36 @@
+﻿{
+  "Categories": [
+    {
+      "category": "Klatka piersiowa",
+      "Icon": "/images/av-klatka.png"
+    },
+    {
+      "category": "Plecy",
+      "Icon": "/images/av-plecy.png"
+    },
+    {
+      "category": "Barki",
+      "Icon": "/images/av-barki.png"
+    },
+    {
+      "category": "Biceps i prostowniki przedramion",
+      "Icon": "/images/av-biceps.png"
+    },
+    {
+      "category": "Triceps i prostowniki przedramion",
+      "Icon": "/images/av-triceps.png"
+    },
+    {
+      "category": "Nogi i pośladki",
+      "Icon": "/images/av-nogi.png"
+    },
+    {
+      "category": "Przedramiona",
+      "Icon": "/images/av-przedramie.png"
+    },
+    {
+      "category": "Brzuch",
+      "Icon": "/images/av-brzuch.png"
+    }
+  ]
+}
