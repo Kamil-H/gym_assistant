@@ -1,9 +1,13 @@
 package com.gymassistant.Activities;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,10 +16,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.gymassistant.GlobalClass;
 import com.gymassistant.Models.Category;
 import com.gymassistant.Models.Exercise;
+import com.gymassistant.Models.TrainingPlanExercise;
 import com.gymassistant.R;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
@@ -33,6 +39,8 @@ public class ChooseExercises extends AppCompatActivity {
     private CheckBox seriesCheckBox, repeatsCheckBox;
     private Button nextButton, backButton;
     private boolean isFirst = true, FILL = true, UPDATE = false;
+    private int pageCounter = 0;
+    private TrainingPlanExercise trainingPlanExercise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +79,7 @@ public class ChooseExercises extends AppCompatActivity {
             repeats = repeatsSeekBar.getProgress();
         }
         Log.i("VALUES", "CATEGORY: " + category + " EXERCISE: " + exercise + " SERIES: " + String.valueOf(series) + " REPEATS: " + String.valueOf(repeats));
+        trainingPlanExercise = new TrainingPlanExercise(category, exercise, series, repeats);
     }
 
     private void setUpButtons(){
@@ -78,7 +87,11 @@ public class ChooseExercises extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pageCounter++;
+                if(pageCounter > 0)
+                    backButton.setText(getString(R.string.back_button));
                 readValues();
+                showCostDialog();
             }
         });
 
@@ -86,9 +99,42 @@ public class ChooseExercises extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
+    }
+
+    private void showCostDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_exercise, null);
+        dialogBuilder.setView(dialogView);
+
+        final TextView muscleGroupTextView = (TextView) dialogView.findViewById(R.id.muscleGroupTextView);
+        muscleGroupTextView.setText(trainingPlanExercise.getMuscleGroup());
+
+        final TextView exerciseTextView = (TextView) dialogView.findViewById(R.id.exerciseTextView);
+        exerciseTextView.setText(trainingPlanExercise.getExercise());
+
+        final TextView seriesRepeatsTextView = (TextView) dialogView.findViewById(R.id.seriesRepeatsTextView);
+        seriesRepeatsTextView.setText(getString(R.string.series_x_repeats, trainingPlanExercise.getSeries(), trainingPlanExercise.getRepeats()));
+
+        dialogBuilder.setTitle(getString(R.string.summary));
+        //dialogBuilder.setMessage("Enter text below");
+        dialogBuilder.setPositiveButton("ZAPISZ I DODAJ NASTĘPNE ĆWICZENIE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+        dialogBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+        dialogBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+            }
+        });
+        AlertDialog b = dialogBuilder.create();
+        b.show();
     }
 
     private void setUpCheckBoxes(){

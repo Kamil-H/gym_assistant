@@ -73,4 +73,16 @@
     <string name="series_number">numer serii</string>
     <string name="repeats_number">liczba powtórzeń</string>
     <string name="load">obciążenie</string>
+    <string name="choose_number_training_days">liczba dni treningowych</string>
+    <string name="choose_existing_plan">wybierz jeden z gotowych planów</string>
+    <string name="create_new_plan">stwórz nowy plan</string>
+    <string name="choose_plan">wybierz jeden z gotowych planów</string>
+    <string name="set_start_date">data rozpoczęcia treningu</string>
+    <string name="set_end_date">czas trwania treningu (w dniach)</string>
+    <string name="day">dzień %1$d</string>
+    <string name="muscle_group">partia mięśni</string>
+    <string name="exercise">ćwiczenie</string>
+    <string name="series_count_x_repeats_count">liczba serii x liczba powtórzeń</string>
+    <string name="summary">podsumowanie</string>
+    <string name="series_x_repeats">%1$d x %2$d</string>
 </resources>

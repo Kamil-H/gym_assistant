@@ -4,7 +4,6 @@ package com.gymassistant.RecyclerView;
  * Created by KamilH on 2015-10-23.
  */
 
-import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -15,25 +14,20 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.gymassistant.Activities.ChooseExercises;
-import com.gymassistant.Models.TrainingPlanModel;
 import com.gymassistant.R;
 
-public class TrainingPlanAdapter extends RecyclerView.Adapter<TrainingPlanRowViewHolder> {
+public class TrainingPlanAdapter extends RecyclerView.Adapter<TrainingPlanAdapter.TrainingPlanRowViewHolder> {
     private Context context;
-    private List<TrainingPlanModel> itemsList;
+    private int itemCount;
 
-    public TrainingPlanAdapter(Context context, List<TrainingPlanModel> itemsList) {
+    public TrainingPlanAdapter(Context context, int itemCount) {
         this.context = context;
-        this.itemsList = itemsList;
+        this.itemCount = itemCount;
     }
 
     @Override
     public int getItemCount() {
-        if (itemsList == null) {
-            return 0;
-        } else {
-            return itemsList.size();
-        }
+        return itemCount;
     }
 
     @Override
@@ -47,9 +41,8 @@ public class TrainingPlanAdapter extends RecyclerView.Adapter<TrainingPlanRowVie
 
     @Override
     public void onBindViewHolder(TrainingPlanRowViewHolder rowViewHolder, final int position) {
-        TrainingPlanModel items = itemsList.get(position);
 
-        rowViewHolder.dayName.setText(items.getDayName());
+        rowViewHolder.dayName.setText(context.getString(R.string.day, position + 1));
         rowViewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,16 +55,16 @@ public class TrainingPlanAdapter extends RecyclerView.Adapter<TrainingPlanRowVie
         Intent intent = new Intent(context, ChooseExercises.class);
         context.startActivity(intent);
     }
-}
 
-class TrainingPlanRowViewHolder extends RecyclerView.ViewHolder {
-    public View view;
-    public TextView dayName;
-    public Button button;
+    class TrainingPlanRowViewHolder extends RecyclerView.ViewHolder {
+        public View view;
+        public TextView dayName;
+        public Button button;
 
-    public TrainingPlanRowViewHolder(View view) {
-        super(view);
-        this.dayName = (TextView) view.findViewById(R.id.dayName);
-        this.button = (Button) view.findViewById(R.id.button);
+        public TrainingPlanRowViewHolder(View view) {
+            super(view);
+            this.dayName = (TextView) view.findViewById(R.id.dayName);
+            this.button = (Button) view.findViewById(R.id.button);
+        }
     }
 }

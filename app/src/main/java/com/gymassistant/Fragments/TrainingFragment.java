@@ -24,7 +24,7 @@ public class TrainingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        int i = 1;
+        int i = 0;
 
         if (i == 0){
             view = inflater.inflate(R.layout.empty_state, container, false);

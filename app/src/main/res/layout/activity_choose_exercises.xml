@@ -155,7 +155,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:background="@color/colorBackground"
+        android:background="#2a2a2a"
         android:id="@+id/buttons"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginTop="1dp"
-            android:text="@string/next_button"
+            android:text="@string/save_button"
             android:textColor="@color/colorText"
             android:textStyle="bold"
             android:background="@color/colorCard"/>

@@ -28,6 +28,22 @@ public class SecondPage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_page_second, container, false);
 
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        setUpButtons();
+        populateRecyclerView();
+
+        return view;
+    }
+
+    private void populateRecyclerView(){
+        int itemCount = ((WizardActivity)getActivity()).getItemCount();
+        TrainingPlanAdapter trainingPlanRVAdapter = new TrainingPlanAdapter(getActivity(), itemCount);
+        recyclerView.setAdapter(trainingPlanRVAdapter);
+    }
+
+    private void setUpButtons(){
         nextButton = (Button) view.findViewById(R.id.nextButton);
         backButton = (Button) view.findViewById(R.id.backButton);
 
@@ -44,18 +60,5 @@ public class SecondPage extends Fragment {
                 ((WizardActivity)getActivity()).navigateToPreviousPage();
             }
         });
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        populateRecyclerView();
-
-        return view;
-    }
-
-    private void populateRecyclerView(){
-        List<TrainingPlanModel> trainingPlanModelList = ((WizardActivity)getActivity()).getDayNameList();
-        TrainingPlanAdapter trainingPlanRVAdapter = new TrainingPlanAdapter(getActivity(), trainingPlanModelList);
-        recyclerView.setAdapter(trainingPlanRVAdapter);
     }
 }

@@ -20,7 +20,7 @@ import com.gymassistant.Models.TrainingPlanModel;
 public class WizardActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    private List<TrainingPlanModel> trainingPlanModelList;
+    private int itemCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +65,12 @@ public class WizardActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true);
     }
 
-    public void setDayNameList(List<TrainingPlanModel> trainingPlanModelList){
-        this.trainingPlanModelList = trainingPlanModelList;
+    public void setItemCount(int itemCount){
+        this.itemCount = itemCount;
     }
 
-    public List<TrainingPlanModel> getDayNameList(){
-        return this.trainingPlanModelList;
+    public int getItemCount(){
+        return this.itemCount;
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

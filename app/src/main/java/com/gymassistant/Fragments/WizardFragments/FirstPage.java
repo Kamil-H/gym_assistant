@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -15,24 +20,43 @@ import com.gymassistant.Models.TrainingPlanModel;
 import com.gymassistant.R;
 import com.gymassistant.WizardActivity;
 
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
+
 /**
  * Created by KamilH on 2016-03-21.
  */
 public class FirstPage extends Fragment {
     private View view;
     private Button nextButton, backButton;
-    private CheckBox monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-    private List<CheckBox> textViewsList;
+    private RadioButton newPlanRadioButton, existingPlanRadioButton;
+    private RadioGroup radioGroup;
+    private EditText startDateEditText;
+    private DiscreteSeekBar trainingDaySeekBar, trainingPlanLengthSeekBar;
+    private Spinner existingPlansSpinner;
+    private TextView textView8;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_page_first, container, false);
 
+        existingPlansSpinner = (Spinner) view.findViewById(R.id.existingPlansSpinner);
+        startDateEditText = (EditText) view.findViewById(R.id.startDateEditText);
+        trainingDaySeekBar = (DiscreteSeekBar) view.findViewById(R.id.trainingDaySeekBar);
+        trainingPlanLengthSeekBar = (DiscreteSeekBar) view.findViewById(R.id.trainingPlanLengthSeekBar);
+        textView8 = (TextView) view.findViewById(R.id.textView8);
+
+        setUpButtons();
+        setUpRadioButtons();
+
+        return view;
+    }
+
+    private void setUpButtons(){
         nextButton = (Button) view.findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveDayNameList();
+                ((WizardActivity)getActivity()).setItemCount(trainingDaySeekBar.getProgress());
                 ((WizardActivity)getActivity()).navigateToNextPage();
             }
         });
@@ -44,41 +68,26 @@ public class FirstPage extends Fragment {
                 getActivity().finish();
             }
         });
-
-        monday = (CheckBox) view.findViewById(R.id.monday);
-        tuesday = (CheckBox) view.findViewById(R.id.tuesday);
-        wednesday = (CheckBox) view.findViewById(R.id.wednesday);
-        thursday = (CheckBox) view.findViewById(R.id.thursday);
-        friday = (CheckBox) view.findViewById(R.id.friday);
-        saturday = (CheckBox) view.findViewById(R.id.saturday);
-        sunday = (CheckBox) view.findViewById(R.id.sunday);
-
-        textViewsList = new ArrayList<>();
-
-        textViewsList.add(monday);
-        textViewsList.add(tuesday);
-        textViewsList.add(wednesday);
-        textViewsList.add(thursday);
-        textViewsList.add(friday);
-        textViewsList.add(saturday);
-        textViewsList.add(sunday);
-
-        return view;
     }
 
-    private List<TrainingPlanModel> checkTextViews(){
-        List<TrainingPlanModel> daysName = new ArrayList<>();
-        for(CheckBox checkBox : textViewsList){
-            if(checkBox.isChecked()){
-                TrainingPlanModel trainingPlanModel = new TrainingPlanModel(getString(getResources().getIdentifier(getResources().getResourceEntryName(checkBox.getId()),
-                        "string", getActivity().getPackageName())));
-                daysName.add(trainingPlanModel);
+    private void setUpRadioButtons(){
+        newPlanRadioButton = (RadioButton) view.findViewById(R.id.newPlanRadioButton);
+        existingPlanRadioButton = (RadioButton) view.findViewById(R.id.existingPlanRadioButton);
+        radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(newPlanRadioButton.isChecked()){
+                    textView8.setText(getString(R.string.choose_number_training_days));
+                    trainingDaySeekBar.setVisibility(View.VISIBLE);
+                    existingPlansSpinner.setVisibility(View.INVISIBLE);
+                } else {
+                    textView8.setText(getString(R.string.choose_existing_plan));
+                    trainingDaySeekBar.setVisibility(View.INVISIBLE);
+                    existingPlansSpinner.setVisibility(View.VISIBLE);
+                }
             }
-        }
-        return daysName;
-    }
-
-    private void saveDayNameList(){
-        ((WizardActivity)getActivity()).setDayNameList(checkTextViews());
+        });
     }
 }
