@@ -4,24 +4,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.gymassistant.GlobalClass;
-import com.gymassistant.Models.Categories;
+import com.gymassistant.Database.ExerciseDB;
 import com.gymassistant.Models.Category;
 import com.gymassistant.Models.Exercise;
-import com.gymassistant.Models.Exercises;
 import com.gymassistant.R;
 import com.gymassistant.RecyclerView.ExerciseExpandableAdapter;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +29,9 @@ public class ExercisesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_exercises,container,false);
 
-        GlobalClass global = (GlobalClass) getActivity().getApplicationContext();
-        categories = global.getCategories();
-        exercises = global.getExercises();
+        ExerciseDB exerciseDB = new ExerciseDB(getActivity());
+        exercises = exerciseDB.getAllExercises();
+        categories = exerciseDB.getCategories();
 
         ExerciseExpandableAdapter exerciseExpandableAdapter = new ExerciseExpandableAdapter(getActivity(), generateList());
 

@@ -15,11 +15,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gymassistant.UIComponents.CustomAdapter;
-import com.gymassistant.GlobalClass;
+import com.gymassistant.Database.ExerciseDB;
 import com.gymassistant.Models.Exercise;
 import com.gymassistant.R;
-import com.gymassistant.UIComponents.UniversalDialog;
+import com.gymassistant.UIComponents.CustomAdapter;
 import com.gymassistant.UIComponents.YouTubeDialog;
 
 import java.util.ArrayList;
@@ -52,10 +51,10 @@ public class ExercisesPreview extends AppCompatActivity {
         howtoTextView = (TextView) findViewById(R.id.howtoTextView);
         attentionsTextView = (TextView) findViewById(R.id.attentionsTextView);
 
-        GlobalClass globalClass = (GlobalClass) getApplicationContext();
-        exercises = globalClass.getExercises();
+        ExerciseDB exerciseDB = new ExerciseDB(this);
+        exercises = exerciseDB.getAllExercises();
 
-        String id = readParameter();
+        int id = readParameter();
         exercise = getSpecyficExercise(id);
 
         setUpToolbar();
@@ -82,24 +81,24 @@ public class ExercisesPreview extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back_white_24dp));
     }
 
-    private Exercise getSpecyficExercise(String id){
+    private Exercise getSpecyficExercise(int id){
         for(Exercise exer : exercises){
-            if(exer.getId().matches(id))
+            if(exer.getId() == id)
                 return exer;
         }
         return null;
     }
 
-    private String readParameter(){
+    private int readParameter(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            return extras.getString("id");
+            return extras.getInt("id");
         }
-        return null;
+        return 0;
     }
 
     private void fillTextViews(){
-        if(isSecondName())
+        if(isNotNull(exercise.getSecondName()))
             nameTextView.setText(exercise.getName() + ", " + exercise.getSecondName());
         else
             nameTextView.setText(exercise.getName());
@@ -110,17 +109,17 @@ public class ExercisesPreview extends AppCompatActivity {
         attentionsTextView.setText(exercise.getAttentions());
     }
 
-    private boolean isSecondName(){
-        return exercise.getSecondName().length() > 2;
+    private boolean isNotNull(String text){
+        return text.length() > 2;
     }
 
     private List<String> loadImages() {
         List<String> names = new ArrayList<String>();
-        if (exercise.getImg1() != null)
+        if (isNotNull(exercise.getImg1()))
             names.add(exercise.getImg1());
-        if (exercise.getImg2() != null)
+        if (isNotNull(exercise.getImg2()))
             names.add(exercise.getImg2());
-        if (exercise.getImg3() != null)
+        if (isNotNull(exercise.getImg3()))
             names.add(exercise.getImg3());
 
         return names;

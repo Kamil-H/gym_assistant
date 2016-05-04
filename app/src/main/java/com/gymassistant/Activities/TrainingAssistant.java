@@ -1,15 +1,15 @@
 package com.gymassistant.Activities;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.gymassistant.GlobalClass;
+import com.gymassistant.Database.ExerciseDB;
 import com.gymassistant.Models.Exercise;
 import com.gymassistant.R;
 import com.gymassistant.RecyclerView.TrainingAssistantAdapter;
@@ -34,8 +34,8 @@ public class TrainingAssistant extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_assistant);
 
-        GlobalClass globalClass = (GlobalClass) getApplicationContext();
-        exercises = globalClass.getExercises();
+        ExerciseDB exerciseDB = new ExerciseDB(this);
+        exercises = exerciseDB.getAllExercises();
 
         handler = new Handler();
 

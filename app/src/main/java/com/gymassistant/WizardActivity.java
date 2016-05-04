@@ -11,11 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.List;
-
 import com.gymassistant.Fragments.WizardFragments.FirstPage;
 import com.gymassistant.Fragments.WizardFragments.SecondPage;
-import com.gymassistant.Models.TrainingPlanModel;
 
 public class WizardActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;

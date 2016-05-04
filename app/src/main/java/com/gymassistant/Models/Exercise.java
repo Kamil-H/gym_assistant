@@ -30,10 +30,9 @@ public class Exercise {
     private String howTo;
     @SerializedName("attentions")
     private String attentions;
-    @SerializedName("_id")
-    private String id;
     @SerializedName("second_name")
     private String secondName;
+    private int id;
 
     public String getCategory() {
         return category;
@@ -131,11 +130,11 @@ public class Exercise {
         this.attentions = attentions;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

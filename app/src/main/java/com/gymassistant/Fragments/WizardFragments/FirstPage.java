@@ -1,22 +1,17 @@
 package com.gymassistant.Fragments.WizardFragments;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import com.gymassistant.Models.TrainingPlanModel;
 import com.gymassistant.R;
 import com.gymassistant.WizardActivity;
 

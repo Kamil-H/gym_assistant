@@ -85,4 +85,6 @@
     <string name="series_count_x_repeats_count">liczba serii x liczba powtórzeń</string>
     <string name="summary">podsumowanie</string>
     <string name="series_x_repeats">%1$d x %2$d</string>
+    <string name="save_and_close">ZAPISZ I ZAKOŃCZ</string>
+    <string name="add_next_exercise">DODAJ NASTĘPNE ĆWICZENIE</string>
 </resources>

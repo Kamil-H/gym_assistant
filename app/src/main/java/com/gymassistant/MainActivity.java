@@ -1,34 +1,24 @@
 package com.gymassistant;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.gymassistant.Activities.LoginActivity;
+import com.gymassistant.Database.ExerciseDB;
 import com.gymassistant.Fragments.ExercisesFragment;
 import com.gymassistant.Fragments.HistoryFragment;
 import com.gymassistant.Fragments.ProfileFragment;
 import com.gymassistant.Fragments.TrainingFragment;
-import com.gymassistant.Models.Categories;
-import com.gymassistant.Models.Category;
-import com.gymassistant.Models.Exercise;
-import com.gymassistant.Models.Exercises;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -72,25 +62,12 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         setupTabIcons(tabLayout);
 
-        GlobalClass global = (GlobalClass) getApplicationContext();
-        global.setCategories(getCategories());
-        global.setExercises(getExercises());
-    }
-
-    private List<Category> getCategories(){
-        BufferedReader in = new BufferedReader(new InputStreamReader(getResources().openRawResource(R.raw.categories)));
-        Gson gson = new GsonBuilder().create();
-        Categories cat = gson.fromJson(in, Categories.class);
-        List<Category> categories = cat.getCategories();
-        return categories;
-    }
-
-    private List<Exercise> getExercises(){
-        BufferedReader in = new BufferedReader(new InputStreamReader(getResources().openRawResource(R.raw.exercies)));
-        Gson gson = new GsonBuilder().create();
-        Exercises exer = gson.fromJson(in, Exercises.class);
-        List<Exercise> exercises = exer.getExercises();
-        return exercises;
+        ExerciseDB exerciseDB = new ExerciseDB(this);
+        long rowCount = exerciseDB.getRowCount();
+        Log.i("ExerciseDB", "populate, rowCount: " + String.valueOf(rowCount));
+        if(rowCount < 1){
+            exerciseDB.populateExerciseDB();
+        }
     }
 
     private void setupTabIcons(TabLayout tabLayout) {

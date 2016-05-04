@@ -9,9 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.util.List;
-
-import com.gymassistant.Models.TrainingPlanModel;
 import com.gymassistant.R;
 import com.gymassistant.RecyclerView.TrainingPlanAdapter;
 import com.gymassistant.WizardActivity;
