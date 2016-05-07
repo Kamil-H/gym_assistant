@@ -18,11 +18,11 @@ import java.util.List;
  */
 public class TrainingPlanDB extends SQLiteOpenHelper{
 
-    private final String TABLE_NAME = "Series", KEY_ID = "id", DAYS = "days", OWNER = "owner", IS_PUBLIC = "isPublic", NAME = "name", DESCRIPTION = "description";
+    private final String TABLE_NAME = "TrainingPlan", KEY_ID = "id", DAYS = "days", OWNER = "owner", IS_PUBLIC = "isPublic", NAME = "name", DESCRIPTION = "description";
     private Context context;
 
     public TrainingPlanDB(Context context) {
-        super(context, "Training", null, 1);
+        super(context, "TrainingPlan", null, 1);
         this.context = context;
     }
 
@@ -40,7 +40,7 @@ public class TrainingPlanDB extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void addTrainingPlan(TrainingPlan trainingPlan){
+    public long addTrainingPlan(TrainingPlan trainingPlan){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -53,8 +53,9 @@ public class TrainingPlanDB extends SQLiteOpenHelper{
             values.put(IS_PUBLIC, 1);
         else values.put(IS_PUBLIC, 0);
 
-        db.insert(TABLE_NAME, null, values);
+        long rowid = db.insert(TABLE_NAME, null, values);
         db.close();
+        return rowid;
     }
 
     public void addTrainingPlanList(List<TrainingPlan> trainingPlans){
@@ -119,7 +120,7 @@ public class TrainingPlanDB extends SQLiteOpenHelper{
         return trainingPlan;
     }
 
-    public void deleteTrainingPlan(int id) {
+    public void deleteTrainingPlan(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY_ID + " = ?",
                 new String[]{String.valueOf(id)});
@@ -135,5 +136,4 @@ public class TrainingPlanDB extends SQLiteOpenHelper{
     public long getRowCount() {
         return DatabaseUtils.queryNumEntries(getReadableDatabase(), TABLE_NAME);
     }
-
 }

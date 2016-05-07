@@ -14,6 +14,14 @@ public class TrainingPlan {
 
     public TrainingPlan(){}
 
+    public TrainingPlan(int days, int owner, boolean isPublic, String name, String description) {
+        this.days = days;
+        this.owner = owner;
+        this.isPublic = isPublic;
+        this.name = name;
+        this.description = description;
+    }
+
     public int getId() {
         return id;
     }

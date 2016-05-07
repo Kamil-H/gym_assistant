@@ -17,7 +17,7 @@ import java.util.List;
  * Created by KamilH on 2016-05-04.
  */
 public class SeriesDB extends SQLiteOpenHelper{
-    private final String TABLE_NAME = "Series", KEY_ID = "id", TRAINING_ID = "trainingId", EXERCISE_ID = "exerciseId", ORDER = "order", REPEAT = "repeat", WEIGHT = "weight";
+    private final String TABLE_NAME = "Series", KEY_ID = "id", TRAINING_ID = "trainingId", EXERCISE_ID = "exerciseId", ORDER = "order_", REPEAT = "repeat", WEIGHT = "weight";
     private Context context;
 
     public SeriesDB(Context context) {
@@ -93,6 +93,30 @@ public class SeriesDB extends SQLiteOpenHelper{
         return seriesList;
     }
 
+    public List<Series> getSeriesByTrainingId(int trainingId) {
+        ExerciseDB exerciseDb = new ExerciseDB(context);
+        List<Series> seriesList = new ArrayList<Series>();
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + TRAINING_ID + " = " + trainingId;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Series series = new Series();
+                series.setId(cursor.getInt(0));
+                series.setTrainingId(cursor.getInt(1));
+                series.setExerciseId(cursor.getInt(2));
+                series.setOrder(cursor.getInt(3));
+                series.setRepeat(cursor.getInt(4));
+                series.setWeight(cursor.getInt(5));
+                series.setExercise(exerciseDb.getExercise(series.getExerciseId()));
+
+                seriesList.add(series);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return seriesList;
+    }
+
     public Series getSeries(int ID){
         ExerciseDB exerciseDb = new ExerciseDB(context);
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + ID;
@@ -119,8 +143,7 @@ public class SeriesDB extends SQLiteOpenHelper{
         db.close();
     }
 
-    public void removeAll()
-    {
+    public void removeAll() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
     }

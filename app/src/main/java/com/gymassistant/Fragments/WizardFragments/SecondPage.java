@@ -36,7 +36,8 @@ public class SecondPage extends Fragment {
 
     private void populateRecyclerView(){
         int itemCount = ((WizardActivity)getActivity()).getItemCount();
-        TrainingPlanAdapter trainingPlanRVAdapter = new TrainingPlanAdapter(getActivity(), itemCount);
+        long trainingPlanId = ((WizardActivity)getActivity()).getTrainingPlanId();
+        TrainingPlanAdapter trainingPlanRVAdapter = new TrainingPlanAdapter(getActivity(), itemCount, trainingPlanId);
         recyclerView.setAdapter(trainingPlanRVAdapter);
     }
 
@@ -47,7 +48,7 @@ public class SecondPage extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((WizardActivity)getActivity()).navigateToNextPage();
+                getActivity().finish();
             }
         });
 

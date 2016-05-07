@@ -140,21 +140,7 @@ public class Exercise {
 
     @Override
     public String toString() {
-        return "Exercise{" +
-                "category='" + category + '\'' +
-                ", name='" + name + '\'' +
-                ", img1='" + img1 + '\'' +
-                ", img2='" + img2 + '\'' +
-                ", img3='" + img3 + '\'' +
-                ", imgMuscle='" + imgMuscle + '\'' +
-                ", video='" + video + '\'' +
-                ", mainMuscles='" + mainMuscles + '\'' +
-                ", auxMuscles='" + auxMuscles + '\'' +
-                ", stabilizers='" + stabilizers + '\'' +
-                ", howTo='" + howTo + '\'' +
-                ", attentions='" + attentions + '\'' +
-                ", id='" + id + '\'' +
-                '}';
+        return this.name;
     }
 
     public String getSecondName() {

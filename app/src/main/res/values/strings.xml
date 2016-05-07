@@ -87,4 +87,5 @@
     <string name="series_x_repeats">%1$d x %2$d</string>
     <string name="save_and_close">ZAPISZ I ZAKOŃCZ</string>
     <string name="add_next_exercise">DODAJ NASTĘPNE ĆWICZENIE</string>
+    <string name="choose_training_day">wybierz dzień treningowy i rozpocznij trening</string>
 </resources>

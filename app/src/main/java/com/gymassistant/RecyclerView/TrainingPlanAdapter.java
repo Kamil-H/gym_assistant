@@ -6,6 +6,7 @@ package com.gymassistant.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,12 @@ import com.gymassistant.R;
 public class TrainingPlanAdapter extends RecyclerView.Adapter<TrainingPlanAdapter.TrainingPlanRowViewHolder> {
     private Context context;
     private int itemCount;
+    private long trainingPlanId;
 
-    public TrainingPlanAdapter(Context context, int itemCount) {
+    public TrainingPlanAdapter(Context context, int itemCount, long trainingPlanId) {
         this.context = context;
         this.itemCount = itemCount;
+        this.trainingPlanId = trainingPlanId;
     }
 
     @Override
@@ -41,18 +44,21 @@ public class TrainingPlanAdapter extends RecyclerView.Adapter<TrainingPlanAdapte
 
     @Override
     public void onBindViewHolder(TrainingPlanRowViewHolder rowViewHolder, final int position) {
-
         rowViewHolder.dayName.setText(context.getString(R.string.day, position + 1));
         rowViewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToChoosExerciseActivity();
+                goToChoosExerciseActivity(position);
             }
         });
     }
 
-    private void goToChoosExerciseActivity(){
+    private void goToChoosExerciseActivity(int day){
         Intent intent = new Intent(context, ChooseExercises.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("day", day);
+        bundle.putLong("trainingPlanId", trainingPlanId);
+        intent.putExtras(bundle);
         context.startActivity(intent);
     }
 

@@ -4,6 +4,7 @@ package com.gymassistant.RecyclerView;
  * Created by KamilH on 2015-10-23.
  */
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gymassistant.Models.Exercise;
+import com.gymassistant.Models.Series;
 import com.gymassistant.R;
 import com.gymassistant.UIComponents.MyCustomLayoutManager;
 
@@ -23,11 +25,11 @@ import java.util.Objects;
 
 public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssistantAdapter.TrainingAssistantRowViewHolder> {
     private Context context;
-    private List<Exercise> itemsList;
+    private List<Series> itemsList;
     private int[] repeatsArray;
     private int[] loadsArray;
 
-    public TrainingAssistantAdapter(Context context, List<Exercise> itemsList, int[] repeatsArray, int[] loadsArray) {
+    public TrainingAssistantAdapter(Context context, List<Series> itemsList, int[] repeatsArray, int[] loadsArray) {
         this.context = context;
         this.itemsList = itemsList;
         this.repeatsArray = repeatsArray;
@@ -54,10 +56,10 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
 
     @Override
     public void onBindViewHolder(TrainingAssistantRowViewHolder rowViewHolder, final int position) {
-        Exercise items = itemsList.get(position);
+        Series items = itemsList.get(position);
 
-        rowViewHolder.muscleGroupTextView.setText(items.getCategory());
-        rowViewHolder.exerciseTextView.setText(items.getName() + " " + items.getSecondName());
+        rowViewHolder.muscleGroupTextView.setText(items.getExercise().getCategory());
+        rowViewHolder.exerciseTextView.setText(items.getExercise().getName() + " " + items.getExercise().getSecondName());
         rowViewHolder.seriesTextView.setText("3");
 
         rowViewHolder.repeatsEditTextListener.updatePosition(position);
@@ -86,6 +88,7 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
             // no op
         }
 
+        @SuppressLint("NewApi")
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
             if(!Objects.equals(charSequence.toString(), ""))

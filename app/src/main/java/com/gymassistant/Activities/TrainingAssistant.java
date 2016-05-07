@@ -10,7 +10,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.gymassistant.Database.ExerciseDB;
+import com.gymassistant.Database.TrainingDB;
 import com.gymassistant.Models.Exercise;
+import com.gymassistant.Models.Series;
+import com.gymassistant.Models.Training;
 import com.gymassistant.R;
 import com.gymassistant.RecyclerView.TrainingAssistantAdapter;
 import com.gymassistant.UIComponents.MyCustomLayoutManager;
@@ -19,7 +22,7 @@ import java.util.List;
 
 public class TrainingAssistant extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private List<Exercise> exercises;
+    private List<Series> seriesList;
     private Button backButton, nextButton;
     private MyCustomLayoutManager linearLayoutManager;
     private TextView timeTextView;
@@ -34,8 +37,8 @@ public class TrainingAssistant extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_assistant);
 
-        ExerciseDB exerciseDB = new ExerciseDB(this);
-        exercises = exerciseDB.getAllExercises();
+        TrainingDB trainingDB = new TrainingDB(this);
+        seriesList = trainingDB.getAllTrainings().get(readParameter()).getSeriesList();
 
         handler = new Handler();
 
@@ -56,12 +59,20 @@ public class TrainingAssistant extends AppCompatActivity {
         setUpButtons();
     }
 
+    private int readParameter(){
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            return extras.getInt("id");
+        }
+        return 0;
+    }
+
     private void setUpButtons(){
         nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(currentRow < exercises.size()){
+                if(currentRow < seriesList.size()){
                     scrollUp();
                 }
             }
@@ -79,13 +90,13 @@ public class TrainingAssistant extends AppCompatActivity {
     }
 
     private void initArrays(){
-        repeatsArray = new int[exercises.size()];
-        loadsArray = new int[exercises.size()];
+        repeatsArray = new int[seriesList.size()];
+        loadsArray = new int[seriesList.size()];
     }
 
     private void populateRecyclerView(){
         initArrays();
-        TrainingAssistantAdapter trainingAssistantAdapter = new TrainingAssistantAdapter(this, exercises, repeatsArray, loadsArray);
+        TrainingAssistantAdapter trainingAssistantAdapter = new TrainingAssistantAdapter(this, seriesList, repeatsArray, loadsArray);
         recyclerView.setAdapter(trainingAssistantAdapter);
     }
 

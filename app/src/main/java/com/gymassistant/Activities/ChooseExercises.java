@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,9 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gymassistant.Database.ExerciseDB;
+import com.gymassistant.Database.SeriesDB;
+import com.gymassistant.Database.TrainingDB;
 import com.gymassistant.Models.Category;
 import com.gymassistant.Models.Exercise;
-import com.gymassistant.Models.TrainingPlanExercise;
+import com.gymassistant.Models.Series;
+import com.gymassistant.Models.Training;
 import com.gymassistant.R;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
@@ -34,12 +38,14 @@ public class ChooseExercises extends AppCompatActivity {
     private Spinner muscleGroupSpinner, exerciseSpinner;
     private DiscreteSeekBar seriesSeekBar, repeatsSeekBar;
     private EditText seriesEditText, repeatsEditText;
-    private ArrayAdapter<String> exerciseSpinnerAdapter;
+    private ArrayAdapter<Exercise> exerciseSpinnerAdapter;
     private CheckBox seriesCheckBox, repeatsCheckBox;
     private Button nextButton, backButton;
     private boolean isFirst = true, FILL = true, UPDATE = false;
-    private int pageCounter = 0;
-    private TrainingPlanExercise trainingPlanExercise;
+    private int pageCounter = 0, numOfSeries, day;
+    private long trainingPlanId, trainingId;
+    private List<Series> seriesList;
+    private TrainingDB trainingDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,26 +56,39 @@ public class ChooseExercises extends AppCompatActivity {
         exercises = exerciseDB.getAllExercises();
         categories = exerciseDB.getCategories();
 
+        seriesList = new ArrayList<Series>();
+        trainingDB = new TrainingDB(this);
+
         seriesSeekBar = (DiscreteSeekBar) findViewById(R.id.seriesSeekBar);
         repeatsSeekBar = (DiscreteSeekBar) findViewById(R.id.repeatsSeekBar);
 
         seriesEditText = (EditText) findViewById(R.id.seriesEditText);
         repeatsEditText = (EditText) findViewById(R.id.repeatsEditText);
 
+        readParameters();
         setUpButtons();
         setUpSpinners();
         setUpCheckBoxes();
+        addNewTraining();
     }
 
-    private void readValues(){
-        String category = muscleGroupSpinner.getSelectedItem().toString();
-        String exercise = exerciseSpinner.getSelectedItem().toString();
-        int series, repeats;
+    private void readParameters(){
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            day = extras.getInt("trainingId");
+            trainingPlanId = extras.getLong("trainingPlanId");
+        }
+    }
+
+    private Series readValues(){
+        Exercise exercise = (Exercise) exerciseSpinner.getSelectedItem();
+
+        int repeats;
 
         if(seriesCheckBox.isChecked()){
-            series = Integer.parseInt(seriesEditText.getText().toString());
+            numOfSeries = Integer.parseInt(seriesEditText.getText().toString());
         } else {
-            series = seriesSeekBar.getProgress();
+            numOfSeries = seriesSeekBar.getProgress();
         }
 
         if(repeatsCheckBox.isChecked()){
@@ -77,7 +96,7 @@ public class ChooseExercises extends AppCompatActivity {
         } else {
             repeats = repeatsSeekBar.getProgress();
         }
-        trainingPlanExercise = new TrainingPlanExercise(category, exercise, series, repeats);
+        return new Series((int)trainingId, exercise, exercise.getId(), 0, repeats, 0);
     }
 
     private void setUpButtons(){
@@ -87,38 +106,42 @@ public class ChooseExercises extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pageCounter++;
                 if(pageCounter > 0)
                     backButton.setText(getString(R.string.back_button));
-                readValues();
-                showCostDialog();
+                showSummaryDialog(readValues());
+                pageCounter++;
             }
         });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pageCounter--;
+                if(pageCounter == 0)
+                    backButton.setText(getString(R.string.cancel));
+                deleteTraining();
             }
         });
     }
 
-    private void showCostDialog() {
+    private void showSummaryDialog(final Series series) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_exercise, null);
         dialogBuilder.setView(dialogView);
 
         final TextView muscleGroupTextView = (TextView) dialogView.findViewById(R.id.muscleGroupTextView);
-        muscleGroupTextView.setText(trainingPlanExercise.getMuscleGroup());
+        muscleGroupTextView.setText(series.getExercise().getCategory());
 
         final TextView exerciseTextView = (TextView) dialogView.findViewById(R.id.exerciseTextView);
-        exerciseTextView.setText(trainingPlanExercise.getExercise());
+        exerciseTextView.setText(String.format("%s %s", series.getExercise().getName(), series.getExercise().getSecondName()));
 
         final TextView seriesRepeatsTextView = (TextView) dialogView.findViewById(R.id.seriesRepeatsTextView);
-        seriesRepeatsTextView.setText(getString(R.string.series_x_repeats, trainingPlanExercise.getSeries(), trainingPlanExercise.getRepeats()));
+        seriesRepeatsTextView.setText(getString(R.string.series_x_repeats, numOfSeries, series.getRepeat()));
 
         dialogBuilder.setPositiveButton(getString(R.string.add_next_exercise), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
+                addToSeriesList(series);
                 resetValues();
                 Toast.makeText(getApplicationContext(), "Ćwiczenie zostało dodane!", Toast.LENGTH_LONG).show();
             }
@@ -126,7 +149,9 @@ public class ChooseExercises extends AppCompatActivity {
         dialogBuilder.setNeutralButton(getString(R.string.save_and_close), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                addToSeriesList(series);
+                saveSeriesToDb();
+                ChooseExercises.this.finish();
             }
         });
         dialogBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -139,7 +164,19 @@ public class ChooseExercises extends AppCompatActivity {
         b.show();
     }
 
+    private void saveSeriesToDb(){
+        SeriesDB seriesDB = new SeriesDB(this);
+        seriesDB.addSeriesList(seriesList);
+    }
+
+    private void addToSeriesList(Series series){
+        for(int i = 0; i < numOfSeries; i++)
+            seriesList.add(series);
+        Log.i("Series:", String.valueOf(seriesList.size()));
+    }
+
     private void resetValues(){
+        numOfSeries = 1;
         repeatsSeekBar.setProgress(1);
         seriesSeekBar.setProgress(1);
         if(repeatsCheckBox.isChecked()){
@@ -208,9 +245,9 @@ public class ChooseExercises extends AppCompatActivity {
     }
 
     private void populateExerciseSpinner(String muscleGroup, boolean action){
-        List<String> exercisesList = fillExercisesList(muscleGroup);
+        List<Exercise> exercisesList = fillExercisesList(muscleGroup);
         if(action){
-            exerciseSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, exercisesList);
+            exerciseSpinnerAdapter = new ArrayAdapter<Exercise>(this, android.R.layout.simple_spinner_item, exercisesList);
             exerciseSpinner.setAdapter(exerciseSpinnerAdapter);
         } else {
             exerciseSpinnerAdapter.clear();
@@ -219,13 +256,23 @@ public class ChooseExercises extends AppCompatActivity {
         }
     }
 
-    private List<String> fillExercisesList(String muscleGroup){
-        List<String> exercisesList = new ArrayList<String>();
+    private List<Exercise> fillExercisesList(String muscleGroup){
+        List<Exercise> exercisesList = new ArrayList<Exercise>();
         for (Exercise exercise : exercises){
             if(exercise.getCategory().matches(muscleGroup)){
-                exercisesList.add(exercise.getName());
+                exercisesList.add(exercise);
             }
         }
         return exercisesList;
+    }
+
+    private void addNewTraining(){
+        trainingId = trainingDB.addTraining(new Training((int)trainingPlanId, day, null));
+        Log.i("Added", String.format("Training ID: %d", trainingId));
+    }
+
+    private void deleteTraining(){
+        trainingDB.deleteTraining(trainingId);
+        Log.i("Deleted", String.format("Training ID: %d", trainingId));
     }
 }

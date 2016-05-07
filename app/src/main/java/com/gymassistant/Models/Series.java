@@ -15,6 +15,15 @@ public class Series {
 
     public Series(){}
 
+    public Series(int trainingId, Exercise exercise, int exerciseId, int order, int repeat, int weight) {
+        this.trainingId = trainingId;
+        this.exercise = exercise;
+        this.exerciseId = exerciseId;
+        this.order = order;
+        this.repeat = repeat;
+        this.weight = weight;
+    }
+
     public int getId() {
         return id;
     }
@@ -81,15 +90,6 @@ public class Series {
 
     @Override
     public String toString() {
-        return "Series{" +
-                "id=" + id +
-                ", training=" + training +
-                ", trainingId=" + trainingId +
-                ", exercise=" + exercise +
-                ", exerciseId=" + exerciseId +
-                ", order=" + order +
-                ", repeat=" + repeat +
-                ", weight=" + weight +
-                '}';
+        return exercise.getName();
     }
 }

@@ -2,6 +2,8 @@ package com.gymassistant.Fragments.WizardFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.gymassistant.Database.TrainingPlanDB;
+import com.gymassistant.Models.TrainingPlan;
 import com.gymassistant.R;
 import com.gymassistant.WizardActivity;
 
@@ -60,6 +64,7 @@ public class FirstPage extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((WizardActivity)getActivity()).deleteTrainingPlan();
                 getActivity().finish();
             }
         });

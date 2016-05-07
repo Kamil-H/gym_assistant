@@ -8,16 +8,23 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 
+import com.gymassistant.Database.TrainingPlanDB;
 import com.gymassistant.Fragments.WizardFragments.FirstPage;
 import com.gymassistant.Fragments.WizardFragments.SecondPage;
+import com.gymassistant.Models.TrainingPlan;
 
 public class WizardActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private int itemCount;
+    private TrainingPlanDB trainingPlanDB;
+    private long trainingPlanId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +37,16 @@ public class WizardActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back_white_24dp));
 
+        trainingPlanDB = new TrainingPlanDB(this);
+        addNewTrainingPlan();
+
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
@@ -62,12 +78,26 @@ public class WizardActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true);
     }
 
+    private void addNewTrainingPlan(){
+        trainingPlanId = trainingPlanDB.addTrainingPlan(new TrainingPlan(0, 0, false, null, null));
+        Log.i("Added", String.format("TrainingPlan ID: %d", trainingPlanId));
+    }
+
+    public void deleteTrainingPlan(){
+        trainingPlanDB.deleteTrainingPlan(trainingPlanId);
+        Log.i("Deleted", String.format("TrainingPlan ID: %d", trainingPlanId));
+    }
+
     public void setItemCount(int itemCount){
         this.itemCount = itemCount;
     }
 
     public int getItemCount(){
         return this.itemCount;
+    }
+
+    public long getTrainingPlanId() {
+        return trainingPlanId;
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
