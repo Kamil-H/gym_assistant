@@ -1,6 +1,5 @@
 package com.gymassistant.Activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,21 +10,28 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gymassistant.MainActivity;
+import com.gymassistant.Models.ServerResponse;
+import com.gymassistant.Models.User;
 import com.gymassistant.R;
+import com.gymassistant.Rest.RestClient;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
 
 /**
  * Created by KamilH on 2016-03-23.
  */
 public class LoginActivity extends AppCompatActivity {
     private Button loginButton, linkToRegisterScreenButton;
-    private EditText emailEditText, passwordEditText;
+    private EditText usernameEditText, passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        emailEditText = (EditText) findViewById(R.id.emailEditText);
+        usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
 
         loginButton = (Button) findViewById(R.id.loginButton);
@@ -61,28 +67,39 @@ public class LoginActivity extends AppCompatActivity {
     public void login() {
         Log.d("TAG", "Login");
 
-        String email = emailEditText.getText().toString();
+        String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        if (!validate(email, password)) {
+        if (!validate(username, password)) {
             onLoginFailed();
             return;
         }
+        connectServer(new User(username, password));
+    }
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.progressDialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.authenticating));
-        progressDialog.show();
-
-        // TODO: Implement your own authentication logic here.
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
+    private void connectServer(User user){
+        RestClient.UserInterface service = RestClient.getClient();
+        Call<ServerResponse> call = service.register(user);
+        call.enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Response<ServerResponse> response) {
+                if (response.isSuccess()) {
+                    ServerResponse serverResponse = response.body();
+                    if(serverResponse.isSuccess()){
                         onLoginSuccess();
-                        progressDialog.dismiss();
+                        Log.d("LoginActivity", "SUKCES!");
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Błąd logowania", Toast.LENGTH_LONG).show();
                     }
-                }, 3000);
+                } else {
+                    Toast.makeText(LoginActivity.this, "Błąd połączenia z serwerem", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d("LoginActivity", "onFailure " + t.getMessage());
+            }
+        });
     }
 
     public void onLoginSuccess() {
@@ -97,11 +114,11 @@ public class LoginActivity extends AppCompatActivity {
         boolean valid = true;
 
 
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailEditText.setError(getString(R.string.valid_email));
+        if (email.isEmpty()) {
+            usernameEditText.setError(getString(R.string.valid_username));
             valid = false;
         } else {
-            emailEditText.setError(null);
+            usernameEditText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4) {

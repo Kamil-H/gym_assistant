@@ -12,7 +12,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.gymassistant.Models.Category;
 import com.gymassistant.Models.Exercise;
-import com.gymassistant.Models.Exercises;
 import com.gymassistant.R;
 
 import java.io.BufferedReader;
@@ -55,7 +54,7 @@ public class ExerciseDB extends SQLiteOpenHelper {
     private List<Exercise> getExercises(){
         BufferedReader in = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(R.raw.exercises)));
         Gson gson = new GsonBuilder().create();
-        Exercises exer = gson.fromJson(in, Exercises.class);
+        Exercise exer = gson.fromJson(in, Exercise.class);
         List<Exercise> exercises = exer.getExercises();
         return exercises;
     }

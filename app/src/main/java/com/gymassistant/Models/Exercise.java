@@ -2,6 +2,9 @@ package com.gymassistant.Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by KamilH on 2016-03-22.
  */
@@ -33,6 +36,16 @@ public class Exercise {
     @SerializedName("second_name")
     private String secondName;
     private int id;
+
+    private List<Exercise> Exercises = new ArrayList<Exercise>();
+
+    public List<Exercise> getExercises() {
+        return Exercises;
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        Exercises = exercises;
+    }
 
     public String getCategory() {
         return category;

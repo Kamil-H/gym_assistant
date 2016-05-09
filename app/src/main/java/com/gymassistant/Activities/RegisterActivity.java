@@ -1,6 +1,5 @@
 package com.gymassistant.Activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gymassistant.Models.ServerResponse;
+import com.gymassistant.Models.User;
 import com.gymassistant.R;
+import com.gymassistant.Rest.RestClient;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
 
 /**
  * Created by KamilH on 2016-03-23.
@@ -25,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
-        emailEditText = (EditText) findViewById(R.id.emailEditText);
+        emailEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
 
         registerButton = (Button) findViewById(R.id.registerButton);
@@ -64,20 +70,32 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this, R.style.AppTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.registration));
-        progressDialog.show();
+        connectServer(new User(email, password, username));
+    }
 
-        // TODO: Implement your own signup logic here.
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
+    private void connectServer(User user){
+        RestClient.UserInterface service = RestClient.getClient();
+        Call<ServerResponse> call = service.register(user);
+        call.enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Response<ServerResponse> response) {
+                if (response.isSuccess()) {
+                    ServerResponse serverResponse = response.body();
+                    if(serverResponse.isSuccess()){
                         onSignupSuccess();
-                        progressDialog.dismiss();
+                        Log.d("RegisterActivity", "SUKCES!");
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "Taki użytkownik już istnieje", Toast.LENGTH_LONG).show();
                     }
-                }, 3000);
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Błąd połączenia z serwerem", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d("RegisterActivity", "onFailure " + t.getMessage());
+            }
+        });
     }
 
 
