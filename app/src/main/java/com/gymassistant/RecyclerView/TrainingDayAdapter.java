@@ -4,6 +4,7 @@ package com.gymassistant.RecyclerView;
  * Created by KamilH on 2015-10-23.
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;

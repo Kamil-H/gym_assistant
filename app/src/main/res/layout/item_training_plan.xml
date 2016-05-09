@@ -12,6 +12,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorCard"
+                android:minHeight="100dp"
                 android:padding="5dp">
 
                 <TextView
@@ -31,9 +32,17 @@
                     android:text="@string/add_exercises"
                     android:textColor="@color/colorCard"
                     android:id="@+id/button"
-                    android:layout_below="@+id/dayName"
+                    android:layout_below="@+id/trainingTextView"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp" />
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/trainingTextView"
+                    android:layout_below="@+id/dayName"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
             </RelativeLayout>
 

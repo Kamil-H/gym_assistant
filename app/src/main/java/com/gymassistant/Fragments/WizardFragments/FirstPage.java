@@ -64,8 +64,7 @@ public class FirstPage extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((WizardActivity)getActivity()).deleteTrainingPlan();
-                getActivity().finish();
+                ((WizardActivity)getActivity()).finishWithResult(false);
             }
         });
     }

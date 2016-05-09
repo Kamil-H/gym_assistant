@@ -15,7 +15,8 @@ public class Series {
 
     public Series(){}
 
-    public Series(int trainingId, Exercise exercise, int exerciseId, int order, int repeat, int weight) {
+    public Series(Training training, int trainingId, Exercise exercise, int exerciseId, int order, int repeat, int weight) {
+        this.training = training;
         this.trainingId = trainingId;
         this.exercise = exercise;
         this.exerciseId = exerciseId;

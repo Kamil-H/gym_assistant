@@ -1,6 +1,8 @@
 package com.gymassistant.Activities;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import com.gymassistant.Database.ExerciseDB;
 import com.gymassistant.Database.SeriesDB;
 import com.gymassistant.Database.TrainingDB;
+import com.gymassistant.GlobalClass;
 import com.gymassistant.Models.Category;
 import com.gymassistant.Models.Exercise;
 import com.gymassistant.Models.Series;
@@ -30,7 +33,9 @@ import com.gymassistant.R;
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChooseExercises extends AppCompatActivity {
     private List<Category> categories;
@@ -46,6 +51,7 @@ public class ChooseExercises extends AppCompatActivity {
     private long trainingPlanId, trainingId;
     private List<Series> seriesList;
     private TrainingDB trainingDB;
+    private Training training;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +81,8 @@ public class ChooseExercises extends AppCompatActivity {
     private void readParameters(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            day = extras.getInt("trainingId");
+            day = extras.getInt("day");
+            Log.i("ChooseExercises", String.valueOf(day));
             trainingPlanId = extras.getLong("trainingPlanId");
         }
     }
@@ -96,7 +103,7 @@ public class ChooseExercises extends AppCompatActivity {
         } else {
             repeats = repeatsSeekBar.getProgress();
         }
-        return new Series((int)trainingId, exercise, exercise.getId(), 0, repeats, 0);
+        return new Series(training, (int)trainingId, exercise, exercise.getId(), 0, repeats, 0);
     }
 
     private void setUpButtons(){
@@ -151,7 +158,7 @@ public class ChooseExercises extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 addToSeriesList(series);
                 saveSeriesToDb();
-                ChooseExercises.this.finish();
+                finishWithResult(true);
             }
         });
         dialogBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -162,6 +169,21 @@ public class ChooseExercises extends AppCompatActivity {
         });
         AlertDialog b = dialogBuilder.create();
         b.show();
+    }
+
+    public void finishWithResult(boolean value){
+        Intent returnIntent = new Intent();
+        addSeriesListToMap();
+        if(value){
+            setResult(Activity.RESULT_OK, returnIntent);
+        } else {
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+        }
+        this.finish();
+    }
+
+    private void addSeriesListToMap(){
+        ((GlobalClass) getApplication()).map.put(day, seriesList);
     }
 
     private void saveSeriesToDb(){
@@ -267,7 +289,8 @@ public class ChooseExercises extends AppCompatActivity {
     }
 
     private void addNewTraining(){
-        trainingId = trainingDB.addTraining(new Training((int)trainingPlanId, day, null));
+        this.training = new Training((int)trainingPlanId, day, null);
+        trainingId = trainingDB.addTraining(training);
         Log.i("Added", String.format("Training ID: %d", trainingId));
     }
 

@@ -1,25 +1,19 @@
 package com.gymassistant.Fragments;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.gymassistant.Activities.RegisterActivity;
-import com.gymassistant.Activities.TrainingAssistant;
 import com.gymassistant.Database.SeriesDB;
 import com.gymassistant.Database.TrainingDB;
 import com.gymassistant.Database.TrainingPlanDB;
-import com.gymassistant.Models.Series;
-import com.gymassistant.Models.Training;
-import com.gymassistant.Models.TrainingPlan;
+import com.gymassistant.MainActivity;
 import com.gymassistant.R;
 import com.gymassistant.RecyclerView.TrainingDayAdapter;
 import com.gymassistant.WizardActivity;
@@ -63,6 +57,7 @@ public class TrainingFragment extends Fragment {
                 trainingDB.removeAll();
                 SeriesDB seriesDB = new SeriesDB(getActivity());
                 seriesDB.removeAll();
+                ((MainActivity)getActivity()).refresh();
             }
         });
     }
@@ -78,7 +73,7 @@ public class TrainingFragment extends Fragment {
         });
     }
 
-    private void setUpRecyclerView(){
+    public void setUpRecyclerView(){
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -88,11 +83,6 @@ public class TrainingFragment extends Fragment {
 
     private void goToWizardActivity(){
         Intent intent = new Intent(getActivity(), WizardActivity.class);
-        startActivity(intent);
-    }
-
-    private void goToTrainingAssistantActivity(){
-        Intent intent = new Intent(getActivity(), TrainingAssistant.class);
-        startActivity(intent);
+        getActivity().startActivityForResult(intent, 1);
     }
 }
