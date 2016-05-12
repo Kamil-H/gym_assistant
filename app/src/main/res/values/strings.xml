@@ -89,4 +89,6 @@
     <string name="add_next_exercise">DODAJ NASTĘPNE ĆWICZENIE</string>
     <string name="choose_training_day">wybierz dzień treningowy i rozpocznij trening</string>
     <string name="training_plan_item">%1$s \n \t\t%2$s %3$s \n POWTÓRZEŃ: %4$d \n\n</string>
+    <string name="male">mężczyzna</string>
+    <string name="female">kobieta</string>
 </resources>

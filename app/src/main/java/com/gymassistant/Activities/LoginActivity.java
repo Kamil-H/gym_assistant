@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gymassistant.Database.UserDB;
 import com.gymassistant.MainActivity;
 import com.gymassistant.Models.ServerResponse;
 import com.gymassistant.Models.User;
@@ -25,11 +26,14 @@ import retrofit.Response;
 public class LoginActivity extends AppCompatActivity {
     private Button loginButton, linkToRegisterScreenButton;
     private EditText usernameEditText, passwordEditText;
+    private boolean userIsAfterRegister = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        readParameter();
 
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
@@ -52,16 +56,30 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void readParameter(){
+        if(getIntent().hasExtra("userIsAfterRegister")) {
+            userIsAfterRegister = getIntent().getBooleanExtra("userIsAfterRegister", userIsAfterRegister);
+            Log.d("LoginActivity", String.valueOf(userIsAfterRegister));
+        }
+    }
+
     private void goToRegisterScreen(){
         Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(intent);
         this.finish();
     }
 
-    private void goToMainActivity(){
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-        this.finish();
+    private void goToNextActivity(){
+        if(userIsAfterRegister) {
+            Intent intent = new Intent(getApplicationContext(), FillProfileActivity.class);
+            startActivity(intent);
+            this.finish();
+
+        } else {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            this.finish();
+        }
     }
 
     public void login() {
@@ -79,15 +97,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private void connectServer(User user){
         RestClient.UserInterface service = RestClient.getClient();
-        Call<ServerResponse> call = service.register(user);
+        Call<ServerResponse> call = service.login(user);
         call.enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Response<ServerResponse> response) {
                 if (response.isSuccess()) {
                     ServerResponse serverResponse = response.body();
                     if(serverResponse.isSuccess()){
-                        onLoginSuccess();
-                        Log.d("LoginActivity", "SUKCES!");
+                        onLoginSuccess(serverResponse.getId());
                     } else {
                         Toast.makeText(LoginActivity.this, "Błąd logowania", Toast.LENGTH_LONG).show();
                     }
@@ -102,8 +119,49 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void onLoginSuccess() {
-        goToMainActivity();
+    public void onLoginSuccess(int userId) {
+        saveOrUpdateUser(userId);
+        goToNextActivity();
+    }
+
+    private void saveOrUpdateUser(int userId){
+        if(userIsAfterRegister){
+            updateUserInDatabase(userId);
+        } else {
+            getUserInfo(userId);
+        }
+    }
+
+    private void addUserToDatabase(User user){
+        UserDB userDB = new UserDB(this);
+        userDB.addUser(user);
+    }
+
+    private void updateUserInDatabase(int userId){
+        UserDB userDB = new UserDB(this);
+        User user = userDB.getUser();
+        user.setUserId(userId);
+        userDB.updateUser(user);
+    }
+
+    private void getUserInfo(int userId){
+        RestClient.UserInterface service = RestClient.getClient();
+        Call<User> call = service.getUser(userId);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Response<User> response) {
+                if (response.isSuccess()) {
+                    User user = response.body();
+                    addUserToDatabase(user);
+                } else {
+                    Log.d("LoginActivity", "Nie udało się pobrać danych o użytkowniku");
+                }
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d("LoginActivity", "onFailure " + t.getMessage());
+            }
+        });
     }
 
     public void onLoginFailed() {

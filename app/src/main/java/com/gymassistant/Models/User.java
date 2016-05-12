@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class User {
     @SerializedName("Id")
+    private int userId;
     private int id;
     @SerializedName("AddedDate")
     private String addedDate;
@@ -48,6 +49,16 @@ public class User {
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
+    }
+
+    public User(){}
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public List<User> getUserList() {

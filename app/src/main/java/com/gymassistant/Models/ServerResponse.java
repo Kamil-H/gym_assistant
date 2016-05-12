@@ -9,6 +9,18 @@ public class ServerResponse {
     @SerializedName("Success")
     private boolean success;
 
+
+    @SerializedName("UserId")
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public boolean isSuccess() {
         return success;
     }

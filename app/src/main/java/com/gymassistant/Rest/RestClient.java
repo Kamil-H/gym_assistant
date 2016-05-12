@@ -58,7 +58,7 @@ public class RestClient {
         @POST("/authentication/login")
         Call<ServerResponse> login(@Body User user);
 
-        @PUT("/user/{id}/update")
-        Call<User> updateUser(@Path("id") String id , @Body User user);
+        @GET("/user/getById/{id}")
+        Call<User> getUser(@Path("id") int id);
     }
 }

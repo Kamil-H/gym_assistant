@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gymassistant.Database.UserDB;
 import com.gymassistant.Models.ServerResponse;
 import com.gymassistant.Models.User;
 import com.gymassistant.R;
@@ -31,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
-        emailEditText = (EditText) findViewById(R.id.usernameEditText);
+        emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
 
         registerButton = (Button) findViewById(R.id.registerButton);
@@ -47,13 +48,15 @@ public class RegisterActivity extends AppCompatActivity {
         linkToLoginScreenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToLoginScreen();
+                goToLoginScreen(false);
             }
         });
     }
 
-    private void goToLoginScreen(){
+    private void goToLoginScreen(boolean userIsAfterRegister){
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.putExtra("userIsAfterRegister", userIsAfterRegister);
+        Log.d("RegisterActivity", String.valueOf(userIsAfterRegister));
         startActivity(intent);
         this.finish();
     }
@@ -73,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         connectServer(new User(email, password, username));
     }
 
-    private void connectServer(User user){
+    private void connectServer(final User user){
         RestClient.UserInterface service = RestClient.getClient();
         Call<ServerResponse> call = service.register(user);
         call.enqueue(new Callback<ServerResponse>() {
@@ -82,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (response.isSuccess()) {
                     ServerResponse serverResponse = response.body();
                     if(serverResponse.isSuccess()){
-                        onSignupSuccess();
+                        onSignupSuccess(user);
                         Log.d("RegisterActivity", "SUKCES!");
                     } else {
                         Toast.makeText(RegisterActivity.this, "Taki użytkownik już istnieje", Toast.LENGTH_LONG).show();
@@ -99,8 +102,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    public void onSignupSuccess() {
-        goToLoginScreen();
+    public void onSignupSuccess(User user) {
+        addUserToDatabase(user);
+        goToLoginScreen(true);
+    }
+
+    private void addUserToDatabase(User user){
+        UserDB userDB = new UserDB(this);
+        userDB.addUser(user);
     }
 
     public void onSignupFailed() {
