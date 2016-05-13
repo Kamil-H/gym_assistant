@@ -29,17 +29,23 @@ public class ExercisesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_exercises,container,false);
 
+        getExerciseLists();
+        setUpExpandableRecyclerView();
+
+        return view;
+    }
+
+    private void getExerciseLists(){
         ExerciseDB exerciseDB = new ExerciseDB(getActivity());
         exercises = exerciseDB.getAllExercises();
         categories = exerciseDB.getCategories();
+    }
 
+    private void setUpExpandableRecyclerView(){
         ExerciseExpandableAdapter exerciseExpandableAdapter = new ExerciseExpandableAdapter(getActivity(), generateList());
-
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setAdapter(exerciseExpandableAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        return view;
     }
 
     private ArrayList<Category> generateList() {

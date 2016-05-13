@@ -96,7 +96,8 @@
             android:text="@string/btn_link_to_login"
             android:textAllCaps="false"
             android:textColor="@color/colorText"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            style="?android:attr/borderlessButtonStyle" />
     </LinearLayout>
 
 </LinearLayout>

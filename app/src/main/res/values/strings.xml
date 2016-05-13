@@ -79,7 +79,7 @@
     <string name="choose_plan">wybierz jeden z gotowych planów</string>
     <string name="set_start_date">data rozpoczęcia treningu</string>
     <string name="set_end_date">czas trwania treningu (w dniach)</string>
-    <string name="day">dzień %1$d</string>
+    <string name="day">Dzień %1$d</string>
     <string name="muscle_group">partia mięśni</string>
     <string name="exercise">ćwiczenie</string>
     <string name="series_count_x_repeats_count">liczba serii x liczba powtórzeń</string>
@@ -91,4 +91,9 @@
     <string name="training_plan_item">%1$s \n \t\t%2$s %3$s \n POWTÓRZEŃ: %4$d \n\n</string>
     <string name="male">mężczyzna</string>
     <string name="female">kobieta</string>
+    <string name="repeats_with_param">powtórzeń: %1$d</string>
+    <string name="choose_day">wybierz dzień</string>
+    <string name="plan_name">nazwa planu</string>
+    <string name="plan_description">opis planu (opcjonalnie)</string>
+    <string name="choose_active_plan">wybierz plan według, którego będziesz ćwiczył</string>
 </resources>

@@ -4,15 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
 import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
+import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
+import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
 import com.gymassistant.Activities.ExercisesPreview;
-import com.gymassistant.Activities.RegisterActivity;
 import com.gymassistant.Models.Category;
 import com.gymassistant.Models.Exercise;
 import com.gymassistant.R;
@@ -22,15 +23,15 @@ import java.util.List;
 /**
  * Created by KamilH on 2016-03-24.
  */
-public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<ExerciseParentViewHolder, ExerciseChildViewHolder> {
-
+public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<ExerciseExpandableAdapter.ExerciseParentViewHolder,
+        ExerciseExpandableAdapter.ExerciseChildViewHolder> {
     private LayoutInflater mInflator;
     private Context context;
 
     public ExerciseExpandableAdapter(Context context, @NonNull List<? extends ParentListItem> parentItemList) {
         super(parentItemList);
         this.context = context;
-        mInflator = LayoutInflater.from(context);
+        this.mInflator = LayoutInflater.from(context);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
         Exercise exercise = (Exercise) childListItem;
 
         if(isSecondName(exercise)){
-            childViewHolder.exerciseEditText.setText(exercise.getName() + ", " +exercise.getSecondName());
+            childViewHolder.exerciseEditText.setText(String.format("%s, %s", exercise.getName(), exercise.getSecondName()));
         } else {
             childViewHolder.exerciseEditText.setText(exercise.getName());
         }
@@ -81,5 +82,27 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
 
     private boolean isSecondName(Exercise exercise){
         return exercise.getSecondName().length() > 2;
+    }
+
+    public class ExerciseChildViewHolder extends ChildViewHolder {
+
+        public TextView exerciseEditText;
+
+        public ExerciseChildViewHolder(View itemView) {
+            super(itemView);
+
+            exerciseEditText = (TextView) itemView.findViewById(R.id.exerciseEditText);
+        }
+    }
+
+    public class ExerciseParentViewHolder extends ParentViewHolder {
+
+        public TextView titleTextView;
+
+        public ExerciseParentViewHolder(View itemView) {
+            super(itemView);
+
+            titleTextView = (TextView) itemView.findViewById(R.id.titleTextView);
+        }
     }
 }

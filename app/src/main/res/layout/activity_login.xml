@@ -76,7 +76,8 @@
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
             android:textColor="@color/colorText"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            style="?android:attr/borderlessButtonStyle" />
     </LinearLayout>
 
 </LinearLayout>

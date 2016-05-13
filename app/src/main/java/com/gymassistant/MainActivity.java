@@ -2,6 +2,7 @@ package com.gymassistant;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -64,12 +65,17 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         setupTabIcons(tabLayout);
 
-        ExerciseDB exerciseDB = new ExerciseDB(this);
-        long rowCount = exerciseDB.getRowCount();
-        Log.i("ExerciseDB", "populate, rowCount: " + String.valueOf(rowCount));
-        if(rowCount < 1){
-            exerciseDB.populateExerciseDB();
-        }
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                ExerciseDB exerciseDB = new ExerciseDB(MainActivity.this);
+                long rowCount = exerciseDB.getRowCount();
+                Log.i("ExerciseDB", "populate, rowCount: " + String.valueOf(rowCount));
+                if(rowCount < 1){
+                    exerciseDB.populateExerciseDB();
+                }
+            }
+        });
     }
 
     @Override

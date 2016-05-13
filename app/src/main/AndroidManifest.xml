@@ -29,10 +29,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WizardActivity"
+            android:name=".Activities.WizardActivity"
             android:label="@string/title_activity_wizard"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.ChooseExercises" />
+        <activity android:name=".Fragments.WizardFragments.SecondPage" />
         <activity android:name=".Activities.TrainingAssistant"></activity>
         <activity android:name=".Activities.FillProfileActivity"></activity>
     </application>

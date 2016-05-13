@@ -4,10 +4,8 @@ package com.gymassistant.RecyclerView;
  * Created by KamilH on 2015-10-23.
  */
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,14 +40,14 @@ public class TrainingDayAdapter extends RecyclerView.Adapter<TrainingDayAdapter.
     public TrainingDayRowViewHolder onCreateViewHolder(ViewGroup viewGroup, final int position) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(R.layout.item_training_day, null);
+        final TrainingDayRowViewHolder viewHolder = new TrainingDayRowViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTrainingAssistantActivity(position);
+                goToTrainingAssistantActivity(trainings.get(viewHolder.getAdapterPosition()).getId());
             }
         });
 
-        TrainingDayRowViewHolder viewHolder = new TrainingDayRowViewHolder(view);
         return viewHolder;
     }
 
@@ -90,8 +88,8 @@ public class TrainingDayAdapter extends RecyclerView.Adapter<TrainingDayAdapter.
 
         public TrainingDayRowViewHolder(View view) {
             super(view);
-            this.dayName = (TextView) view.findViewById(R.id.dayName);
-            this.muscleGroupsTextView = (TextView) view.findViewById(R.id.muscleGroupsTextView);
+            this.dayName = (TextView) view.findViewById(R.id.dayNameTextView);
+            this.muscleGroupsTextView = (TextView) view.findViewById(R.id.exerciseTextView);
         }
     }
 }

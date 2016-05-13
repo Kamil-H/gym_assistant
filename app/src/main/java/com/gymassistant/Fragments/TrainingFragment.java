@@ -2,32 +2,43 @@ package com.gymassistant.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.gymassistant.Database.SeriesDB;
 import com.gymassistant.Database.TrainingDB;
 import com.gymassistant.Database.TrainingPlanDB;
 import com.gymassistant.MainActivity;
+import com.gymassistant.Models.Training;
+import com.gymassistant.Models.TrainingPlan;
 import com.gymassistant.R;
 import com.gymassistant.RecyclerView.TrainingDayAdapter;
-import com.gymassistant.WizardActivity;
+import com.gymassistant.Activities.WizardActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by KamilH on 2016-03-21.
  */
 public class TrainingFragment extends Fragment {
     private View view;
-    private Button addPlanButton, button;
     private TrainingDB trainingDB;
     private TrainingPlanDB trainingPlanDB;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private Spinner trainingPlansSpinner;
+    private List<TrainingPlan> trainingPlanList;
+    private List<Training> trainingList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,10 +57,32 @@ public class TrainingFragment extends Fragment {
 
     private void initFragmentTrainingUI(LayoutInflater inflater, ViewGroup container){
         view = inflater.inflate(R.layout.fragment_training, container, false);
+        trainingPlanList = trainingPlanDB.getAllTrainingPlans();
+        trainingList = trainingDB.getAllTrainings();
 
-        setUpRecyclerView();
+        trainingPlansSpinner = (Spinner) view.findViewById(R.id.trainingPlansSpinner);
+        populateTrainingPlansSpinner();
+        trainingPlansSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TrainingPlan trainingPlan = (TrainingPlan) trainingPlansSpinner.getSelectedItem();
+                setUpRecyclerView(trainingPlan.getId());
+            }
 
-        button = (Button) view.findViewById(R.id.button2);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToWizardActivity();
+            }
+        });
+        Button button = (Button) view.findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +97,7 @@ public class TrainingFragment extends Fragment {
 
     private void initEmptyStateUI(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.empty_state, container, false);
-        addPlanButton = (Button) view.findViewById(R.id.addPlanButton);
+        Button addPlanButton = (Button) view.findViewById(R.id.addPlanButton);
         addPlanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,12 +106,27 @@ public class TrainingFragment extends Fragment {
         });
     }
 
-    public void setUpRecyclerView(){
+    public void setUpRecyclerView(int id){
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        TrainingDayAdapter trainingDayAdapter = new TrainingDayAdapter(getActivity(), trainingDB.getAllTrainings());
+        TrainingDayAdapter trainingDayAdapter = new TrainingDayAdapter(getActivity(), getTrainingList(id));
         recyclerView.setAdapter(trainingDayAdapter);
+    }
+
+    private List<Training> getTrainingList(int id){
+        List<Training> trainings = new ArrayList<Training>();
+        for(Training training : trainingList){
+            if(training.getTrainingPlanId() == id){
+                trainings.add(training);
+            }
+        }
+        return trainings;
+    }
+
+    private void populateTrainingPlansSpinner(){
+        ArrayAdapter<TrainingPlan> trainingPlanAdapter = new ArrayAdapter<TrainingPlan>(getActivity(), android.R.layout.simple_spinner_item, trainingPlanList);
+        trainingPlansSpinner.setAdapter(trainingPlanAdapter);
     }
 
     private void goToWizardActivity(){

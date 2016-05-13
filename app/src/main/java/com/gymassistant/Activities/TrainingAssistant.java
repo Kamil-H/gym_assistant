@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -38,8 +39,8 @@ public class TrainingAssistant extends AppCompatActivity {
         setContentView(R.layout.activity_training_assistant);
 
         TrainingDB trainingDB = new TrainingDB(this);
-        seriesList = trainingDB.getAllTrainings().get(readParameter()).getSeriesList();
-
+        seriesList = trainingDB.getTraining(readParameter()).getSeriesList();
+        Log.i("TrainingAssistant", String.format("%d", seriesList.get(0).getTrainingId()));
         handler = new Handler();
 
         timeTextView = (TextView) findViewById(R.id.timeTextView);

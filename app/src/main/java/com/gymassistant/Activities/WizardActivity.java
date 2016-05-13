@@ -1,4 +1,4 @@
-package com.gymassistant;
+package com.gymassistant.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,29 +15,33 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.gymassistant.Database.TrainingPlanDB;
 import com.gymassistant.Fragments.WizardFragments.FirstPage;
 import com.gymassistant.Fragments.WizardFragments.SecondPage;
+import com.gymassistant.Fragments.WizardFragments.ThirdPage;
+import com.gymassistant.GlobalClass;
 import com.gymassistant.Models.Series;
 import com.gymassistant.Models.TrainingPlan;
+import com.gymassistant.R;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WizardActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    private int itemCount;
-    private TrainingPlanDB trainingPlanDB;
-    private long trainingPlanId;
+    private int itemCount = 0;
+
+    private SparseArrayCompat<List<Series>> map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wizard);
+
+        map = new SparseArrayCompat<>();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -44,28 +49,8 @@ public class WizardActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back_white_24dp));
 
-        trainingPlanDB = new TrainingPlanDB(this);
-        addNewTrainingPlan();
-
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mViewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
         mViewPager.setAdapter(mSectionsPagerAdapter);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                refresh();
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-            }
-        }
     }
 
     public void refresh(){
@@ -90,12 +75,6 @@ public class WizardActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ((GlobalClass) this.getApplication()).map.clear();
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             finishWithResult(false);
@@ -108,14 +87,9 @@ public class WizardActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, true);
     }
 
-    private void addNewTrainingPlan(){
-        trainingPlanId = trainingPlanDB.addTrainingPlan(new TrainingPlan(0, 0, false, null, null));
-        Log.i("Added", String.format("TrainingPlan ID: %d", trainingPlanId));
-    }
-
-    public void deleteTrainingPlan(){
-        trainingPlanDB.deleteTrainingPlan(trainingPlanId);
-        Log.i("Deleted", String.format("TrainingPlan ID: %d", trainingPlanId));
+    public void navigateToPreviousPage() {
+        refresh();
+        mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true);
     }
 
     public void finishWithResult(boolean value){
@@ -124,7 +98,6 @@ public class WizardActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, returnIntent);
         } else {
             setResult(Activity.RESULT_CANCELED, returnIntent);
-            deleteTrainingPlan();
         }
         this.finish();
     }
@@ -137,8 +110,12 @@ public class WizardActivity extends AppCompatActivity {
         return this.itemCount;
     }
 
-    public long getTrainingPlanId() {
-        return trainingPlanId;
+    public SparseArrayCompat<List<Series>> getMap() {
+        return map;
+    }
+
+    public void setMap(SparseArrayCompat<List<Series>> map) {
+        this.map = map;
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -154,13 +131,15 @@ public class WizardActivity extends AppCompatActivity {
                     return new FirstPage();
                 case 1:
                     return new SecondPage();
+                case 2:
+                    return new ThirdPage();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override

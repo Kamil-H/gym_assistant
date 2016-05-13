@@ -53,12 +53,12 @@ public class SeriesDB extends SQLiteOpenHelper{
         db.close();
     }
 
-    public void addSeriesList(List<Series> seriesList){
+    public void addSeriesList(List<Series> seriesList, int trainingId){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         for(Series series : seriesList){
-            values.put(TRAINING_ID, series.getTrainingId());
+            values.put(TRAINING_ID, trainingId);
             values.put(EXERCISE_ID, series.getExerciseId());
             values.put(ORDER, series.getOrder());
             values.put(REPEAT, series.getRepeat());

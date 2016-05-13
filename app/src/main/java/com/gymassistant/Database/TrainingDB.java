@@ -103,7 +103,7 @@ public class TrainingDB extends SQLiteOpenHelper {
             training.setId(cursor.getInt(0));
             training.setTrainingPlanId(cursor.getInt(1));
             training.setDay(cursor.getInt(2));
-            training.setDescription(cursor.getString(4));
+            training.setDescription(cursor.getString(3));
             training.setTrainingPlan(trainingPlanDB.getTrainingPlan(training.getTrainingPlanId()));
             training.setSeriesList(seriesDB.getSeriesByTrainingId(training.getId()));
         }
