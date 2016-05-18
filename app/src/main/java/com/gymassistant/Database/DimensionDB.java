@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.gymassistant.DateConverter;
 import com.gymassistant.Models.Dimension;
 
 import java.util.ArrayList;
@@ -39,8 +40,8 @@ public class DimensionDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(VALUE, dimension.getValue());
-        values.put(ADD_DATE, dimension.getValue());
-        values.put(UNIT_KEY, dimension.getValue());
+        values.put(ADD_DATE, DateConverter.dateToTime(dimension.getAddedDate()));
+        values.put(UNIT_KEY, dimension.getUnitKey());
 
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -56,7 +57,7 @@ public class DimensionDB extends SQLiteOpenHelper {
                 Dimension dimension = new Dimension();
 
                 dimension.setId(cursor.getInt(0));
-                dimension.setAddedDate(cursor.getInt(1));
+                dimension.setAddedDate(DateConverter.timeToDate(cursor.getInt(1)));
                 dimension.setUnitKey(cursor.getInt(2));
 
                 dimensions.add(dimension);
@@ -73,7 +74,7 @@ public class DimensionDB extends SQLiteOpenHelper {
         Dimension dimension = new Dimension();
         if (cursor.moveToFirst()) {
             dimension.setId(cursor.getInt(0));
-            dimension.setAddedDate(cursor.getInt(1));
+            dimension.setAddedDate(DateConverter.timeToDate(cursor.getInt(1)));
             dimension.setUnitKey(cursor.getInt(2));
         }
         db.close();

@@ -1,6 +1,6 @@
 package com.gymassistant.Models;
 
-
+import java.util.List;
 /**
  * Created by KamilH on 2016-04-21.
  */
@@ -11,6 +11,7 @@ public class TrainingPlan {
     private boolean isPublic;
     private String name;
     private String description;
+    private List<Training> trainingList;
 
     public TrainingPlan(){}
 
@@ -73,5 +74,13 @@ public class TrainingPlan {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    public List<Training> getTrainingList() {
+        return trainingList;
+    }
+
+    public void setTrainingList(List<Training> trainingList) {
+        this.trainingList = trainingList;
     }
 }

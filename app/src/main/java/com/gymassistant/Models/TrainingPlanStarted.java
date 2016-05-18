@@ -1,6 +1,5 @@
 package com.gymassistant.Models;
 
-import org.joda.time.DateTime;
 
 /**
  * Created by KamilH on 2016-05-04.
@@ -11,9 +10,9 @@ public class TrainingPlanStarted {
     private String description;
     private int owner;
     private int source;
-    private DateTime startDate;
-    private DateTime expectedEndDate;
-    private DateTime endDate;
+    private String startDate;
+    private String expectedEndDate;
+    private String endDate;
     private int firstDay;
     private boolean isPublic;
 
@@ -59,27 +58,27 @@ public class TrainingPlanStarted {
         this.source = source;
     }
 
-    public DateTime getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(DateTime startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public DateTime getExpectedEndDate() {
+    public String getExpectedEndDate() {
         return expectedEndDate;
     }
 
-    public void setExpectedEndDate(DateTime expectedEndDate) {
+    public void setExpectedEndDate(String expectedEndDate) {
         this.expectedEndDate = expectedEndDate;
     }
 
-    public DateTime getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(DateTime endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 

@@ -89,7 +89,7 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
         @SuppressLint("NewApi")
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            if(!Objects.equals(charSequence.toString(), ""))
+            if(!charSequence.toString().matches(""))
                 array[position] = Integer.parseInt(charSequence.toString());
         }
 

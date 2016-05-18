@@ -22,6 +22,10 @@ import com.gymassistant.Fragments.HistoryFragment;
 import com.gymassistant.Fragments.ProfileFragment;
 import com.gymassistant.Fragments.TrainingFragment;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;

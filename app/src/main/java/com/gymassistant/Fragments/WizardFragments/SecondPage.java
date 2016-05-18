@@ -238,7 +238,7 @@ public class SecondPage extends Fragment {
         for (int i = 0; i < ((WizardActivity)getActivity()).getItemCount(); i++){
             days.add(getActivity().getString(R.string.day, i + 1));
         }
-        ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, days);
+        ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_spinner, R.id.text, days);
         daySpinner.setAdapter(daysAdapter);
     }
 
@@ -247,14 +247,14 @@ public class SecondPage extends Fragment {
         for (Category category : categories){
             muscleGroupsList.add(category.getCategory());
         }
-        ArrayAdapter<String> muscleGroupAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, muscleGroupsList);
+        ArrayAdapter<String> muscleGroupAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_spinner, R.id.text, muscleGroupsList);
         muscleGroupSpinner.setAdapter(muscleGroupAdapter);
     }
 
     private void populateExerciseSpinner(String muscleGroup, boolean action){
         List<Exercise> exercisesList = fillExercisesList(muscleGroup);
         if(action){
-            exerciseSpinnerAdapter = new ArrayAdapter<Exercise>(getActivity(), android.R.layout.simple_spinner_item, exercisesList);
+            exerciseSpinnerAdapter = new ArrayAdapter<Exercise>(getActivity(), R.layout.item_spinner, R.id.text, exercisesList);
             exerciseSpinner.setAdapter(exerciseSpinnerAdapter);
         } else {
             exerciseSpinnerAdapter.clear();

@@ -96,4 +96,10 @@
     <string name="plan_name">nazwa planu</string>
     <string name="plan_description">opis planu (opcjonalnie)</string>
     <string name="choose_active_plan">wybierz plan według, którego będziesz ćwiczył</string>
+    <string name="gender">płeć</string>
+    <string name="birthdate">data urodzenia</string>
+    <string name="name">imię</string>
+    <string name="surname">nazwisko</string>
+    <string name="please_give_weight">PROSZĘ PODAĆ WAGĘ</string>
+    <string name="please_give_height">PROSZĘ PODAĆ WZROST</string>
 </resources>

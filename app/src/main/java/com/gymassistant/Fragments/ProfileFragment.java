@@ -1,17 +1,27 @@
 package com.gymassistant.Fragments;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.gymassistant.Database.UserDB;
+import com.gymassistant.Models.User;
 import com.gymassistant.R;
 import com.gymassistant.UIComponents.UniversalDialog;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  * Created by KamilH on 2016-03-21.
@@ -21,11 +31,54 @@ public class ProfileFragment extends Fragment {
     private FloatingActionButton calfFAB, thighFAB, fipFAB, waistFAB, bicepsFAB, chestFAB, weightFAB;
     private FloatingActionMenu floatingActionMenu;
     private FrameLayout frameLayout;
+    private TextView ageTextView, heightTextView, weightTextView, bmiTextView;
+    private User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view =inflater.inflate(R.layout.fragment_profile,container,false);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        getUser();
+        setUpTextView();
+        setUpFAM();
+        fillTextViews();
+
+        return view;
+    }
+
+    private void fillTextViews(){
+        if(user.getBirthday() != null){
+            ageTextView.setText(String.valueOf(getAge(user.getBirthday())));
+        }
+        heightTextView.setText(String.valueOf(user.getHeight()));
+        weightTextView.setText(String.valueOf(user.getWeight()));
+        bmiTextView.setText(String.format("%.2f", getBMI()));
+    }
+
+    private int getAge(String birth_date){
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("dd-MM-yyyy");
+        LocalDate date = formatter.parseLocalDate(birth_date);
+        Years age = Years.yearsBetween(date, LocalDate.now());
+        return age.getYears();
+    }
+
+    private double getBMI(){
+        return 10000 * user.getWeight() / (user.getHeight() * user.getHeight());
+    }
+
+    private void getUser(){
+        UserDB userDB = new UserDB(getActivity());
+        user = userDB.getUser();
+    }
+
+    private void setUpTextView(){
+        ageTextView = (TextView) view.findViewById(R.id.ageTextView);
+        heightTextView = (TextView) view.findViewById(R.id.heightTextView);
+        weightTextView = (TextView) view.findViewById(R.id.weightTextView);
+        bmiTextView = (TextView) view.findViewById(R.id.bmiTextView);
+    }
+
+    private void setUpFAM(){
         calfFAB = (FloatingActionButton) view.findViewById(R.id.calfFAB);
         thighFAB = (FloatingActionButton) view.findViewById(R.id.thighFAB);
         fipFAB = (FloatingActionButton) view.findViewById(R.id.fipFAB);
@@ -55,8 +108,6 @@ public class ProfileFragment extends Fragment {
                     frameLayout.getBackground().setAlpha(0);
             }
         });
-
-        return view;
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {

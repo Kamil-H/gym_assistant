@@ -4,16 +4,20 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/input_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Imię"
-        android:textColorHint="@color/colorText"
-        android:theme="@style/Text"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:id="@+id/textView23"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            style="@style/titleTextSmall"/>
 
         <EditText
             android:id="@+id/nameEditText"
@@ -21,22 +25,21 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:singleLine="true"
-            style="@style/editTextStyle"/>
+            style="@style/editTextStyle"
+            android:layout_below="@+id/textView23"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/input_surname"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nazwisko"
-        android:textColorHint="@color/colorText"
-        android:theme="@style/Text"
-        android:layout_below="@+id/input_name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/surname"
+            android:id="@+id/textView24"
+            android:layout_below="@+id/nameEditText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            style="@style/titleTextSmall" />
 
         <EditText
             android:id="@+id/surnameEditText"
@@ -44,74 +47,156 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:singleLine="true"
-            style="@style/editTextStyle"/>
-
-    </android.support.design.widget.TextInputLayout>
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/input_surname"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="true"
-        android:orientation="horizontal"
-        android:layout_alignWithParentIfMissing="false"
-        android:gravity="center"
-        android:id="@+id/radioGroup"
-        android:layout_marginTop="30dp">
-
-        <RadioButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/male"
-            android:id="@+id/maleRadioButton"
-            style="@style/titleTextBig"
-            android:textColor="@color/colorText"
-            android:checked="true"/>
-
-        <RadioButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/female"
-            android:id="@+id/femaleRadioButton"
-            style="@style/titleTextBig"
-            android:textColor="@color/colorText" />
-    </RadioGroup>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/radioGroup"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp">
-
-        <Spinner
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/yearSpinner"
+            style="@style/editTextStyle"
+            android:layout_below="@+id/textView24"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <Spinner
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/monthSpinner"
-            android:layout_toRightOf="@+id/yearSpinner"
-            android:layout_toEndOf="@+id/yearSpinner"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"/>
 
-        <Spinner
-            android:layout_width="50dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/daySpinner"
-            android:layout_toRightOf="@+id/monthSpinner"
-            android:layout_toEndOf="@+id/monthSpinner"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp" />
+            android:text="@string/gender"
+            android:id="@+id/textView21"
+            android:layout_below="@+id/surnameEditText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            style="@style/titleTextSmall"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignWithParentIfMissing="false"
+            android:gravity="center"
+            android:id="@+id/radioGroup"
+            android:layout_below="@+id/textView21"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/male"
+                android:id="@+id/maleRadioButton"
+                style="@style/titleTextBig"
+                android:textColor="@color/colorText"
+                android:checked="true"/>
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/female"
+                android:id="@+id/femaleRadioButton"
+                style="@style/titleTextBig"
+                android:textColor="@color/colorText" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/birthdate"
+            android:id="@+id/textView22"
+            android:layout_below="@+id/radioGroup"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            style="@style/titleTextSmall" />
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dateEditText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/height"
+                android:id="@+id/textView25"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="80dp"
+                android:layout_marginStart="80dp"
+                style="@style/titleTextSmall"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weight"
+                android:id="@+id/textView26"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="80dp"
+                android:layout_marginEnd="80dp"
+                style="@style/titleTextSmall" />
+
+            <EditText
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:ems="10"
+                android:id="@+id/heightEditText"
+                android:layout_below="@+id/textView25"
+                android:layout_alignLeft="@+id/textView25"
+                android:layout_alignStart="@+id/textView25"
+                style="@style/editTextStyle"/>
+
+            <EditText
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:ems="10"
+                android:id="@+id/weightEditText"
+                android:layout_below="@+id/textView26"
+                android:layout_alignLeft="@+id/textView26"
+                android:layout_alignStart="@+id/textView26"
+                style="@style/editTextStyle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cm"
+                android:id="@+id/textView27"
+                android:layout_alignBottom="@+id/heightEditText"
+                android:layout_toRightOf="@+id/textView25"
+                android:layout_toEndOf="@+id/textView25"
+                android:layout_marginBottom="5dp"
+                style="@style/titleTextBig"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="kg"
+                android:id="@+id/textView28"
+                android:layout_alignBottom="@+id/weightEditText"
+                android:layout_toRightOf="@+id/weightEditText"
+                android:layout_toEndOf="@+id/weightEditText"
+                android:layout_marginBottom="5dp"
+                style="@style/titleTextBig" />
+
+        </RelativeLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dateEditText"
+            android:layout_below="@+id/textView22"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:padding="10dp"
+            style="@style/editTextStyle"/>
+
 
     </RelativeLayout>
 
@@ -138,5 +223,4 @@
             android:layout_marginRight="1dp"/>
 
     </LinearLayout>
-
 </RelativeLayout>

@@ -1,23 +1,19 @@
 package com.gymassistant.Fragments;
 
-import android.content.Intent;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
-import com.gymassistant.Activities.FillProfileActivity;
-import com.gymassistant.Models.ServerResponse;
-import com.gymassistant.Models.User;
 import com.gymassistant.R;
-import com.gymassistant.Rest.RestClient;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
+import java.util.Calendar;
 
 /**
  * Created by KamilH on 2016-03-21.
@@ -33,12 +29,21 @@ public class HistoryFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FillProfileActivity.class);
-                startActivity(intent);
+
             }
         });
 
         return view;
     }
 
+    private void showDateDialog(){
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(new ContextThemeWrapper(getActivity(), android.R.style.Theme_Holo_Dialog), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Log.i("DATE", String.format("INSIDE: %d, %d, %d", year, monthOfYear, dayOfMonth));
+            }
+        },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
 }

@@ -1,9 +1,5 @@
 package com.gymassistant.Models;
 
-import com.gymassistant.DateConverter;
-
-import org.joda.time.DateTime;
-
 /**
  * Created by KamilH on 2016-05-02.
  */
@@ -14,7 +10,7 @@ public class Dimension {
     private int unitKey;
     private int type;
     private double value;
-    private DateTime addedDate;
+    private String addedDate;
 
     public Dimension(){}
 
@@ -66,16 +62,12 @@ public class Dimension {
         this.value = value;
     }
 
-    public DateTime getAddedDate() {
-        return addedDate;
-    }
-
-    public void setAddedDate(DateTime addedDate) {
+    public void setAddedDate(String addedDate) {
         this.addedDate = addedDate;
     }
 
-    public void setAddedDate(long time) {
-        this.addedDate = DateConverter.timeToDate(time);
+    public String getAddedDate(){
+        return this.addedDate;
     }
 
     @Override
@@ -90,4 +82,5 @@ public class Dimension {
                 ", addedDate=" + addedDate +
                 '}';
     }
+
 }

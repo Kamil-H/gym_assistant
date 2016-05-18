@@ -125,7 +125,7 @@ public class TrainingFragment extends Fragment {
     }
 
     private void populateTrainingPlansSpinner(){
-        ArrayAdapter<TrainingPlan> trainingPlanAdapter = new ArrayAdapter<TrainingPlan>(getActivity(), android.R.layout.simple_spinner_item, trainingPlanList);
+        ArrayAdapter<TrainingPlan> trainingPlanAdapter = new ArrayAdapter<TrainingPlan>(getActivity(), R.layout.item_spinner, R.id.text, trainingPlanList);
         trainingPlansSpinner.setAdapter(trainingPlanAdapter);
     }
 

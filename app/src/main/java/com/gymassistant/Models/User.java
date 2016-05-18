@@ -31,6 +31,9 @@ public class User {
     @SerializedName("Users")
     private List<User> userList = new ArrayList<User>();
 
+    private double weight;
+    private double height;
+
     public User(String email, String firstName, String gender, String password, String surname, String userName) {
         this.email = email;
         this.firstName = firstName;
@@ -141,10 +144,27 @@ public class User {
         this.userName = userName;
     }
 
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "userId=" + userId +
+                ", id=" + id +
                 ", addedDate='" + addedDate + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", email='" + email + '\'' +
@@ -153,6 +173,9 @@ public class User {
                 ", password='" + password + '\'' +
                 ", surname='" + surname + '\'' +
                 ", userName='" + userName + '\'' +
+                ", userList=" + userList +
+                ", weight=" + weight +
+                ", height=" + height +
                 '}';
     }
 }

@@ -20,6 +20,7 @@
         <item name="android:backgroundTint">@color/colorText</item>
         <item name="android:popupBackground">@color/colorCard</item>
         <item name="android:spinnerMode">dropdown</item>
+        <item name="colorControlHighlight">@color/colorText</item>
     </style>
 
     <style name="titleTextSmall">
