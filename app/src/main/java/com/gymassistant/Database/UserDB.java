@@ -6,17 +6,16 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.gymassistant.DateConverter;
-import com.gymassistant.Models.Series;
 import com.gymassistant.Models.User;
 
 /**
  * Created by KamilH on 2016-05-10.
  */
 public class UserDB extends SQLiteOpenHelper {
-    private final String TABLE_NAME = "User", KEY_ID = "id", USER_ID = "userId", ADDED_DATE = "addedDate", BIRTHDAY = "birthday", EMAIL = "EMAIL", FIRSTNAME = "firstName", GENDER = "gender", PASSWORD = "password", SURNAME = "surname", USERNAME = "userName", HEIGHT = "height", WEIGHT = "weight";
+    private final String TABLE_NAME = "User", KEY_ID = "id", USER_ID = "userId", ADDED_DATE = "addedDate", BIRTHDAY = "birthday", EMAIL = "EMAIL",
+            FIRSTNAME = "firstName", GENDER = "gender", PASSWORD = "password", SURNAME = "surname", USERNAME = "userName", HEIGHT = "height", WEIGHT = "weight";
     private Context context;
 
     public UserDB(Context context) {
@@ -26,9 +25,9 @@ public class UserDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.e("ExerciseDB", "onCreate");
         String CREATE_TABLE =
-                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s REAL, %s REAL)", TABLE_NAME, KEY_ID, USER_ID, ADDED_DATE, BIRTHDAY, EMAIL, FIRSTNAME, GENDER, PASSWORD, SURNAME, USERNAME, HEIGHT, WEIGHT);
+                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s REAL, %s REAL)",
+                        TABLE_NAME, KEY_ID, USER_ID, ADDED_DATE, BIRTHDAY, EMAIL, FIRSTNAME, GENDER, PASSWORD, SURNAME, USERNAME, HEIGHT, WEIGHT);
         db.execSQL(CREATE_TABLE);
     }
 
@@ -43,12 +42,8 @@ public class UserDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(USER_ID, user.getUserId());
-        if(user.getAddedDate() != null){
-            values.put(ADDED_DATE, DateConverter.dateToTime(user.getAddedDate()));
-        }
-        if(user.getBirthday() != null){
-            values.put(BIRTHDAY, DateConverter.dateToTime(user.getBirthday()));
-        }
+        values.put(ADDED_DATE, DateConverter.dateToTime(user.getAddedDate()));
+        values.put(BIRTHDAY, DateConverter.dateToTime(user.getBirthday()));
         values.put(EMAIL, user.getEmail());
         values.put(FIRSTNAME, user.getFirstName());
         values.put(GENDER, user.getGender());
@@ -90,12 +85,8 @@ public class UserDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(USER_ID, user.getUserId());
-        if(user.getAddedDate() != null){
-            values.put(ADDED_DATE, DateConverter.dateToTime(user.getAddedDate()));
-        }
-        if(user.getBirthday() != null){
-            values.put(BIRTHDAY, DateConverter.dateToTime(user.getBirthday()));
-        }
+        values.put(ADDED_DATE, DateConverter.dateToTime(user.getAddedDate()));
+        values.put(BIRTHDAY, DateConverter.dateToTime(user.getBirthday()));
         values.put(EMAIL, user.getEmail());
         values.put(FIRSTNAME, user.getFirstName());
         values.put(GENDER, user.getGender());

@@ -19,7 +19,6 @@ import com.gymassistant.Models.Series;
 import com.gymassistant.R;
 
 import java.util.List;
-import java.util.Objects;
 
 public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssistantAdapter.TrainingAssistantRowViewHolder> {
     private Context context;
@@ -108,7 +107,7 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
         public TrainingAssistantRowViewHolder(View view, MyCustomEditTextListener repeatsEditTextListener, MyCustomEditTextListener loadsEditTextListener) {
             super(view);
             this.muscleGroupTextView = (TextView) view.findViewById(R.id.dayNameTextView);
-            this.exerciseTextView = (TextView) view.findViewById(R.id.exerciseTextView);
+            this.exerciseTextView = (TextView) view.findViewById(R.id.traningNameTextView);
             this.seriesTextView = (TextView) view.findViewById(R.id.seriesTextView);
             this.repeatsEditText = (EditText) view.findViewById(R.id.repeatsEditText);
             this.loadEditText = (EditText) view.findViewById(R.id.loadEditText);

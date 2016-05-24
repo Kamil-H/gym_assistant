@@ -5,29 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.gymassistant.Database.TrainingPlanDB;
 import com.gymassistant.Fragments.WizardFragments.FirstPage;
 import com.gymassistant.Fragments.WizardFragments.SecondPage;
 import com.gymassistant.Fragments.WizardFragments.ThirdPage;
-import com.gymassistant.GlobalClass;
 import com.gymassistant.Models.Series;
-import com.gymassistant.Models.TrainingPlan;
 import com.gymassistant.R;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class WizardActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -118,7 +112,7 @@ public class WizardActivity extends AppCompatActivity {
         this.map = map;
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter{
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);

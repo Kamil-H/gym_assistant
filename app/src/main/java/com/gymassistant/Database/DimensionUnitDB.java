@@ -25,7 +25,8 @@ public class DimensionUnitDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT)", TABLE_NAME, KEY_ID, SHORT_NAME, NAME);
+        String CREATE_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT)",
+                TABLE_NAME, KEY_ID, SHORT_NAME, NAME);
         db.execSQL(CREATE_TABLE);
     }
 

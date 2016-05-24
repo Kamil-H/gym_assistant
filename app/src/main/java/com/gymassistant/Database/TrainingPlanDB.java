@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.gymassistant.Models.TrainingPlan;
 
@@ -28,9 +27,9 @@ public class TrainingPlanDB extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.e("ExerciseDB", "onCreate");
         String CREATE_TABLE =
-                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s TEXT, %s TEXT)", TABLE_NAME, KEY_ID, DAYS, OWNER, IS_PUBLIC, NAME, DESCRIPTION);
+                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s TEXT, %s TEXT)",
+                        TABLE_NAME, KEY_ID, DAYS, OWNER, IS_PUBLIC, NAME, DESCRIPTION);
         db.execSQL(CREATE_TABLE);
     }
 

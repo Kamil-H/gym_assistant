@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.gymassistant.Models.Series;
 
@@ -27,9 +26,9 @@ public class SeriesDB extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.e("ExerciseDB", "onCreate");
         String CREATE_TABLE =
-                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER)", TABLE_NAME, KEY_ID, TRAINING_ID, EXERCISE_ID, ORDER, REPEAT, WEIGHT);
+                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER)",
+                        TABLE_NAME, KEY_ID, TRAINING_ID, EXERCISE_ID, ORDER, REPEAT, WEIGHT);
         db.execSQL(CREATE_TABLE);
     }
 
@@ -139,6 +138,13 @@ public class SeriesDB extends SQLiteOpenHelper{
     public void deleteSeries(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY_ID + " = ?",
+                new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+    public void deleteSeriesByTrainingId(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, TRAINING_ID + " = ?",
                 new String[]{String.valueOf(id)});
         db.close();
     }

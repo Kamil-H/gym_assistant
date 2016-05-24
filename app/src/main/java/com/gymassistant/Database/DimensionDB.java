@@ -25,7 +25,8 @@ public class DimensionDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s REAL, %s INTEGER, %s INTEGER)", TABLE_NAME, KEY_ID, VALUE, ADD_DATE, UNIT_KEY);
+        String CREATE_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s REAL, %s INTEGER, %s INTEGER)",
+                TABLE_NAME, KEY_ID, VALUE, ADD_DATE, UNIT_KEY);
         db.execSQL(CREATE_TABLE);
     }
 
@@ -57,7 +58,7 @@ public class DimensionDB extends SQLiteOpenHelper {
                 Dimension dimension = new Dimension();
 
                 dimension.setId(cursor.getInt(0));
-                dimension.setAddedDate(DateConverter.timeToDate(cursor.getInt(1)));
+                dimension.setAddedDate(DateConverter.timeToDate(cursor.getLong(1)));
                 dimension.setUnitKey(cursor.getInt(2));
 
                 dimensions.add(dimension);

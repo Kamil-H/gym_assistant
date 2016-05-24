@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_plans"
+        android:icon="@drawable/ic_assignment_white_24dp"
+        android:title="Plany" />
+    <item
+        android:id="@+id/menu_started"
+        android:icon="@drawable/ic_done_white_24dp"
+        android:title="Aktywne" />
+    <item
+        android:id="@+id/menu_finished"
+        android:icon="@drawable/ic_history_white_24dp"
+        android:title="Zakończone" />
+
+</menu>

@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Uginanie przedramion ze sztangielkami młotkowo"
-            android:id="@+id/exerciseTextView"
+            android:id="@+id/traningNameTextView"
             android:layout_below="@+id/dayNameTextView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"

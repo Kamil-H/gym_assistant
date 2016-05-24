@@ -44,7 +44,7 @@ public class ExercisesPreview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
 
-        nameTextView = (TextView) findViewById(R.id.nameTextView);
+        nameTextView = (TextView) findViewById(R.id.traningNameTextView);
         mainMuscleTextView = (TextView) findViewById(R.id.mainMuscleTextView);
         auxMuscleTextView = (TextView) findViewById(R.id.auxMuscleTextView);
         stabilizersTextView = (TextView) findViewById(R.id.stabilizersTextView);

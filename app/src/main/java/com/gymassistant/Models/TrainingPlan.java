@@ -1,10 +1,12 @@
 package com.gymassistant.Models;
 
+import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
+
 import java.util.List;
 /**
  * Created by KamilH on 2016-04-21.
  */
-public class TrainingPlan {
+public class TrainingPlan implements ParentListItem {
     private int id;
     private int days;
     private int owner;
@@ -12,6 +14,11 @@ public class TrainingPlan {
     private String name;
     private String description;
     private List<Training> trainingList;
+    private List<TrainingPlan> trainingPlanList;
+
+    public TrainingPlan(List<TrainingPlan> trainingPlanList){
+        this.trainingPlanList = trainingPlanList;
+    }
 
     public TrainingPlan(){}
 
@@ -82,5 +89,23 @@ public class TrainingPlan {
 
     public void setTrainingList(List<Training> trainingList) {
         this.trainingList = trainingList;
+    }
+
+    @Override
+    public List<?> getChildItemList() {
+        return trainingPlanList;
+    }
+
+    @Override
+    public boolean isInitiallyExpanded() {
+        return false;
+    }
+
+    public List<TrainingPlan> getTrainingPlanList() {
+        return trainingPlanList;
+    }
+
+    public void setTrainingPlanList(List<TrainingPlan> trainingPlanList) {
+        this.trainingPlanList = trainingPlanList;
     }
 }

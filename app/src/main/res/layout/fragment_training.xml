@@ -7,58 +7,25 @@
     android:background="@color/colorBackground"
     android:tag="fragment_training">
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CLEAR"
-        android:id="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:id="@+id/relativeLayout">
-
-        <TextView
-            style="@style/titleTextSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/choose_active_plan"
-            android:id="@+id/textView20"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/trainingPlansSpinner"
-            android:layout_below="@+id/textView20"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/choose_training_day"
-            android:id="@+id/textView16"
-            android:layout_marginTop="20dp"
-            style="@style/titleTextSmall"
-            android:layout_below="@+id/trainingPlansSpinner"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-    </RelativeLayout>
+        android:text="@string/choose_training_day"
+        android:id="@+id/textView16"
+        android:layout_marginTop="20dp"
+        style="@style/titleTextSmall"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/recyclerview"
-        android:layout_below="@+id/relativeLayout"
+        android:layout_below="@+id/textView16"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp">
+        android:background="@color/colorDivider">
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
@@ -67,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:scaleType="center"
-        android:src="@drawable/fab_add"
+        android:src="@drawable/ic_mode_edit_white_24dp"
         android:layout_margin="20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"

@@ -2,7 +2,6 @@ package com.gymassistant.RecyclerView;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +65,7 @@ public class TrainingPlanExerciseAdapter extends RecyclerView.Adapter<TrainingPl
         public TrainingPlanExerciseRowViewHolder(View view) {
             super(view);
             this.muscleGroupsTextView = (TextView) view.findViewById(R.id.dayNameTextView);
-            this.exerciseTextView = (TextView) view.findViewById(R.id.exerciseTextView);
+            this.exerciseTextView = (TextView) view.findViewById(R.id.traningNameTextView);
             this.repeatsTextView = (TextView) view.findViewById(R.id.repeatsTextView);
         }
     }

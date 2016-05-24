@@ -9,16 +9,22 @@ import org.joda.time.format.DateTimeFormatter;
  */
 public class DateConverter {
     public static long dateToTime(String date){
-        DateTimeFormatter dateTimeFormat = DateTimeFormat.forPattern("dd-MM-yyyy");
-        DateTime dateTime = dateTimeFormat.parseDateTime(date);
+        if(date != null){
+            DateTimeFormatter dateTimeFormat = DateTimeFormat.forPattern("dd-MM-yyyy");
+            DateTime dateTime = dateTimeFormat.parseDateTime(date);
 
-        return dateTime.getMillis();
+            return dateTime.getMillis();
+        }
+        return -1;
     }
 
     public static String timeToDate(long time){
-        DateTimeFormatter dateTimeFormat = DateTimeFormat.forPattern("dd-MM-yyyy");
-        DateTime dateTime = new DateTime(time);
-        return dateTimeFormat.print(dateTime);
+        if(time > 0){
+            DateTimeFormatter dateTimeFormat = DateTimeFormat.forPattern("dd-MM-yyyy");
+            DateTime dateTime = new DateTime(time);
+            return dateTimeFormat.print(dateTime);
+        }
+        return null;
     }
 
     public static String hasTwoLatters(int num){
@@ -27,5 +33,22 @@ public class DateConverter {
         } else {
             return String.valueOf(num);
         }
+    }
+
+    public static String today(){
+        DateTimeFormatter dateTimeFormat = DateTimeFormat.forPattern("dd-MM-yyyy");
+        DateTime dateTime = new DateTime(DateTime.now());
+        return dateTimeFormat.print(dateTime);
+    }
+
+    public static String addDays(int days){
+        DateTimeFormatter dateTimeFormat = DateTimeFormat.forPattern("dd-MM-yyyy");
+        DateTime dateTime = new DateTime(DateTime.now());
+        dateTime = dateTime.plusDays(days);
+        return dateTimeFormat.print(dateTime);
+    }
+
+    private static long daysToMilis(int days){
+        return (long) 86400000 * days;
     }
 }

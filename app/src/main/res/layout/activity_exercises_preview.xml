@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New Text"
-                    android:id="@+id/nameTextView"
+                    android:id="@+id/traningNameTextView"
                     android:layout_below="@+id/textView"
                     android:layout_alignLeft="@+id/textView"
                     android:layout_alignStart="@+id/textView" />
@@ -86,9 +86,9 @@
                     android:text="@string/exercise_main_muscle"
                     android:id="@+id/textView1"
                     style="@style/titleTextSmall"
-                    android:layout_below="@+id/nameTextView"
-                    android:layout_alignLeft="@+id/nameTextView"
-                    android:layout_alignStart="@+id/nameTextView"
+                    android:layout_below="@+id/traningNameTextView"
+                    android:layout_alignLeft="@+id/traningNameTextView"
+                    android:layout_alignStart="@+id/traningNameTextView"
                     android:layout_marginTop="10dp" />
 
                 <TextView

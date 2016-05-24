@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,9 +33,9 @@ public class ExerciseDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.e("ExerciseDB", "onCreate");
         String CREATE_TABLE =
-                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)", TABLE_NAME, KEY_ID, CATEGORY, NAME, SECOND_NAME, IMG_1, IMG_2, IMG_3, VIDEO, MAIN_MUSCLES, AUX_MUSCLES, STABILIZERS, HOW_TO, ATTENTIONS);
+                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)",
+                        TABLE_NAME, KEY_ID, CATEGORY, NAME, SECOND_NAME, IMG_1, IMG_2, IMG_3, VIDEO, MAIN_MUSCLES, AUX_MUSCLES, STABILIZERS, HOW_TO, ATTENTIONS);
         db.execSQL(CREATE_TABLE);
     }
 

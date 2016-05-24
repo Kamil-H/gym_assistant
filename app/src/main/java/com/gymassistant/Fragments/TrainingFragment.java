@@ -9,88 +9,49 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 
-import com.gymassistant.Database.SeriesDB;
+import com.gymassistant.Activities.TrainingPlanManagmentActivity;
+import com.gymassistant.Database.StartedTrainingPlanDB;
 import com.gymassistant.Database.TrainingDB;
-import com.gymassistant.Database.TrainingPlanDB;
-import com.gymassistant.MainActivity;
-import com.gymassistant.Models.Training;
-import com.gymassistant.Models.TrainingPlan;
+import com.gymassistant.Models.StartedTrainingPlan;
 import com.gymassistant.R;
-import com.gymassistant.RecyclerView.TrainingDayAdapter;
-import com.gymassistant.Activities.WizardActivity;
+import com.gymassistant.RecyclerView.TraningDayExpandableAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by KamilH on 2016-03-21.
  */
 public class TrainingFragment extends Fragment {
     private View view;
-    private TrainingDB trainingDB;
-    private TrainingPlanDB trainingPlanDB;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
-    private Spinner trainingPlansSpinner;
-    private List<TrainingPlan> trainingPlanList;
-    private List<Training> trainingList;
+    private List<StartedTrainingPlan> startedTrainingPlanList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        trainingDB = new TrainingDB(getActivity());
-        trainingPlanDB = new TrainingPlanDB(getActivity());
+        StartedTrainingPlanDB startedTrainingPlanDB = new StartedTrainingPlanDB(getActivity());
+        startedTrainingPlanList = startedTrainingPlanDB.getActiveStartedTrainingPlans();
 
-        if (trainingPlanDB.getRowCount() == 0){
+        if (startedTrainingPlanList.size() == 0){
             initEmptyStateUI(inflater, container);
         } else {
             initFragmentTrainingUI(inflater, container);
         }
-
         return view;
     }
 
     private void initFragmentTrainingUI(LayoutInflater inflater, ViewGroup container){
         view = inflater.inflate(R.layout.fragment_training, container, false);
-        trainingPlanList = trainingPlanDB.getAllTrainingPlans();
-        trainingList = trainingDB.getAllTrainings();
-
-        trainingPlansSpinner = (Spinner) view.findViewById(R.id.trainingPlansSpinner);
-        populateTrainingPlansSpinner();
-        trainingPlansSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TrainingPlan trainingPlan = (TrainingPlan) trainingPlansSpinner.getSelectedItem();
-                setUpRecyclerView(trainingPlan.getId());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        setUpList();
+        setUpRecyclerView();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToWizardActivity();
-            }
-        });
-        Button button = (Button) view.findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                trainingPlanDB.removeAll();
-                trainingDB.removeAll();
-                SeriesDB seriesDB = new SeriesDB(getActivity());
-                seriesDB.removeAll();
-                ((MainActivity)getActivity()).refresh();
+                goToTrainingPlanManagmentActivity();
             }
         });
     }
@@ -101,36 +62,31 @@ public class TrainingFragment extends Fragment {
         addPlanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToWizardActivity();
+                goToTrainingPlanManagmentActivity();
             }
         });
     }
 
-    public void setUpRecyclerView(int id){
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        TrainingDayAdapter trainingDayAdapter = new TrainingDayAdapter(getActivity(), getTrainingList(id));
-        recyclerView.setAdapter(trainingDayAdapter);
+    public void setUpRecyclerView(){
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        TraningDayExpandableAdapter traningDayExpandableAdapter = new TraningDayExpandableAdapter(getActivity(), startedTrainingPlanList);
+        recyclerView.setAdapter(traningDayExpandableAdapter);
     }
 
-    private List<Training> getTrainingList(int id){
-        List<Training> trainings = new ArrayList<Training>();
-        for(Training training : trainingList){
-            if(training.getTrainingPlanId() == id){
-                trainings.add(training);
-            }
+    private void setUpList(){
+        TrainingDB trainingDB = new TrainingDB(getActivity());
+        for(StartedTrainingPlan startedTrainingPlan : startedTrainingPlanList){
+            startedTrainingPlan.getTrainingPlan().setTrainingList(
+                    trainingDB.getTrainingsByTraningPlanId(startedTrainingPlan.getTrainingPlanId()));
+            List<StartedTrainingPlan> childList = new ArrayList<>();
+            childList.add(startedTrainingPlan);
+            startedTrainingPlan.setStartedTrainingPlanList(childList);
         }
-        return trainings;
     }
 
-    private void populateTrainingPlansSpinner(){
-        ArrayAdapter<TrainingPlan> trainingPlanAdapter = new ArrayAdapter<TrainingPlan>(getActivity(), R.layout.item_spinner, R.id.text, trainingPlanList);
-        trainingPlansSpinner.setAdapter(trainingPlanAdapter);
-    }
-
-    private void goToWizardActivity(){
-        Intent intent = new Intent(getActivity(), WizardActivity.class);
+    private void goToTrainingPlanManagmentActivity(){
+        Intent intent = new Intent(getActivity(), TrainingPlanManagmentActivity.class);
         getActivity().startActivityForResult(intent, 1);
     }
 }

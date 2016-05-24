@@ -1,22 +1,36 @@
 package com.gymassistant.Models;
 
 
+import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
+
+import java.util.List;
+
 /**
  * Created by KamilH on 2016-05-04.
  */
-public class TrainingPlanStarted {
+public class StartedTrainingPlan implements ParentListItem {
     private int id;
     private String name;
     private String description;
     private int owner;
-    private int source;
+    private int trainingPlanId;
+    private TrainingPlan trainingPlan;
     private String startDate;
     private String expectedEndDate;
     private String endDate;
     private int firstDay;
     private boolean isPublic;
+    private List<StartedTrainingPlan> startedTrainingPlanList;
 
-    TrainingPlanStarted(){}
+    public StartedTrainingPlan(){}
+
+    public StartedTrainingPlan(String name, String description, int trainingPlanId, String startDate, String expectedEndDate) {
+        this.name = name;
+        this.description = description;
+        this.trainingPlanId = trainingPlanId;
+        this.startDate = startDate;
+        this.expectedEndDate = expectedEndDate;
+    }
 
     public int getId() {
         return id;
@@ -50,12 +64,12 @@ public class TrainingPlanStarted {
         this.owner = owner;
     }
 
-    public int getSource() {
-        return source;
+    public int getTrainingPlanId() {
+        return trainingPlanId;
     }
 
-    public void setSource(int source) {
-        this.source = source;
+    public void setTrainingPlanId(int trainingPlanId) {
+        this.trainingPlanId = trainingPlanId;
     }
 
     public String getStartDate() {
@@ -96,5 +110,27 @@ public class TrainingPlanStarted {
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    public TrainingPlan getTrainingPlan() {
+        return trainingPlan;
+    }
+
+    public void setTrainingPlan(TrainingPlan trainingPlan) {
+        this.trainingPlan = trainingPlan;
+    }
+
+    @Override
+    public List<?> getChildItemList() {
+        return startedTrainingPlanList;
+    }
+
+    @Override
+    public boolean isInitiallyExpanded() {
+        return false;
+    }
+
+    public void setStartedTrainingPlanList(List<StartedTrainingPlan> startedTrainingPlanList) {
+        this.startedTrainingPlanList = startedTrainingPlanList;
     }
 }

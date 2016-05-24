@@ -14,22 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.gymassistant.Activities.WizardActivity;
 import com.gymassistant.Database.SeriesDB;
 import com.gymassistant.Database.TrainingDB;
 import com.gymassistant.Database.TrainingPlanDB;
-import com.gymassistant.GlobalClass;
 import com.gymassistant.Models.Series;
 import com.gymassistant.Models.Training;
 import com.gymassistant.Models.TrainingPlan;
 import com.gymassistant.R;
 import com.gymassistant.RecyclerView.TrainingPlanAdapter;
-import com.gymassistant.Activities.WizardActivity;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by KamilH on 2016-03-21.
@@ -118,32 +114,33 @@ public class ThirdPage extends Fragment {
         final View dialogView = inflater.inflate(R.layout.dialog_plan, null);
         dialogBuilder.setView(dialogView);
 
-        final EditText planNameEditText = (EditText) dialogView.findViewById(R.id.planNameEditText);
-        final EditText planDescriptionEditText = (EditText) dialogView.findViewById(R.id.planDescriptionEditText);
+        final EditText planNameEditText = (EditText) dialogView.findViewById(R.id.traningNameEditText);
+        final EditText planDescriptionEditText = (EditText) dialogView.findViewById(R.id.trainingDescriptionEditText);
 
-        dialogBuilder.setPositiveButton(getString(R.string.save_and_close), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
+        dialogBuilder.setPositiveButton(getString(R.string.save_and_close), new DialogInterface.OnClickListener() {public void onClick(DialogInterface dialog, int whichButton) {}});
+        dialogBuilder.setNegativeButton(getActivity().getString(R.string.cancel), new DialogInterface.OnClickListener() {public void onClick(DialogInterface dialog, int whichButton) {}});
+
+        final AlertDialog b = dialogBuilder.create();
+        b.show();
+
+        Button positiveButton = b.getButton(AlertDialog.BUTTON_POSITIVE);
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 String planName = planNameEditText.getText().toString();
                 String planDescription = planDescriptionEditText.getText().toString();
                 if(planName.isEmpty()){
-                    planNameEditText.setError(getString(R.string.valid_username));
+                    planNameEditText.setError(getActivity().getString(R.string.please_set_plan_name));
                 } else {
-                    saveToDatabase(planName, planDescription);
-                    ((WizardActivity)getActivity()).finishWithResult(true);
+                    if(planName.length() > 20){
+                        planNameEditText.setError(getActivity().getString(R.string.text_lenght));
+                    } else {
+                        saveToDatabase(planName, planDescription);
+                        ((WizardActivity)getActivity()).finishWithResult(true);
+                        b.dismiss();
+                    }
                 }
             }
         });
-        dialogBuilder.setNegativeButton(getActivity().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-
-            }
-        });
-        dialogBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-            }
-        });
-        AlertDialog b = dialogBuilder.create();
-        b.show();
     }
 }

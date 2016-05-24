@@ -102,4 +102,18 @@
     <string name="surname">nazwisko</string>
     <string name="please_give_weight">PROSZĘ PODAĆ WAGĘ</string>
     <string name="please_give_height">PROSZĘ PODAĆ WZROST</string>
+    <string name="training_name">nazwa treningu</string>
+    <string name="finish">zakończ</string>
+    <string name="edit">edytuj</string>
+    <string name="traning_description">opis treningu</string>
+    <string name="traning_start_date">data rozpoczęcia treningu</string>
+    <string name="expected_end_date">spodziewana data zakończenia treningu</string>
+    <string name="plan_description_short">opis planu</string>
+    <string name="number_of_training_days">liczba dni treningowych</string>
+    <string name="activate">aktywuj</string>
+    <string name="delete">usuń</string>
+    <string name="please_set_traning_name">Proszę podać nazwę treningu</string>
+    <string name="text_lenght">Nazwa powinna być krótsz niż 20 znaków</string>
+    <string name="please_set_plan_name">Proszę podać nazwę planu</string>
+
 </resources>

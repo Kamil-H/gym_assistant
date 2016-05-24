@@ -22,13 +22,9 @@ import android.widget.Toast;
 
 import com.gymassistant.Activities.WizardActivity;
 import com.gymassistant.Database.ExerciseDB;
-import com.gymassistant.Database.SeriesDB;
-import com.gymassistant.Database.TrainingDB;
-import com.gymassistant.GlobalClass;
 import com.gymassistant.Models.Category;
 import com.gymassistant.Models.Exercise;
 import com.gymassistant.Models.Series;
-import com.gymassistant.Models.Training;
 import com.gymassistant.R;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
@@ -103,7 +99,7 @@ public class SecondPage extends Fragment {
         final TextView muscleGroupTextView = (TextView) dialogView.findViewById(R.id.dayNameTextView);
         muscleGroupTextView.setText(series.getExercise().getCategory());
 
-        final TextView exerciseTextView = (TextView) dialogView.findViewById(R.id.exerciseTextView);
+        final TextView exerciseTextView = (TextView) dialogView.findViewById(R.id.traningNameTextView);
         exerciseTextView.setText(String.format("%s %s", series.getExercise().getName(), series.getExercise().getSecondName()));
 
         final TextView seriesRepeatsTextView = (TextView) dialogView.findViewById(R.id.seriesRepeatsTextView);

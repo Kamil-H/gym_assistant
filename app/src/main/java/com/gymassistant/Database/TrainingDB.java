@@ -6,11 +6,8 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.gymassistant.Models.Series;
 import com.gymassistant.Models.Training;
-import com.gymassistant.Models.TrainingPlan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +26,9 @@ public class TrainingDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.e("ExerciseDB", "onCreate");
         String CREATE_TABLE =
-                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s TEXT)", TABLE_NAME, KEY_ID, TRAINING_PLAN_ID, DAY, DESCRIPTION);
+                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s TEXT)",
+                        TABLE_NAME, KEY_ID, TRAINING_PLAN_ID, DAY, DESCRIPTION);
         db.execSQL(CREATE_TABLE);
     }
 
@@ -92,6 +89,30 @@ public class TrainingDB extends SQLiteOpenHelper {
         return trainings;
     }
 
+    public List<Training> getTrainingsByTraningPlanId(int ID) {
+        TrainingPlanDB trainingPlanDB = new TrainingPlanDB(context);
+        SeriesDB seriesDB = new SeriesDB(context);
+        List<Training> trainings = new ArrayList<Training>();
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + TRAINING_PLAN_ID + "=" + ID;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Training training = new Training();
+                training.setId(cursor.getInt(0));
+                training.setTrainingPlanId(cursor.getInt(1));
+                training.setDay(cursor.getInt(2));
+                training.setDescription(cursor.getString(3));
+                training.setTrainingPlan(trainingPlanDB.getTrainingPlan(training.getTrainingPlanId()));
+                training.setSeriesList(seriesDB.getSeriesByTrainingId(training.getId()));
+
+                trainings.add(training);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return trainings;
+    }
+
     public Training getTraining(int ID){
         TrainingPlanDB trainingPlanDB = new TrainingPlanDB(context);
         SeriesDB seriesDB = new SeriesDB(context);
@@ -116,6 +137,29 @@ public class TrainingDB extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, KEY_ID + " = ?",
                 new String[]{String.valueOf(id)});
         db.close();
+    }
+
+    public List<Integer> getTrainingIdsByTraningPlanId(long ID){
+        List<Integer> traningIds = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + TRAINING_PLAN_ID + "=" + ID;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                traningIds.add(cursor.getInt(1));
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return traningIds;
+    }
+
+    public int deleteTrainingByTrainingPlanId(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int count = db.delete(TABLE_NAME, TRAINING_PLAN_ID + " = ?",
+                new String[]{String.valueOf(id)});
+        db.close();
+
+        return count;
     }
 
     public void removeAll()
