@@ -4,12 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +16,7 @@ import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter
 import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
+import com.gymassistant.Database.StartedTrainingPlanDB;
 import com.gymassistant.Models.StartedTrainingPlan;
 import com.gymassistant.R;
 
@@ -25,13 +25,13 @@ import java.util.List;
 /**
  * Created by KamilH on 2016-05-24.
  */
-public class TraningDayExpandableAdapter extends ExpandableRecyclerAdapter<TraningDayExpandableAdapter.PlanParentViewHolder,
-        TraningDayExpandableAdapter.PlanChildViewHolder> {
+public class TraningFinishedExpandableAdapter extends ExpandableRecyclerAdapter<TraningFinishedExpandableAdapter.PlanParentViewHolder,
+        TraningFinishedExpandableAdapter.PlanChildViewHolder> {
     private LayoutInflater mInflator;
     private Context context;
     private List<? extends ParentListItem> parentItemList;
 
-    public TraningDayExpandableAdapter(Context context, @NonNull List<? extends ParentListItem> parentItemList) {
+    public TraningFinishedExpandableAdapter(Context context, @NonNull List<? extends ParentListItem> parentItemList) {
         super(parentItemList);
         this.context = context;
         this.mInflator = LayoutInflater.from(context);
@@ -46,7 +46,7 @@ public class TraningDayExpandableAdapter extends ExpandableRecyclerAdapter<Trani
 
     @Override
     public PlanChildViewHolder onCreateChildViewHolder(ViewGroup childViewGroup) {
-        View childView = mInflator.inflate(R.layout.item_recyclerview, childViewGroup, false);
+        View childView = mInflator.inflate(R.layout.item_training_plan_finished, childViewGroup, false);
         return new PlanChildViewHolder(childView);
     }
 
@@ -60,18 +60,42 @@ public class TraningDayExpandableAdapter extends ExpandableRecyclerAdapter<Trani
     public void onBindChildViewHolder(PlanChildViewHolder childViewHolder, final int position, final Object childListItem) {
         final StartedTrainingPlan item = (StartedTrainingPlan) childListItem;
 
-        TrainingDayAdapter trainingDayAdapter = new TrainingDayAdapter(context, item.getTrainingPlan().getTrainingList(), item.getId());
-        childViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        childViewHolder.recyclerView.setAdapter(trainingDayAdapter);
+        childViewHolder.traningNameTextView.setText(item.getName());
+        childViewHolder.traningPlanNameTextView.setText(item.getTrainingPlan().getName());
+        childViewHolder.descriptionTextView.setText(item.getDescription());
+        childViewHolder.startDateTextView.setText(item.getStartDate());
+        childViewHolder.endDateTextView.setText(item.getEndDate());
+        childViewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeRow(item);
+                removeFromDatabase(item.getId());
+            }
+        });
+    }
+
+    public void removeFromDatabase(int id){
+        StartedTrainingPlanDB startedTrainingPlanDB = new StartedTrainingPlanDB(context);
+        startedTrainingPlanDB.deleteStartedTrainingPlan(id);
+    }
+
+    private void removeRow(StartedTrainingPlan startedTrainingPlan){
+        notifyParentItemRemoved(parentItemList.indexOf(startedTrainingPlan));
+        parentItemList.remove(startedTrainingPlan);
     }
 
     public class PlanChildViewHolder extends ChildViewHolder {
-        public View view;
-        public RecyclerView recyclerView;
+        public TextView traningNameTextView, traningPlanNameTextView, descriptionTextView, startDateTextView, endDateTextView;
+        public Button finishButton, deleteButton;
 
-        public PlanChildViewHolder(View view) {
-            super(view);
-            this.recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        public PlanChildViewHolder(View itemView) {
+            super(itemView);
+            traningNameTextView = (TextView) itemView.findViewById(R.id.traningNameTextView);
+            traningPlanNameTextView = (TextView) itemView.findViewById(R.id.trainingPlanNameTextView);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.descriptionTextView);
+            startDateTextView = (TextView) itemView.findViewById(R.id.startDateTextView);
+            endDateTextView = (TextView) itemView.findViewById(R.id.endDateTextView);
+            deleteButton = (Button) itemView.findViewById(R.id.deleteButton);
         }
     }
 

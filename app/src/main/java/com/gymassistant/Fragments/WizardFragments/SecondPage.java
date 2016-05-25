@@ -1,12 +1,11 @@
 package com.gymassistant.Fragments.WizardFragments;
 
-import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,6 +123,7 @@ public class SecondPage extends Fragment {
         dialogBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
+                seriesList = new ArrayList<Series>();
             }
         });
         AlertDialog b = dialogBuilder.create();
@@ -143,9 +143,10 @@ public class SecondPage extends Fragment {
     }
 
     private void addToSeriesList(Series series){
-        for(int i = 0; i < numOfSeries; i++)
+        for(int i = 0; i < numOfSeries; i++){
+            series.setOrder(i);
             seriesList.add(series);
-        Log.i("Series:", String.valueOf(seriesList.size()));
+        }
     }
 
     private void resetValues(){

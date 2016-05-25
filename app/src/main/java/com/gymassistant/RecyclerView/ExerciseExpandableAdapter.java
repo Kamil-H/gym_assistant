@@ -1,12 +1,16 @@
 package com.gymassistant.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
@@ -85,7 +89,6 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
     }
 
     public class ExerciseChildViewHolder extends ChildViewHolder {
-
         public TextView exerciseEditText;
 
         public ExerciseChildViewHolder(View itemView) {
@@ -96,13 +99,53 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
     }
 
     public class ExerciseParentViewHolder extends ParentViewHolder {
-
         public TextView titleTextView;
+        private ImageView arrowImageView;
+
+        private static final float INITIAL_POSITION = 0.0f;
+        private static final float ROTATED_POSITION = 180f;
 
         public ExerciseParentViewHolder(View itemView) {
             super(itemView);
 
             titleTextView = (TextView) itemView.findViewById(R.id.traningNameTextView);
+            arrowImageView = (ImageView) itemView.findViewById(R.id.arrowImageView);
+        }
+
+        @SuppressLint("NewApi")
+        @Override
+        public void setExpanded(boolean expanded) {
+            super.setExpanded(expanded);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                if (expanded) {
+                    arrowImageView.setRotation(ROTATED_POSITION);
+                } else {
+                    arrowImageView.setRotation(INITIAL_POSITION);
+                }
+            }
+        }
+
+        @Override
+        public void onExpansionToggled(boolean expanded) {
+            super.onExpansionToggled(expanded);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                RotateAnimation rotateAnimation;
+                if (expanded) { // rotate clockwise
+                    rotateAnimation = new RotateAnimation(ROTATED_POSITION,
+                            INITIAL_POSITION,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+                } else { // rotate counterclockwise
+                    rotateAnimation = new RotateAnimation(-1 * ROTATED_POSITION,
+                            INITIAL_POSITION,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+                }
+
+                rotateAnimation.setDuration(200);
+                rotateAnimation.setFillAfter(true);
+                arrowImageView.startAnimation(rotateAnimation);
+            }
         }
     }
 }

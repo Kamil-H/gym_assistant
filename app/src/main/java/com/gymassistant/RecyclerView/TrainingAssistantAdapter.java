@@ -6,15 +6,19 @@ package com.gymassistant.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.gymassistant.Activities.ExercisesPreview;
 import com.gymassistant.Models.Series;
 import com.gymassistant.R;
 
@@ -53,11 +57,11 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
 
     @Override
     public void onBindViewHolder(TrainingAssistantRowViewHolder rowViewHolder, final int position) {
-        Series items = itemsList.get(position);
+        final Series items = itemsList.get(position);
 
         rowViewHolder.muscleGroupTextView.setText(items.getExercise().getCategory());
-        rowViewHolder.exerciseTextView.setText(items.getExercise().getName() + " " + items.getExercise().getSecondName());
-        rowViewHolder.seriesTextView.setText("3");
+        rowViewHolder.exerciseTextView.setText(String.format("%s %s", items.getExercise().getName(), items.getExercise().getSecondName()));
+        rowViewHolder.seriesTextView.setText(String.valueOf(items.getOrder()));
 
         rowViewHolder.repeatsEditTextListener.updatePosition(position);
         rowViewHolder.repeatsEditTextListener.setArray(repeatsArray);
@@ -66,6 +70,21 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
         rowViewHolder.loadsEditTextListener.updatePosition(position);
         rowViewHolder.loadsEditTextListener.setArray(loadsArray);
         rowViewHolder.loadEditText.setText(String.valueOf(loadsArray[position]));
+
+        rowViewHolder.exercisePreviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToExercisesPreviewScreen(items.getId());
+            }
+        });
+    }
+
+    private void goToExercisesPreviewScreen(int id){
+        Bundle b = new Bundle();
+        b.putInt("id", id);
+        Intent intent = new Intent(context.getApplicationContext(), ExercisesPreview.class);
+        intent.putExtras(b);
+        context.startActivity(intent);
     }
 
     private class MyCustomEditTextListener implements TextWatcher {
@@ -103,6 +122,7 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
         public TextView muscleGroupTextView, exerciseTextView, seriesTextView;
         public EditText repeatsEditText, loadEditText;
         public MyCustomEditTextListener repeatsEditTextListener, loadsEditTextListener;
+        public Button exercisePreviewButton;
 
         public TrainingAssistantRowViewHolder(View view, MyCustomEditTextListener repeatsEditTextListener, MyCustomEditTextListener loadsEditTextListener) {
             super(view);
@@ -111,6 +131,8 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
             this.seriesTextView = (TextView) view.findViewById(R.id.seriesTextView);
             this.repeatsEditText = (EditText) view.findViewById(R.id.repeatsEditText);
             this.loadEditText = (EditText) view.findViewById(R.id.loadEditText);
+
+            this.exercisePreviewButton = (Button) view.findViewById(R.id.exercisePreviewButton);
 
             this.repeatsEditTextListener = repeatsEditTextListener;
             this.repeatsEditText.addTextChangedListener(repeatsEditTextListener);

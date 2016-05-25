@@ -16,6 +16,17 @@ public class SeriesDone {
     private Exercise exercise;
     private TrainingDone trainingDone;
 
+    public SeriesDone(){}
+
+    public SeriesDone(Series series){
+        this.trainingId = series.getTrainingId();
+        this.exerciseId = series.getExerciseId();
+        this.actualOrder = series.getOrder();
+        this.plannedOrder = series.getOrder();
+        this.plannedRepeat = series.getRepeat();
+        this.plannedWeight = series.getWeight();
+    }
+
     public int getId() {
         return id;
     }

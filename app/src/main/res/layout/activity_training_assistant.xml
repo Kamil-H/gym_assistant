@@ -54,7 +54,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginTop="1dp"
-            android:text="@string/back_button"
+            android:text="@string/cancel"
             android:textColor="@color/colorText"
             android:background="@color/colorCard"
             android:textStyle="bold"
@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginTop="1dp"
-            android:text="@string/save_button"
+            android:text="@string/next_button"
             android:textColor="@color/colorText"
             android:textStyle="bold"
             android:background="@color/colorCard"/>

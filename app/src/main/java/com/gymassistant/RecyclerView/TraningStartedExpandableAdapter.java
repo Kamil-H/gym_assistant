@@ -1,15 +1,19 @@
 package com.gymassistant.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
@@ -148,7 +152,7 @@ public class TraningStartedExpandableAdapter extends ExpandableRecyclerAdapter<T
             traningPlanNameTextView = (TextView) itemView.findViewById(R.id.trainingPlanNameTextView);
             descriptionTextView = (TextView) itemView.findViewById(R.id.descriptionTextView);
             startDateTextView = (TextView) itemView.findViewById(R.id.startDateTextView);
-            expectedEndDateTextView = (TextView) itemView.findViewById(R.id.expectedEndDateTextView);
+            expectedEndDateTextView = (TextView) itemView.findViewById(R.id.endDateTextView);
             editButton = (Button) itemView.findViewById(R.id.editButton);
             finishButton = (Button) itemView.findViewById(R.id.finishButton);
         }
@@ -156,10 +160,52 @@ public class TraningStartedExpandableAdapter extends ExpandableRecyclerAdapter<T
 
     public class PlanParentViewHolder extends ParentViewHolder {
         public TextView nameTextView;
+        private ImageView arrowImageView;
+
+        private static final float INITIAL_POSITION = 0.0f;
+        private static final float ROTATED_POSITION = 180f;
 
         public PlanParentViewHolder(View itemView) {
             super(itemView);
+
             nameTextView = (TextView) itemView.findViewById(R.id.traningNameTextView);
+            arrowImageView = (ImageView) itemView.findViewById(R.id.arrowImageView);
+        }
+
+        @SuppressLint("NewApi")
+        @Override
+        public void setExpanded(boolean expanded) {
+            super.setExpanded(expanded);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                if (expanded) {
+                    arrowImageView.setRotation(ROTATED_POSITION);
+                } else {
+                    arrowImageView.setRotation(INITIAL_POSITION);
+                }
+            }
+        }
+
+        @Override
+        public void onExpansionToggled(boolean expanded) {
+            super.onExpansionToggled(expanded);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                RotateAnimation rotateAnimation;
+                if (expanded) { // rotate clockwise
+                    rotateAnimation = new RotateAnimation(ROTATED_POSITION,
+                            INITIAL_POSITION,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+                } else { // rotate counterclockwise
+                    rotateAnimation = new RotateAnimation(-1 * ROTATED_POSITION,
+                            INITIAL_POSITION,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+                }
+
+                rotateAnimation.setDuration(200);
+                rotateAnimation.setFillAfter(true);
+                arrowImageView.startAnimation(rotateAnimation);
+            }
         }
     }
 }

@@ -91,6 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Taki użytkownik już istnieje", Toast.LENGTH_LONG).show();
                     }
                 } else {
+                    Log.d("RegisterActivity", response.message());
                     Toast.makeText(RegisterActivity.this, "Błąd połączenia z serwerem", Toast.LENGTH_LONG).show();
                 }
             }

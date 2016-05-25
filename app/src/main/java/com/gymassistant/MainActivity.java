@@ -84,8 +84,6 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 refresh();
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
-            }
         }
     }
 

@@ -79,11 +79,11 @@
             android:layout_height="wrap_content"
             android:text="@string/load"
             android:id="@+id/textView14"
-            android:layout_below="@+id/repeatsEditText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="20dp"
-            style="@style/titleTextSmall" />
+            style="@style/titleTextSmall"
+            android:layout_above="@+id/repeatsEditText"
+            android:layout_toRightOf="@+id/textView15"
+            android:layout_toEndOf="@+id/textView15"
+            android:layout_marginLeft="80dp" />
 
         <EditText
             android:layout_width="50dp"
@@ -94,6 +94,17 @@
             android:layout_alignLeft="@+id/textView14"
             android:layout_alignStart="@+id/textView14"
             android:inputType="numberSigned" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/exercise_preview"
+            android:id="@+id/exercisePreviewButton"
+            android:layout_below="@+id/traningNameTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/colorBackground"/>
     </RelativeLayout>
 
     <View
@@ -105,8 +116,3 @@
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>
-    <!--
-
-    470dp
-
-    -->

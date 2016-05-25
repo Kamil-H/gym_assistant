@@ -115,5 +115,9 @@
     <string name="please_set_traning_name">Proszę podać nazwę treningu</string>
     <string name="text_lenght">Nazwa powinna być krótsz niż 20 znaków</string>
     <string name="please_set_plan_name">Proszę podać nazwę planu</string>
+    <string name="end_date">data zakończenia treningu</string>
+    <string name="select_date">Wybierz datę</string>
+    <string name="close">zakończ</string>
+    <string name="exercise_preview">podgląd ćwiczenia</string>
 
 </resources>

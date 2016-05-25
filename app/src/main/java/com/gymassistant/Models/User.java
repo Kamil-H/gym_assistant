@@ -26,7 +26,7 @@ public class User {
     private String password;
     @SerializedName("Surname")
     private String surname;
-    @SerializedName("UserName")
+    @SerializedName("Username")
     private String userName;
     @SerializedName("Users")
     private List<User> userList = new ArrayList<User>();

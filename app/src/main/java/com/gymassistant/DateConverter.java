@@ -47,8 +47,4 @@ public class DateConverter {
         dateTime = dateTime.plusDays(days);
         return dateTimeFormat.print(dateTime);
     }
-
-    private static long daysToMilis(int days){
-        return (long) 86400000 * days;
-    }
 }

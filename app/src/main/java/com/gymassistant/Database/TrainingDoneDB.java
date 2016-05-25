@@ -45,7 +45,6 @@ public class TrainingDoneDB extends SQLiteOpenHelper {
 
         values.put(STARTED_TRAINING_PLN, trainingDone.getStartedTrainingPlan());
         values.put(DAY, trainingDone.getDay());
-
         values.put(DATE, DateConverter.dateToTime(trainingDone.getDate()));
 
         long rowid = db.insert(TABLE_NAME, null, values);

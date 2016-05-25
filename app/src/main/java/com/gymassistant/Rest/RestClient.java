@@ -15,17 +15,15 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.POST;
-import retrofit.http.PUT;
 import retrofit.http.Path;
 
 public class RestClient {
 
-    private static UserInterface userInterface ;
-    private static String baseUrl = "http://dzym.azurewebsites.net/" ;
+    private static UserInterface userInterface;
+    private static String baseUrl = "http://dzym.azurewebsites.net/";
 
     public static UserInterface getClient() {
         if (userInterface == null) {
-
             OkHttpClient okClient = new OkHttpClient();
             okClient.interceptors().add(new Interceptor() {
                 @Override

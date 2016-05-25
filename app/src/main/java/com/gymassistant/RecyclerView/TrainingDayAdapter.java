@@ -24,10 +24,12 @@ import java.util.HashSet;
 public class TrainingDayAdapter extends RecyclerView.Adapter<TrainingDayAdapter.TrainingDayRowViewHolder> {
     private Context context;
     private List<Training> trainings;
+    private int startedTrainingPlanId;
 
-    public TrainingDayAdapter(Context context, List<Training> trainings) {
+    public TrainingDayAdapter(Context context, List<Training> trainings, int startedTrainingPlanId) {
         this.context = context;
         this.trainings = trainings;
+        this.startedTrainingPlanId = startedTrainingPlanId;
     }
 
     @Override
@@ -43,7 +45,8 @@ public class TrainingDayAdapter extends RecyclerView.Adapter<TrainingDayAdapter.
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTrainingAssistantActivity(trainings.get(viewHolder.getAdapterPosition()).getId());
+                Training training = trainings.get(viewHolder.getAdapterPosition());
+                goToTrainingAssistantActivity(training.getId(), training.getDay());
             }
         });
 
@@ -56,9 +59,11 @@ public class TrainingDayAdapter extends RecyclerView.Adapter<TrainingDayAdapter.
         rowViewHolder.muscleGroupsTextView.setText(getNamesList(position));
     }
 
-    private void goToTrainingAssistantActivity(int position){
+    private void goToTrainingAssistantActivity(int position, int day){
         Intent intent = new Intent(context, TrainingAssistant.class);
-        intent.putExtra("id", position);
+        intent.putExtra("trainingId", position);
+        intent.putExtra("startedTrainingPlanId", startedTrainingPlanId);
+        intent.putExtra("day", day);
         context.startActivity(intent);
     }
 

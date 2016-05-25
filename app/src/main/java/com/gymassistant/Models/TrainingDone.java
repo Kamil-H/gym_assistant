@@ -11,6 +11,14 @@ public class TrainingDone {
     private int startedTrainingPlan;
     private List<SeriesDone> seriesDoneList;
 
+    public TrainingDone(String date, int day, int startedTrainingPlan) {
+        this.date = date;
+        this.day = day;
+        this.startedTrainingPlan = startedTrainingPlan;
+    }
+
+    public TrainingDone(){}
+
     public int getId() {
         return id;
     }
