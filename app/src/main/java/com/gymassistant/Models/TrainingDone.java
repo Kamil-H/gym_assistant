@@ -1,20 +1,24 @@
 package com.gymassistant.Models;
 
+import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
+
 import java.util.List;
 /**
  * Created by KamilH on 2016-05-19.
  */
-public class TrainingDone {
+public class TrainingDone implements ParentListItem{
     private int id;
     private String date;
     private int day;
-    private int startedTrainingPlan;
+    private int startedTrainingPlanId;
     private List<SeriesDone> seriesDoneList;
+    private String time;
+    private List<SeriesDoneGroup> seriesDoneGroupList;
 
-    public TrainingDone(String date, int day, int startedTrainingPlan) {
+    public TrainingDone(String date, int day, int startedTrainingPlanId) {
         this.date = date;
         this.day = day;
-        this.startedTrainingPlan = startedTrainingPlan;
+        this.startedTrainingPlanId = startedTrainingPlanId;
     }
 
     public TrainingDone(){}
@@ -43,12 +47,12 @@ public class TrainingDone {
         this.day = day;
     }
 
-    public int getStartedTrainingPlan() {
-        return startedTrainingPlan;
+    public int getStartedTrainingPlanId() {
+        return startedTrainingPlanId;
     }
 
-    public void setStartedTrainingPlan(int startedTrainingPlan) {
-        this.startedTrainingPlan = startedTrainingPlan;
+    public void setStartedTrainingPlanId(int startedTrainingPlanId) {
+        this.startedTrainingPlanId = startedTrainingPlanId;
     }
 
     public List<SeriesDone> getSeriesDoneList() {
@@ -57,5 +61,31 @@ public class TrainingDone {
 
     public void setSeriesDoneList(List<SeriesDone> seriesDoneList) {
         this.seriesDoneList = seriesDoneList;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public List<SeriesDoneGroup> getSeriesDoneGroupList() {
+        return seriesDoneGroupList;
+    }
+
+    public void setSeriesDoneGroupList(List<SeriesDoneGroup> seriesDoneGroupList) {
+        this.seriesDoneGroupList = seriesDoneGroupList;
+    }
+
+    @Override
+    public List<?> getChildItemList() {
+        return seriesDoneGroupList;
+    }
+
+    @Override
+    public boolean isInitiallyExpanded() {
+        return false;
     }
 }

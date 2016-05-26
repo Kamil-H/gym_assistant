@@ -1,33 +1,29 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="455dp"
         android:background="@color/colorCard"
         android:padding="16dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Biceps i prostowniki przedramion"
-            android:id="@+id/dayNameTextView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:id="@+id/muscleGroupTextView"
             style="@style/titleTextBig"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Uginanie przedramion ze sztangielkami młotkowo"
-            android:id="@+id/traningNameTextView"
-            android:layout_below="@+id/dayNameTextView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:id="@+id/exerciseNameTextView"
             android:layout_marginTop="10dp"
             style="@style/whiteText"
             android:textSize="20sp"/>
@@ -37,82 +33,86 @@
             android:layout_height="wrap_content"
             android:text="@string/series_number"
             android:id="@+id/textView13"
-            android:layout_alignTop="@+id/dayNameTextView"
-            android:layout_alignLeft="@+id/dayNameTextView"
-            android:layout_alignStart="@+id/dayNameTextView"
-            android:layout_marginTop="150dp"
-            style="@style/titleTextSmall"/>
+            style="@style/titleTextSmall"
+            android:layout_marginTop="30dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3"
             android:id="@+id/seriesTextView"
-            android:layout_below="@+id/textView13"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:textSize="15sp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/repeats_number"
-            android:id="@+id/textView15"
-            android:layout_below="@+id/seriesTextView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="20dp"
-            style="@style/titleTextSmall"/>
+            android:layout_marginTop="30dp">
 
-        <EditText
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/repeatsEditText"
-            android:layout_below="@+id/textView15"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            style="@style/editTextStyle"
-            android:inputType="numberSigned" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="left"
+                android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/load"
-            android:id="@+id/textView14"
-            style="@style/titleTextSmall"
-            android:layout_above="@+id/repeatsEditText"
-            android:layout_toRightOf="@+id/textView15"
-            android:layout_toEndOf="@+id/textView15"
-            android:layout_marginLeft="80dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/repeats_number"
+                    android:id="@+id/textView15"
+                    style="@style/titleTextSmall"/>
 
-        <EditText
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/loadEditText"
-            style="@style/editTextStyle"
-            android:layout_below="@+id/textView14"
-            android:layout_alignLeft="@+id/textView14"
-            android:layout_alignStart="@+id/textView14"
-            android:inputType="numberSigned" />
+                <EditText
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/repeatsEditText"
+                    style="@style/editTextStyle"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="left"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/load"
+                    android:id="@+id/textView14"
+                    style="@style/titleTextSmall" />
+
+                <EditText
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/loadEditText"
+                    style="@style/editTextStyle"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+        </LinearLayout>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/exercise_preview"
             android:id="@+id/exercisePreviewButton"
-            android:layout_below="@+id/traningNameTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:textColor="@color/colorPrimary"
             android:background="@color/colorBackground"/>
-    </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorBackground" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/colorDivider"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:background="@color/colorDivider" />
 
-</RelativeLayout>
+</LinearLayout>

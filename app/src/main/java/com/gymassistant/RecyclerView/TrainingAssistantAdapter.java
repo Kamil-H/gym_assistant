@@ -126,8 +126,8 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
 
         public TrainingAssistantRowViewHolder(View view, MyCustomEditTextListener repeatsEditTextListener, MyCustomEditTextListener loadsEditTextListener) {
             super(view);
-            this.muscleGroupTextView = (TextView) view.findViewById(R.id.dayNameTextView);
-            this.exerciseTextView = (TextView) view.findViewById(R.id.traningNameTextView);
+            this.muscleGroupTextView = (TextView) view.findViewById(R.id.muscleGroupTextView);
+            this.exerciseTextView = (TextView) view.findViewById(R.id.exerciseNameTextView);
             this.seriesTextView = (TextView) view.findViewById(R.id.seriesTextView);
             this.repeatsEditText = (EditText) view.findViewById(R.id.repeatsEditText);
             this.loadEditText = (EditText) view.findViewById(R.id.loadEditText);

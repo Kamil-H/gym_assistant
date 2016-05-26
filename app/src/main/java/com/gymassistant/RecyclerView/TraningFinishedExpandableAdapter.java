@@ -90,7 +90,7 @@ public class TraningFinishedExpandableAdapter extends ExpandableRecyclerAdapter<
 
         public PlanChildViewHolder(View itemView) {
             super(itemView);
-            traningNameTextView = (TextView) itemView.findViewById(R.id.traningNameTextView);
+            traningNameTextView = (TextView) itemView.findViewById(R.id.exerciseNameTextView);
             traningPlanNameTextView = (TextView) itemView.findViewById(R.id.trainingPlanNameTextView);
             descriptionTextView = (TextView) itemView.findViewById(R.id.descriptionTextView);
             startDateTextView = (TextView) itemView.findViewById(R.id.startDateTextView);
@@ -109,7 +109,7 @@ public class TraningFinishedExpandableAdapter extends ExpandableRecyclerAdapter<
         public PlanParentViewHolder(View itemView) {
             super(itemView);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.traningNameTextView);
+            nameTextView = (TextView) itemView.findViewById(R.id.exerciseNameTextView);
             arrowImageView = (ImageView) itemView.findViewById(R.id.arrowImageView);
         }
 

@@ -153,7 +153,7 @@ public class Exercise {
 
     @Override
     public String toString() {
-        return this.name;
+        return this.name  + " " + secondName;
     }
 
     public String getSecondName() {

@@ -18,7 +18,6 @@ import com.gymassistant.Models.Series;
 import com.gymassistant.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class TrainingPlanAdapter extends RecyclerView.Adapter<TrainingPlanAdapter.TrainingPlanRowViewHolder> {
     private Context context;
@@ -69,7 +68,7 @@ public class TrainingPlanAdapter extends RecyclerView.Adapter<TrainingPlanAdapte
 
         public TrainingPlanRowViewHolder(View view) {
             super(view);
-            this.dayNameTextView = (TextView) view.findViewById(R.id.dayNameTextView);
+            this.dayNameTextView = (TextView) view.findViewById(R.id.muscleGroupTextView);
             this.recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         }
     }

@@ -56,12 +56,12 @@ public class SeriesDoneDB extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addSeriesDoneList(List<SeriesDone> seriesDoneList){
+    public void addSeriesDoneList(List<SeriesDone> seriesDoneList, long traningDoneId){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         for(SeriesDone seriesDone : seriesDoneList){
-            values.put(TRAINING_DONE_ID, seriesDone.getTrainingDoneId());
+            values.put(TRAINING_DONE_ID, traningDoneId);
             values.put(EXERCISE_ID, seriesDone.getExerciseId());
             values.put(ACTUAL_ORDER, seriesDone.getActualOrder());
             values.put(ACTUAL_REPEAT, seriesDone.getActualRepeat());
@@ -78,7 +78,7 @@ public class SeriesDoneDB extends SQLiteOpenHelper {
     public List<SeriesDone> getSeriesDoneByTrainingDoneId(int trainingDoneId) {
         ExerciseDB exerciseDb = new ExerciseDB(context);
         List<SeriesDone> seriesDoneList = new ArrayList<SeriesDone>();
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + TRAINING_DONE_ID + " = " + trainingDoneId;
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + TRAINING_DONE_ID + " = " + trainingDoneId  + " ORDER BY " + EXERCISE_ID;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
@@ -93,6 +93,7 @@ public class SeriesDoneDB extends SQLiteOpenHelper {
                 seriesDone.setPlannedOrder(cursor.getInt(6));
                 seriesDone.setPlannedRepeat(cursor.getInt(7));
                 seriesDone.setPlannedWeight(cursor.getInt(8));
+                seriesDone.setExercise(exerciseDb.getExercise(seriesDone.getExerciseId()));
 
                 seriesDoneList.add(seriesDone);
             } while (cursor.moveToNext());

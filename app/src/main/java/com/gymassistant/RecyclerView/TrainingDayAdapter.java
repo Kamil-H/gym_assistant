@@ -4,6 +4,7 @@ package com.gymassistant.RecyclerView;
  * Created by KamilH on 2015-10-23.
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -64,7 +65,7 @@ public class TrainingDayAdapter extends RecyclerView.Adapter<TrainingDayAdapter.
         intent.putExtra("trainingId", position);
         intent.putExtra("startedTrainingPlanId", startedTrainingPlanId);
         intent.putExtra("day", day);
-        context.startActivity(intent);
+        ((Activity)context).startActivityForResult(intent, 1);
     }
 
     private String getNamesList(int position){
@@ -92,8 +93,8 @@ public class TrainingDayAdapter extends RecyclerView.Adapter<TrainingDayAdapter.
 
         public TrainingDayRowViewHolder(View view) {
             super(view);
-            this.dayName = (TextView) view.findViewById(R.id.dayNameTextView);
-            this.muscleGroupsTextView = (TextView) view.findViewById(R.id.traningNameTextView);
+            this.dayName = (TextView) view.findViewById(R.id.muscleGroupTextView);
+            this.muscleGroupsTextView = (TextView) view.findViewById(R.id.exerciseNameTextView);
         }
     }
 }

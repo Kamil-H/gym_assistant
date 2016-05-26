@@ -108,7 +108,7 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
         public ExerciseParentViewHolder(View itemView) {
             super(itemView);
 
-            titleTextView = (TextView) itemView.findViewById(R.id.traningNameTextView);
+            titleTextView = (TextView) itemView.findViewById(R.id.exerciseNameTextView);
             arrowImageView = (ImageView) itemView.findViewById(R.id.arrowImageView);
         }
 

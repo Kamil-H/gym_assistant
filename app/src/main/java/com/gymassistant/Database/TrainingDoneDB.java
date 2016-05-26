@@ -17,7 +17,7 @@ import java.util.List;
  * Created by KamilH on 2016-05-19.
  */
 public class TrainingDoneDB extends SQLiteOpenHelper {
-    private final String TABLE_NAME = "TrainingDone", KEY_ID = "id", STARTED_TRAINING_PLN = "startedTrainingPlan", DAY = "day", DATE = "date";
+    private final String TABLE_NAME = "TrainingDone", KEY_ID = "id", STARTED_TRAINING_PLN = "startedTrainingPlan", DAY = "day", DATE = "date", TIME = "time";
     private Context context;
 
     public TrainingDoneDB(Context context) {
@@ -28,8 +28,8 @@ public class TrainingDoneDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE =
-                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER)",
-                        TABLE_NAME, KEY_ID, STARTED_TRAINING_PLN, DAY, DATE);
+                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER)",
+                        TABLE_NAME, KEY_ID, STARTED_TRAINING_PLN, DAY, DATE, TIME);
         db.execSQL(CREATE_TABLE);
     }
 
@@ -39,13 +39,14 @@ public class TrainingDoneDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long addTrainingDone(TrainingDone trainingDone){
+    public long addTrainingDone(TrainingDone trainingDone, int time){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(STARTED_TRAINING_PLN, trainingDone.getStartedTrainingPlan());
+        values.put(STARTED_TRAINING_PLN, trainingDone.getStartedTrainingPlanId());
         values.put(DAY, trainingDone.getDay());
         values.put(DATE, DateConverter.dateToTime(trainingDone.getDate()));
+        values.put(TIME, time);
 
         long rowid = db.insert(TABLE_NAME, null, values);
         db.close();
@@ -62,9 +63,10 @@ public class TrainingDoneDB extends SQLiteOpenHelper {
             do {
                 TrainingDone trainingDone = new TrainingDone();
                 trainingDone.setId(cursor.getInt(0));
-                trainingDone.setStartedTrainingPlan(cursor.getInt(1));
+                trainingDone.setStartedTrainingPlanId(cursor.getInt(1));
                 trainingDone.setDay(cursor.getInt(2));
                 trainingDone.setDate(DateConverter.timeToDate(cursor.getLong(3)));
+                trainingDone.setTime(DateConverter.timeConversion(cursor.getInt(4)));
                 trainingDone.setSeriesDoneList(seriesDoneDB.getSeriesDoneByTrainingDoneId(trainingDone.getId()));
 
                 trainingDones.add(trainingDone);
@@ -82,13 +84,27 @@ public class TrainingDoneDB extends SQLiteOpenHelper {
         TrainingDone trainingDone = new TrainingDone();
         if (cursor.moveToFirst()) {
             trainingDone.setId(cursor.getInt(0));
-            trainingDone.setStartedTrainingPlan(cursor.getInt(1));
+            trainingDone.setStartedTrainingPlanId(cursor.getInt(1));
             trainingDone.setDay(cursor.getInt(2));
             trainingDone.setDate(DateConverter.timeToDate(cursor.getLong(3)));
+            trainingDone.setTime(DateConverter.timeConversion(cursor.getInt(4)));
             trainingDone.setSeriesDoneList(seriesDoneDB.getSeriesDoneByTrainingDoneId(trainingDone.getId()));
         }
         db.close();
         return trainingDone;
+    }
+
+    public void updateStartedTraningPlan(TrainingDone trainingDone, int time){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_ID, trainingDone.getId());
+        values.put(STARTED_TRAINING_PLN, trainingDone.getStartedTrainingPlanId());
+        values.put(DAY, trainingDone.getDay());
+        values.put(DATE, DateConverter.dateToTime(trainingDone.getDate()));
+        values.put(TIME, time);
+
+        db.update(TABLE_NAME, values, KEY_ID + " = ?", new String[]{String.valueOf(trainingDone.getId())});
     }
 
     public void deleteTrainingDone(long id) {
@@ -107,5 +123,4 @@ public class TrainingDoneDB extends SQLiteOpenHelper {
     public long getRowCount() {
         return DatabaseUtils.queryNumEntries(getReadableDatabase(), TABLE_NAME);
     }
-
 }

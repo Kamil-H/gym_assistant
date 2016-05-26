@@ -178,7 +178,7 @@ public class TrainingPlanExpandableAdapter extends ExpandableRecyclerAdapter<Tra
         public PlanParentViewHolder(View itemView) {
             super(itemView);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.traningNameTextView);
+            nameTextView = (TextView) itemView.findViewById(R.id.exerciseNameTextView);
             arrowImageView = (ImageView) itemView.findViewById(R.id.arrowImageView);
         }
 

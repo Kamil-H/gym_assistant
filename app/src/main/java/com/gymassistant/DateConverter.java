@@ -47,4 +47,19 @@ public class DateConverter {
         dateTime = dateTime.plusDays(days);
         return dateTimeFormat.print(dateTime);
     }
+
+    public static String timeConversion(int time) {
+        int seconds = time;
+
+        final int MINUTES_IN_AN_HOUR = 60;
+        final int SECONDS_IN_A_MINUTE = 60;
+
+        int minutes = seconds / SECONDS_IN_A_MINUTE;
+        seconds -= minutes * SECONDS_IN_A_MINUTE;
+
+        int hours = minutes / MINUTES_IN_AN_HOUR;
+        minutes -= hours * MINUTES_IN_AN_HOUR;
+
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
 }

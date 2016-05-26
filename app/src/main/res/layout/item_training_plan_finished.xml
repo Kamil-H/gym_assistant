@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/training_name"
-            android:id="@+id/dayNameTextView"
+            android:id="@+id/muscleGroupTextView"
             android:layout_alignParentTop="true"
             style="@style/titleTextSmall" />
 
@@ -25,8 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/traningNameTextView"
-            android:layout_below="@+id/dayNameTextView"/>
+            android:id="@+id/exerciseNameTextView"
+            android:layout_below="@+id/muscleGroupTextView"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
             android:text="@string/plan_name"
             android:id="@+id/textView32"
             style="@style/titleTextSmall"
-            android:layout_alignTop="@+id/dayNameTextView"
+            android:layout_alignTop="@+id/muscleGroupTextView"
             android:layout_toRightOf="@+id/textView30"
             android:layout_toEndOf="@+id/textView30" />
 
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:text="@string/traning_description"
             android:id="@+id/textView29"
-            android:layout_below="@+id/traningNameTextView"
+            android:layout_below="@+id/exerciseNameTextView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp"

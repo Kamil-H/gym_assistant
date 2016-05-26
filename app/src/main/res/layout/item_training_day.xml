@@ -16,7 +16,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
-                android:id="@+id/dayNameTextView"
+                android:id="@+id/muscleGroupTextView"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 style="@style/titleTextBig" />
@@ -25,8 +25,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="This is line 1"
-                android:id="@+id/traningNameTextView"
-                android:layout_below="@+id/dayNameTextView"
+                android:id="@+id/exerciseNameTextView"
+                android:layout_below="@+id/muscleGroupTextView"
                 android:layout_marginTop="5dp"
                 />
 

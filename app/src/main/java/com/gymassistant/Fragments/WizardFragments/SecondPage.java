@@ -95,10 +95,10 @@ public class SecondPage extends Fragment {
         final View dialogView = inflater.inflate(R.layout.dialog_exercise, null);
         dialogBuilder.setView(dialogView);
 
-        final TextView muscleGroupTextView = (TextView) dialogView.findViewById(R.id.dayNameTextView);
+        final TextView muscleGroupTextView = (TextView) dialogView.findViewById(R.id.muscleGroupTextView);
         muscleGroupTextView.setText(series.getExercise().getCategory());
 
-        final TextView exerciseTextView = (TextView) dialogView.findViewById(R.id.traningNameTextView);
+        final TextView exerciseTextView = (TextView) dialogView.findViewById(R.id.exerciseNameTextView);
         exerciseTextView.setText(String.format("%s %s", series.getExercise().getName(), series.getExercise().getSecondName()));
 
         final TextView seriesRepeatsTextView = (TextView) dialogView.findViewById(R.id.seriesRepeatsTextView);

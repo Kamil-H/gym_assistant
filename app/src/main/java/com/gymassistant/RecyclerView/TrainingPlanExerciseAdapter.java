@@ -64,8 +64,8 @@ public class TrainingPlanExerciseAdapter extends RecyclerView.Adapter<TrainingPl
 
         public TrainingPlanExerciseRowViewHolder(View view) {
             super(view);
-            this.muscleGroupsTextView = (TextView) view.findViewById(R.id.dayNameTextView);
-            this.exerciseTextView = (TextView) view.findViewById(R.id.traningNameTextView);
+            this.muscleGroupsTextView = (TextView) view.findViewById(R.id.muscleGroupTextView);
+            this.exerciseTextView = (TextView) view.findViewById(R.id.exerciseNameTextView);
             this.repeatsTextView = (TextView) view.findViewById(R.id.repeatsTextView);
         }
     }

@@ -1,9 +1,15 @@
 package com.gymassistant.Activities;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +43,7 @@ public class TrainingAssistant extends AppCompatActivity {
     private int traningId, startedTrainingPlanId, day;
     private List<SeriesDone> seriesDoneList;
     private long traningDoneId;
-    private boolean isClose = false;
+    private boolean isClose = false, CLOSE = true, SAVE = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +61,13 @@ public class TrainingAssistant extends AppCompatActivity {
 
         handler = new Handler();
         startMeasureTime();
+    }
 
-        saveTrainingDoneToDatabase();
+    private void nextButtonCheck(){
+        if(seriesList.size() == 1){
+            nextButton.setText(getString(R.string.save_button));
+            isClose = true;
+        }
     }
 
     private void setUpSeriesList(){
@@ -80,12 +91,12 @@ public class TrainingAssistant extends AppCompatActivity {
 
     private void saveTrainingDoneToDatabase(){
         TrainingDoneDB trainingDoneDB = new TrainingDoneDB(this);
-        traningDoneId = trainingDoneDB.addTrainingDone(new TrainingDone(DateConverter.today(), day, startedTrainingPlanId));
+        traningDoneId = trainingDoneDB.addTrainingDone(new TrainingDone(DateConverter.today(), day, startedTrainingPlanId), timeFromStart());
     }
 
     private void saveSeriesDoneListToDatabase(){
         SeriesDoneDB seriesDoneDB = new SeriesDoneDB(this);
-        seriesDoneDB.addSeriesDoneList(seriesDoneList);
+        seriesDoneDB.addSeriesDoneList(seriesDoneList, traningDoneId);
     }
 
     private void addSeriesDoneToList(){
@@ -107,6 +118,7 @@ public class TrainingAssistant extends AppCompatActivity {
 
     private void setUpButtons(){
         nextButton = (Button) findViewById(R.id.nextButton);
+        nextButtonCheck();
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,8 +131,7 @@ public class TrainingAssistant extends AppCompatActivity {
                 }
                 if(currentRow == seriesList.size() - 1 && isClose){
                     addSeriesDoneToList();
-                    stopMeasureTime();
-                    saveSeriesDoneListToDatabase();
+                    showDialog(SAVE);
                 }
                 if(currentRow == seriesList.size() - 1 && !isClose){
                     nextButton.setText(getString(R.string.close));
@@ -134,7 +145,7 @@ public class TrainingAssistant extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(currentRow == 0){
-                    TrainingAssistant.this.finish();
+                    showDialog(CLOSE);
                 }
                 if(currentRow == seriesList.size() - 1 && isClose){
                     nextButton.setText(getString(R.string.next_button));
@@ -149,6 +160,65 @@ public class TrainingAssistant extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void showDialog(final boolean choice){
+        String title, message;
+        title = getString(R.string.closing_assistant);
+        if(choice){
+            message = getString(R.string.close_without_saving);
+        } else {
+            message = getString(R.string.save_traning);
+        }
+        AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog)).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(choice){
+                            onCancel();
+                        } else {
+                            closeWithSaving();
+                            dialog.dismiss();
+                        }
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(choice){
+                            dialog.dismiss();
+                        } else {
+                            onCancel();
+                        }
+                    }
+        });
+        alertDialog.show();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            showDialog(CLOSE);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void onCancel(){
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_CANCELED, returnIntent);
+        this.finish();
+    }
+
+    private void closeWithSaving(){
+        saveTrainingDoneToDatabase();
+        saveSeriesDoneListToDatabase();
+
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+        this.finish();
     }
 
     private void initArrays(){
@@ -179,14 +249,17 @@ public class TrainingAssistant extends AppCompatActivity {
     private Runnable mStatusChecker = new Runnable() {
         @Override
         public void run() {
-            long millis = System.currentTimeMillis() - tStart;
-            int seconds = (int) (millis / 1000);
 
-            timeTextView.setText(timeConversion(seconds));
+            timeTextView.setText(DateConverter.timeConversion(timeFromStart()));
             int mInterval = 1000;
             handler.postDelayed(mStatusChecker, mInterval);
         }
     };
+
+    private int timeFromStart(){
+        long millis = System.currentTimeMillis() - tStart;
+        return  (int) (millis / 1000);
+    }
 
     private void startMeasureTime() {
         tStart = System.currentTimeMillis();
@@ -195,21 +268,6 @@ public class TrainingAssistant extends AppCompatActivity {
 
     private void stopMeasureTime() {
         handler.removeCallbacks(mStatusChecker);
-    }
-
-    public static String timeConversion(double time) {
-        int seconds = (int) time;
-
-        final int MINUTES_IN_AN_HOUR = 60;
-        final int SECONDS_IN_A_MINUTE = 60;
-
-        int minutes = seconds / SECONDS_IN_A_MINUTE;
-        seconds -= minutes * SECONDS_IN_A_MINUTE;
-
-        int hours = minutes / MINUTES_IN_AN_HOUR;
-        minutes -= hours * MINUTES_IN_AN_HOUR;
-
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
     @Override
