@@ -124,7 +124,7 @@
             android:id="@+id/deleteButton"
             android:textColor="@color/colorText"
             style="?android:attr/borderlessButtonStyle"
-            android:drawableRight="@drawable/ic_delete_white_24dp"
+            android:drawableLeft="@drawable/ic_delete_white_24dp"
             android:layout_alignTop="@+id/view"
             android:layout_alignRight="@+id/view"
             android:layout_alignEnd="@+id/view" />

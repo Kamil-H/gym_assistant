@@ -1,5 +1,6 @@
 package com.gymassistant.Rest;
 
+import com.gymassistant.Models.ExerciseClass;
 import com.gymassistant.Models.ServerResponse;
 import com.gymassistant.Models.User;
 import com.squareup.okhttp.Interceptor;
@@ -50,13 +51,16 @@ public class RestClient {
         @GET("/user/getall")
         Call<User> getAllUsers();
 
-        @POST("/authentication/register")
-        Call<ServerResponse> register(@Body User user);
+        @POST("/exercise/add")
+        Call<ServerResponse> addExercise(@Body ExerciseClass exerciseClass);
 
         @POST("/authentication/login")
         Call<ServerResponse> login(@Body User user);
 
         @GET("/user/getById/{id}")
         Call<User> getUser(@Path("id") int id);
+
+        @POST("/authentication/register")
+        Call<ServerResponse> register(@Body User user);
     }
 }

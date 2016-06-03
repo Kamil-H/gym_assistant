@@ -19,10 +19,14 @@ import java.util.Collections;
 public class TrainingPlanExerciseAdapter extends RecyclerView.Adapter<TrainingPlanExerciseAdapter.TrainingPlanExerciseRowViewHolder> {
     private Context context;
     private List<Series> seriesList;
+    private TrainingPlanAdapter trainingPlanAdapter;
+    private int parentPosition;
 
-    public TrainingPlanExerciseAdapter(Context context, List<Series> seriesList) {
+    public TrainingPlanExerciseAdapter(Context context, List<Series> seriesList, TrainingPlanAdapter trainingPlanAdapter, int parentPosition) {
         this.context = context;
         this.seriesList = seriesList;
+        this.trainingPlanAdapter = trainingPlanAdapter;
+        this.parentPosition = parentPosition;
     }
 
     @Override
@@ -35,13 +39,15 @@ public class TrainingPlanExerciseAdapter extends RecyclerView.Adapter<TrainingPl
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(R.layout.item_training_plan_exercise, null);
 
-        TrainingPlanExerciseRowViewHolder viewHolder = new TrainingPlanExerciseRowViewHolder(view);
-        return viewHolder;
+        return new TrainingPlanExerciseRowViewHolder(view);
     }
 
     public void remove(int position){
         seriesList.remove(position);
         notifyItemRemoved(position);
+        if(seriesList.size() == 0){
+            trainingPlanAdapter.remove(parentPosition);
+        }
     }
 
     public void swap(int firstPosition, int secondPosition){

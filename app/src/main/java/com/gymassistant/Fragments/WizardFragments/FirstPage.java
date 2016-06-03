@@ -12,10 +12,14 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.gymassistant.R;
 import com.gymassistant.Activities.WizardActivity;
+import com.gymassistant.Models.Series;
+import com.gymassistant.R;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by KamilH on 2016-03-21.
@@ -46,12 +50,21 @@ public class FirstPage extends Fragment {
         return view;
     }
 
+    private void initMap(int size){
+        List<List<Series>> map = new ArrayList<>();
+        for(int i = 0; i < size - 1; i++){
+            map.add(null);
+        }
+        ((WizardActivity)getActivity()).setMap(map);
+    }
+
     private void setUpButtons(){
         nextButton = (Button) view.findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((WizardActivity)getActivity()).setItemCount(trainingDaySeekBar.getProgress());
+                initMap(trainingDaySeekBar.getProgress());
                 ((WizardActivity)getActivity()).navigateToNextPage();
             }
         });

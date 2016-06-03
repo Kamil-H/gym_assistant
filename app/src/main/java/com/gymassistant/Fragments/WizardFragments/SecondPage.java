@@ -3,7 +3,6 @@ package com.gymassistant.Fragments.WizardFragments;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -43,7 +42,6 @@ public class SecondPage extends Fragment {
     private Button nextButton, backButton;
     private boolean isFirst = true, FILL = true, UPDATE = false;
     private int pageCounter = 0, numOfSeries;
-    private List<Series> seriesList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,8 +52,6 @@ public class SecondPage extends Fragment {
         categories = exerciseDB.getCategories();
 
         isFirst = true;
-
-        seriesList = new ArrayList<Series>();
 
         seriesSeekBar = (DiscreteSeekBar) view.findViewById(R.id.seriesSeekBar);
         repeatsSeekBar = (DiscreteSeekBar) view.findViewById(R.id.repeatsSeekBar);
@@ -106,8 +102,7 @@ public class SecondPage extends Fragment {
 
         dialogBuilder.setPositiveButton(getString(R.string.add_next_exercise), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                addToSeriesList(series);
-                addSeriesListToMap();
+                addSeriesListToMap(createSeriesList(series));
                 resetValues();
                 Toast.makeText(getActivity(), "Ćwiczenie zostało dodane!", Toast.LENGTH_LONG).show();
             }
@@ -115,38 +110,37 @@ public class SecondPage extends Fragment {
         dialogBuilder.setNeutralButton(getString(R.string.save_and_close), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                addToSeriesList(series);
-                addSeriesListToMap();
+                addSeriesListToMap(createSeriesList(series));
+                ((WizardActivity)getActivity()).removeEmptyObjects();
                 ((WizardActivity)getActivity()).navigateToNextPage();
             }
         });
         dialogBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
-            public void onCancel(DialogInterface dialog) {
-                seriesList = new ArrayList<Series>();
-            }
+            public void onCancel(DialogInterface dialog) {}
         });
         AlertDialog b = dialogBuilder.create();
         b.show();
     }
 
-    private void addSeriesListToMap(){
-        SparseArrayCompat<List<Series>> map = ((WizardActivity)getActivity()).getMap();
+    private void addSeriesListToMap(List<Series> seriesList){
+        List<List<Series>> map = ((WizardActivity)getActivity()).getMap();
         int key = daySpinner.getSelectedItemPosition();
         if(map.get(key) == null){
-            map.put(key, seriesList);
+            map.add(key, seriesList);
         } else {
             map.get(key).addAll(seriesList);
         }
-        seriesList = new ArrayList<Series>();
         ((WizardActivity)getActivity()).setMap(map);
     }
 
-    private void addToSeriesList(Series series){
+    private List<Series> createSeriesList(Series series){
+        List<Series> seriesList = new ArrayList<>();
         for(int i = 0; i < numOfSeries; i++){
             series.setOrder(i);
             seriesList.add(series);
         }
+        return seriesList;
     }
 
     private void resetValues(){
@@ -176,7 +170,7 @@ public class SecondPage extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((WizardActivity)getActivity()).navigateToPreviousPage();
+                ((WizardActivity)getActivity()).finishWithResult(false);
             }
         });
     }

@@ -7,7 +7,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -32,12 +31,6 @@ public class ExercisesPreview extends AppCompatActivity {
     private Exercise exercise;
     private TextView nameTextView, mainMuscleTextView, auxMuscleTextView, stabilizersTextView, howtoTextView, attentionsTextView;
     private ViewPager viewPager;
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("TAG", "onStop");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

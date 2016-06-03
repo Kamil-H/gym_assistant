@@ -3,7 +3,6 @@ package com.gymassistant.Fragments.WizardFragments;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +33,7 @@ public class ThirdPage extends Fragment {
     private View view;
     private Button nextButton, backButton;
     private RecyclerView recyclerView;
-    private SparseArrayCompat<List<Series>> map;
+    private List<List<Series>> map;
     private Training training;
 
     @Override
@@ -55,9 +54,11 @@ public class ThirdPage extends Fragment {
     private void saveToDatabase(String planName, String planDescription){
         long trainingPlanId = addNewTrainingPlan(planName, planDescription);
         for (int i = 0; i < map.size(); i++){
-            long trainingId = addNewTraining(trainingPlanId, map.keyAt(i));
+            long trainingId = addNewTraining(trainingPlanId, i);
             List<Series> seriesList = map.get(i);
-            saveSeriesToDb(seriesList, (int)trainingId);
+            if(seriesList.size() > 0){
+                saveSeriesToDb(seriesList, (int)trainingId);
+            }
         }
     }
 
@@ -84,8 +85,7 @@ public class ThirdPage extends Fragment {
     }
 
     private void populateRecyclerView(){
-        int itemCount = map.size();
-        TrainingPlanAdapter trainingPlanRVAdapter = new TrainingPlanAdapter(getActivity(), itemCount, map);
+        TrainingPlanAdapter trainingPlanRVAdapter = new TrainingPlanAdapter(getActivity(), map);
         recyclerView.setAdapter(trainingPlanRVAdapter);
     }
 
@@ -103,7 +103,9 @@ public class ThirdPage extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((WizardActivity)getActivity()).finishWithResult(false);
+                ((WizardActivity)getActivity()).setItemCount(map.size());
+                ((WizardActivity)getActivity()).removeEmptyObjects();
+                ((WizardActivity)getActivity()).navigateToPreviousPage();
             }
         });
     }

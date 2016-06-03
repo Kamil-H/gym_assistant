@@ -5,7 +5,6 @@ package com.gymassistant.RecyclerView;
  */
 
 import android.content.Context;
-import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -21,18 +20,16 @@ import java.util.List;
 
 public class TrainingPlanAdapter extends RecyclerView.Adapter<TrainingPlanAdapter.TrainingPlanRowViewHolder> {
     private Context context;
-    private int itemCount;
-    private SparseArrayCompat<List<Series>> map;
+    private List<List<Series>> map;
 
-    public TrainingPlanAdapter(Context context, int itemCount, SparseArrayCompat<List<Series>> map) {
+    public TrainingPlanAdapter(Context context, List<List<Series>> map) {
         this.context = context;
-        this.itemCount = itemCount;
         this.map = map;
     }
 
     @Override
     public int getItemCount() {
-        return itemCount;
+        return map.size();
     }
 
     @Override
@@ -47,14 +44,19 @@ public class TrainingPlanAdapter extends RecyclerView.Adapter<TrainingPlanAdapte
     @Override
     public void onBindViewHolder(TrainingPlanRowViewHolder rowViewHolder, final int position) {
         rowViewHolder.dayNameTextView.setText(context.getString(R.string.day, position + 1));
-        if(map != null && map.size() > 0 && map.valueAt(position) != null) {
-            TrainingPlanExerciseAdapter trainingPlanExerciseAdapter = new TrainingPlanExerciseAdapter(context, getSeriesList(position));
+        if(map != null && map.size() > 0 && getSeriesList(position) != null) {
+            TrainingPlanExerciseAdapter trainingPlanExerciseAdapter = new TrainingPlanExerciseAdapter(context, getSeriesList(position), this, position);
             rowViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
             rowViewHolder.recyclerView.setAdapter(trainingPlanExerciseAdapter);
             ItemTouchHelper.Callback callback = new SeriesTouchHelper(trainingPlanExerciseAdapter);
             ItemTouchHelper helper = new ItemTouchHelper(callback);
             helper.attachToRecyclerView(rowViewHolder.recyclerView);
         }
+    }
+
+    public void remove(int position){
+        map.remove(position);
+        notifyItemRemoved(position);
     }
 
     private List<Series> getSeriesList(int position){

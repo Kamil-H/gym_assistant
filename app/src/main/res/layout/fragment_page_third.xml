@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginTop="1dp"
-            android:text="@string/cancel"
+            android:text="@string/add_exercises"
             android:textStyle="bold"
             android:textColor="@color/colorText"
             android:background="@color/colorCard"

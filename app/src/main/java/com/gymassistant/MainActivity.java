@@ -68,14 +68,18 @@ public class MainActivity extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                ExerciseDB exerciseDB = new ExerciseDB(MainActivity.this);
-                long rowCount = exerciseDB.getRowCount();
-                Log.i("ExerciseDB", "populate, rowCount: " + String.valueOf(rowCount));
-                if(rowCount < 1){
-                    exerciseDB.populateExerciseDB();
-                }
+                saveExercises();
             }
         });
+    }
+
+    private void saveExercises(){
+        ExerciseDB exerciseDB = new ExerciseDB(MainActivity.this);
+        long rowCount = exerciseDB.getRowCount();
+        Log.i("ExerciseDB", "populate, rowCount: " + String.valueOf(rowCount));
+        if(rowCount < 1){
+            exerciseDB.populateExerciseDB();
+        }
     }
 
     @Override

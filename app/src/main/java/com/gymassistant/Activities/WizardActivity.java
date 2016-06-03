@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,20 +21,18 @@ import com.gymassistant.Models.Series;
 import com.gymassistant.R;
 
 import java.util.List;
+import java.util.Collections;
 
 public class WizardActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private int itemCount = 0;
-
-    private SparseArrayCompat<List<Series>> map;
+    private List<List<Series>> map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wizard);
-
-        map = new SparseArrayCompat<>();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,6 +93,10 @@ public class WizardActivity extends AppCompatActivity {
         this.finish();
     }
 
+    public void removeEmptyObjects(){
+        map.removeAll(Collections.singleton(null));
+    }
+
     public void setItemCount(int itemCount){
         this.itemCount = itemCount;
     }
@@ -104,11 +105,11 @@ public class WizardActivity extends AppCompatActivity {
         return this.itemCount;
     }
 
-    public SparseArrayCompat<List<Series>> getMap() {
+    public List<List<Series>> getMap() {
         return map;
     }
 
-    public void setMap(SparseArrayCompat<List<Series>> map) {
+    public void setMap(List<List<Series>> map) {
         this.map = map;
     }
 

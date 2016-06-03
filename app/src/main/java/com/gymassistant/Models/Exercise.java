@@ -37,14 +37,15 @@ public class Exercise {
     private String secondName;
     private int id;
 
-    private List<Exercise> Exercises = new ArrayList<Exercise>();
+    @SerializedName("Exercises")
+    private List<Exercise> exercises = new ArrayList<Exercise>();
 
     public List<Exercise> getExercises() {
-        return Exercises;
+        return exercises;
     }
 
     public void setExercises(List<Exercise> exercises) {
-        Exercises = exercises;
+        this.exercises = exercises;
     }
 
     public String getCategory() {
