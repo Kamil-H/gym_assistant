@@ -93,6 +93,10 @@ public class WizardActivity extends AppCompatActivity {
         this.finish();
     }
 
+    public int getActualPage(){
+        return mViewPager.getCurrentItem();
+    }
+
     public void removeEmptyObjects(){
         map.removeAll(Collections.singleton(null));
     }

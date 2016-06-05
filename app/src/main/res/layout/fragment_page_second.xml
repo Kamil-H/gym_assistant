@@ -42,7 +42,7 @@
             android:layout_below="@+id/daySpinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="20dp"/>
 
         <Spinner
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
             android:layout_below="@+id/muscleGroupSpinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             style="@style/titleTextSmall"/>
 
         <Spinner
@@ -77,7 +77,7 @@
             android:layout_below="@+id/exerciseSpinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             style="@style/titleTextSmall" />
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
@@ -135,7 +135,7 @@
             android:textColor="@color/colorText" />
 
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="10"
@@ -160,7 +160,7 @@
             android:textColor="@color/colorText" />
 
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="10"

@@ -16,10 +16,6 @@ public class TrainingPlan implements ParentListItem {
     private List<Training> trainingList;
     private List<TrainingPlan> trainingPlanList;
 
-    public TrainingPlan(List<TrainingPlan> trainingPlanList){
-        this.trainingPlanList = trainingPlanList;
-    }
-
     public TrainingPlan(){}
 
     public TrainingPlan(int days, int owner, boolean isPublic, String name, String description) {

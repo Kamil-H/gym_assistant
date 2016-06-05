@@ -127,5 +127,6 @@
     <string name="training_date">data treningu</string>
     <string name="traning_time">czas trwania treningu</string>
     <string name="series">poszczególne serie</string>
+    <string name="add_deleted_plans">dołącz usunięte plany</string>
 
 </resources>

@@ -31,7 +31,6 @@
             android:name=".Activities.WizardActivity"
             android:label="@string/title_activity_wizard"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Fragments.WizardFragments.SecondPage" />
         <activity android:name=".Activities.TrainingAssistant" />
         <activity android:name=".Activities.FillProfileActivity" />
         <activity android:name=".Activities.TrainingPlanManagmentActivity"></activity>
