@@ -12,12 +12,8 @@ import android.view.ViewGroup;
 
 import com.gymassistant.Activities.WizardActivity;
 import com.gymassistant.Database.TrainingPlanDB;
-import com.gymassistant.Models.TrainingPlan;
 import com.gymassistant.R;
-import com.gymassistant.RecyclerView.TrainingPlanExpandableAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.gymassistant.RecyclerView.TrainingManagementAdapter;
 
 /**
  * Created by KamilH on 2016-05-20.
@@ -34,7 +30,7 @@ public class PlansBottomFragment extends Fragment {
 
         trainingPlanDB = new TrainingPlanDB(getActivity());
         if(trainingPlanDB.getRowCount() > 0){
-            setUpExpandableRecyclerView();
+            setUpRecyclerView();
         }
 
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
@@ -48,24 +44,15 @@ public class PlansBottomFragment extends Fragment {
         return view;
     }
 
-    private void setUpExpandableRecyclerView(){
-        TrainingPlanExpandableAdapter trainingPlanExpandableAdapter = new TrainingPlanExpandableAdapter(getActivity(), generateList(trainingPlanDB.getAllTrainingPlans()));
+    private void setUpRecyclerView(){
+        TrainingManagementAdapter trainingManagementAdapter = new TrainingManagementAdapter(getActivity(), trainingPlanDB.getExistingTrainingPlans());
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        recyclerView.setAdapter(trainingPlanExpandableAdapter);
+        recyclerView.setAdapter(trainingManagementAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private List<TrainingPlan> generateList(List<TrainingPlan> trainingPlanList) {
-        for (TrainingPlan trainingPlan : trainingPlanList) {
-            ArrayList<TrainingPlan> childList = new ArrayList<>();
-            childList.add(trainingPlan);
-            trainingPlan.setTrainingPlanList(childList);
-        }
-        return trainingPlanList;
-    }
-
     public void refresh(){
-        setUpExpandableRecyclerView();
+        setUpRecyclerView();
     }
 
     private void goToWizardActivity(){

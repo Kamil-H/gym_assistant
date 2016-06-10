@@ -40,7 +40,8 @@ public class TrainingAssistant extends AppCompatActivity {
     private int[] loadsArray;
     private Handler handler;
     private long tStart = 0;
-    private int traningId, startedTrainingPlanId, day;
+    private long trainingId, startedTrainingPlanId;
+    private int day;
     private List<SeriesDone> seriesDoneList;
     private long traningDoneId;
     private boolean isClose = false, CLOSE = true, SAVE = false;
@@ -72,7 +73,7 @@ public class TrainingAssistant extends AppCompatActivity {
 
     private void setUpSeriesList(){
         TrainingDB trainingDB = new TrainingDB(this);
-        seriesList = trainingDB.getTraining(traningId).getSeriesList();
+        seriesList = trainingDB.getTraining(trainingId).getSeriesList();
     }
 
     private void setUpRecyclerview(){
@@ -110,8 +111,8 @@ public class TrainingAssistant extends AppCompatActivity {
     private void readParameters(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            traningId = extras.getInt("trainingId");
-            startedTrainingPlanId = extras.getInt("startedTrainingPlanId");
+            trainingId = extras.getLong("trainingId");
+            startedTrainingPlanId = extras.getLong("startedTrainingPlanId");
             day = extras.getInt("day");
         }
     }

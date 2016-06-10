@@ -109,10 +109,10 @@ public class HistoryFragment extends Fragment {
         List<TrainingDone> parentList = new ArrayList<>();
 
         for(TrainingDone trainingDone : trainingDoneList){
-            Map<Integer, List<SeriesDone>> map = new HashMap<>();
+            Map<Long, List<SeriesDone>> map = new HashMap<>();
             List<SeriesDone> seriesDoneList = trainingDone.getSeriesDoneList();
             for (SeriesDone seriesDone : seriesDoneList) {
-                int key  = seriesDone.getExercise().getId();
+                long key  = seriesDone.getExercise().getId();
                 if(map.containsKey(key)){
                     List<SeriesDone> list = map.get(key);
                     list.add(seriesDone);
@@ -122,9 +122,9 @@ public class HistoryFragment extends Fragment {
                     map.put(key, list);
                 }
             }
-            Set<Integer> exerciseSet = map.keySet();
+            Set<Long> exerciseSet = map.keySet();
             List<SeriesDoneGroup> seriesDoneGroupList = new ArrayList<>();
-            for(int key : exerciseSet){
+            for(long key : exerciseSet){
                 SeriesDoneGroup seriesDoneGroup = new SeriesDoneGroup(map.get(key), map.get(key).get(0).getExercise());
                 seriesDoneGroupList.add(seriesDoneGroup);
             }

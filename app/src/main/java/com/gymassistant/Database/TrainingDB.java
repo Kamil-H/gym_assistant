@@ -51,20 +51,6 @@ public class TrainingDB extends SQLiteOpenHelper {
         return rowid;
     }
 
-    public void addTrainingList(List<Training> trainings){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        for(Training training : trainings){
-            values.put(TRAINING_PLAN_ID, training.getTrainingPlanId());
-            values.put(DAY, training.getDay());
-            values.put(DESCRIPTION, training.getDescription());
-
-            db.insert(TABLE_NAME, null, values);
-        }
-        db.close();
-    }
-
     public List<Training> getAllTrainings() {
         TrainingPlanDB trainingPlanDB = new TrainingPlanDB(context);
         SeriesDB seriesDB = new SeriesDB(context);
@@ -75,8 +61,8 @@ public class TrainingDB extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Training training = new Training();
-                training.setId(cursor.getInt(0));
-                training.setTrainingPlanId(cursor.getInt(1));
+                training.setId(cursor.getLong(0));
+                training.setTrainingPlanId(cursor.getLong(1));
                 training.setDay(cursor.getInt(2));
                 training.setDescription(cursor.getString(3));
                 training.setTrainingPlan(trainingPlanDB.getTrainingPlan(training.getTrainingPlanId()));
@@ -89,7 +75,7 @@ public class TrainingDB extends SQLiteOpenHelper {
         return trainings;
     }
 
-    public List<Training> getTrainingsByTraningPlanId(int ID) {
+    public List<Training> getTrainingsByTraningPlanId(long ID) {
         TrainingPlanDB trainingPlanDB = new TrainingPlanDB(context);
         SeriesDB seriesDB = new SeriesDB(context);
         List<Training> trainings = new ArrayList<Training>();
@@ -99,8 +85,8 @@ public class TrainingDB extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Training training = new Training();
-                training.setId(cursor.getInt(0));
-                training.setTrainingPlanId(cursor.getInt(1));
+                training.setId(cursor.getLong(0));
+                training.setTrainingPlanId(cursor.getLong(1));
                 training.setDay(cursor.getInt(2));
                 training.setDescription(cursor.getString(3));
                 training.setTrainingPlan(trainingPlanDB.getTrainingPlan(training.getTrainingPlanId()));
@@ -113,7 +99,7 @@ public class TrainingDB extends SQLiteOpenHelper {
         return trainings;
     }
 
-    public Training getTraining(int ID){
+    public Training getTraining(long ID){
         TrainingPlanDB trainingPlanDB = new TrainingPlanDB(context);
         SeriesDB seriesDB = new SeriesDB(context);
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + ID;
@@ -121,8 +107,8 @@ public class TrainingDB extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         Training training = new Training();
         if (cursor.moveToFirst()) {
-            training.setId(cursor.getInt(0));
-            training.setTrainingPlanId(cursor.getInt(1));
+            training.setId(cursor.getLong(0));
+            training.setTrainingPlanId(cursor.getLong(1));
             training.setDay(cursor.getInt(2));
             training.setDescription(cursor.getString(3));
             training.setTrainingPlan(trainingPlanDB.getTrainingPlan(training.getTrainingPlanId()));
@@ -139,18 +125,18 @@ public class TrainingDB extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<Integer> getTrainingIdsByTraningPlanId(long ID){
-        List<Integer> traningIds = new ArrayList<>();
+    public List<Integer> getTrainingIdsByTrainingPlanId(long ID){
+        List<Integer> trainingIds = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + TRAINING_PLAN_ID + "=" + ID;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
-                traningIds.add(cursor.getInt(1));
+                trainingIds.add(cursor.getInt(1));
             } while (cursor.moveToNext());
         }
         db.close();
-        return traningIds;
+        return trainingIds;
     }
 
     public int deleteTrainingByTrainingPlanId(long id) {

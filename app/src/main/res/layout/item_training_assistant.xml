@@ -68,7 +68,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/repeatsEditText"
                     style="@style/editTextStyle"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberSigned"
+                    android:cursorVisible="false"/>
             </LinearLayout>
 
             <LinearLayout
@@ -91,7 +92,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/loadEditText"
                     style="@style/editTextStyle"
-                    android:inputType="numberSigned" />
+                    android:inputType="numberSigned"
+                    android:cursorVisible="false"/>
             </LinearLayout>
         </LinearLayout>
 

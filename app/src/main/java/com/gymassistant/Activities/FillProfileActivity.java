@@ -1,20 +1,19 @@
 package com.gymassistant.Activities;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 
 import com.gymassistant.Database.UserDB;
 import com.gymassistant.DateConverter;
@@ -22,12 +21,7 @@ import com.gymassistant.MainActivity;
 import com.gymassistant.Models.User;
 import com.gymassistant.R;
 
-import org.joda.time.DateTime;
-
-import java.text.DateFormatSymbols;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Created by KamilH on 2016-05-10.
@@ -45,6 +39,11 @@ public class FillProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_profile);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setTitle("Uzupełnij swój profil");
 
         userDB = new UserDB(this);
         user = userDB.getUser();
@@ -68,8 +67,21 @@ public class FillProfileActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readValues();
-                goToMainActivity();
+                final ProgressDialog progressDialog = new ProgressDialog(FillProfileActivity.this, R.style.progressDialog);
+                progressDialog.setIndeterminate(true);
+                progressDialog.setMessage("Aktualizowanie danych...");
+                progressDialog.show();
+
+                // TODO: Implement your own signup logic here.
+
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                readValues();
+                                goToMainActivity();
+                                progressDialog.dismiss();
+                            }
+                        }, 2000);
             }
         });
     }

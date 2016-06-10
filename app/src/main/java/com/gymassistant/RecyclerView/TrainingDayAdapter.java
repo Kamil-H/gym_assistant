@@ -25,9 +25,9 @@ import java.util.HashSet;
 public class TrainingDayAdapter extends RecyclerView.Adapter<TrainingDayAdapter.TrainingDayRowViewHolder> {
     private Context context;
     private List<Training> trainings;
-    private int startedTrainingPlanId;
+    private long startedTrainingPlanId;
 
-    public TrainingDayAdapter(Context context, List<Training> trainings, int startedTrainingPlanId) {
+    public TrainingDayAdapter(Context context, List<Training> trainings, long startedTrainingPlanId) {
         this.context = context;
         this.trainings = trainings;
         this.startedTrainingPlanId = startedTrainingPlanId;
@@ -60,7 +60,7 @@ public class TrainingDayAdapter extends RecyclerView.Adapter<TrainingDayAdapter.
         rowViewHolder.muscleGroupsTextView.setText(getNamesList(position));
     }
 
-    private void goToTrainingAssistantActivity(int position, int day){
+    private void goToTrainingAssistantActivity(long position, int day){
         Intent intent = new Intent(context, TrainingAssistant.class);
         intent.putExtra("trainingId", position);
         intent.putExtra("startedTrainingPlanId", startedTrainingPlanId);

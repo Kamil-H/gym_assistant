@@ -9,22 +9,19 @@ import java.util.List;
  * Created by KamilH on 2016-05-04.
  */
 public class StartedTrainingPlan implements ParentListItem {
-    private int id;
+    private long id;
     private String name;
     private String description;
-    private int owner;
-    private int trainingPlanId;
+    private long trainingPlanId;
     private TrainingPlan trainingPlan;
     private String startDate;
     private String expectedEndDate;
     private String endDate;
-    private int firstDay;
-    private boolean isPublic;
     private List<StartedTrainingPlan> startedTrainingPlanList;
 
     public StartedTrainingPlan(){}
 
-    public StartedTrainingPlan(String name, String description, int trainingPlanId, String startDate, String expectedEndDate) {
+    public StartedTrainingPlan(String name, String description, long trainingPlanId, String startDate, String expectedEndDate) {
         this.name = name;
         this.description = description;
         this.trainingPlanId = trainingPlanId;
@@ -32,11 +29,11 @@ public class StartedTrainingPlan implements ParentListItem {
         this.expectedEndDate = expectedEndDate;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -56,19 +53,11 @@ public class StartedTrainingPlan implements ParentListItem {
         this.description = description;
     }
 
-    public int getOwner() {
-        return owner;
-    }
-
-    public void setOwner(int owner) {
-        this.owner = owner;
-    }
-
-    public int getTrainingPlanId() {
+    public long getTrainingPlanId() {
         return trainingPlanId;
     }
 
-    public void setTrainingPlanId(int trainingPlanId) {
+    public void setTrainingPlanId(long trainingPlanId) {
         this.trainingPlanId = trainingPlanId;
     }
 
@@ -94,22 +83,6 @@ public class StartedTrainingPlan implements ParentListItem {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
-    }
-
-    public int getFirstDay() {
-        return firstDay;
-    }
-
-    public void setFirstDay(int firstDay) {
-        this.firstDay = firstDay;
-    }
-
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
     }
 
     public TrainingPlan getTrainingPlan() {

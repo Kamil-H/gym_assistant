@@ -9,12 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gymassistant.Database.StartedTrainingPlanDB;
-import com.gymassistant.Models.StartedTrainingPlan;
 import com.gymassistant.R;
-import com.gymassistant.RecyclerView.TraningStartedExpandableAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.gymassistant.RecyclerView.TrainingStartedExpandableAdapter;
 
 /**
  * Created by KamilH on 2016-05-20.
@@ -37,23 +33,10 @@ public class StartedBottomFragment extends Fragment {
     }
 
     private void setUpExpandableRecyclerView(){
-        TraningStartedExpandableAdapter traningStartedExpandableAdapter = new TraningStartedExpandableAdapter(getActivity(),
-                generateList(startedTrainingPlanDB.getAllStartedTrainingPlans()));
+        TrainingStartedExpandableAdapter trainingStartedExpandableAdapter = new TrainingStartedExpandableAdapter(getActivity(),
+                startedTrainingPlanDB.getActiveStartedTrainingPlans());
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        recyclerView.setAdapter(traningStartedExpandableAdapter);
+        recyclerView.setAdapter(trainingStartedExpandableAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    private List<StartedTrainingPlan> generateList(List<StartedTrainingPlan> startedTrainingPlanList) {
-        List<StartedTrainingPlan> parentList = new ArrayList<>();
-        for (StartedTrainingPlan startedTrainingPlan : startedTrainingPlanList) {
-            if(startedTrainingPlan.getEndDate() == null){
-                ArrayList<StartedTrainingPlan> childList = new ArrayList<>();
-                childList.add(startedTrainingPlan);
-                startedTrainingPlan.setStartedTrainingPlanList(childList);
-                parentList.add(startedTrainingPlan);
-            }
-        }
-        return parentList;
     }
 }

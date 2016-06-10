@@ -59,8 +59,8 @@ public class HistoryExpandableAdapter extends ExpandableRecyclerAdapter<HistoryE
         StartedTrainingPlanDB startedTrainingPlanDB = new StartedTrainingPlanDB(context);
         StartedTrainingPlan startedTrainingPlan = startedTrainingPlanDB.getStartedTrainingPlan(item.getStartedTrainingPlanId());
 
-        parentViewHolder.traningNameTextView.setText(startedTrainingPlan.getName());
-        parentViewHolder.traningPlanNameTextView.setText(startedTrainingPlan.getTrainingPlan().getName());
+        parentViewHolder.trainingNameTextView.setText(startedTrainingPlan.getName());
+        parentViewHolder.trainingPlanNameTextView.setText(startedTrainingPlan.getTrainingPlan().getName());
         parentViewHolder.dateTextView.setText(item.getDate());
         parentViewHolder.timeTextView.setText(item.getTime());
     }
@@ -90,7 +90,7 @@ public class HistoryExpandableAdapter extends ExpandableRecyclerAdapter<HistoryE
     }
 
     public class HistoryParentViewHolder extends ParentViewHolder {
-        public TextView traningNameTextView, traningPlanNameTextView, dateTextView, timeTextView;
+        public TextView trainingNameTextView, trainingPlanNameTextView, dateTextView, timeTextView;
         private ImageView arrowImageView;
 
         private static final float INITIAL_POSITION = 0.0f;
@@ -99,8 +99,8 @@ public class HistoryExpandableAdapter extends ExpandableRecyclerAdapter<HistoryE
         public HistoryParentViewHolder(View itemView) {
             super(itemView);
 
-            traningNameTextView = (TextView) itemView.findViewById(R.id.exerciseNameTextView);
-            traningPlanNameTextView = (TextView) itemView.findViewById(R.id.trainingPlanNameTextView);
+            trainingNameTextView = (TextView) itemView.findViewById(R.id.trainingNameTextView);
+            trainingPlanNameTextView = (TextView) itemView.findViewById(R.id.trainingPlanNameTextView);
             dateTextView = (TextView) itemView.findViewById(R.id.dateTextView);
             timeTextView = (TextView) itemView.findViewById(R.id.timeTextView);
             arrowImageView = (ImageView) itemView.findViewById(R.id.arrowImageView);

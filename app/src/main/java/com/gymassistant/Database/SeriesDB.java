@@ -38,21 +38,7 @@ public class SeriesDB extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void addSeries(Series series){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(TRAINING_ID, series.getTrainingId());
-        values.put(EXERCISE_ID, series.getExerciseId());
-        values.put(ORDER, series.getOrder());
-        values.put(REPEAT, series.getRepeat());
-        values.put(WEIGHT, series.getWeight());
-
-        db.insert(TABLE_NAME, null, values);
-        db.close();
-    }
-
-    public void addSeriesList(List<Series> seriesList, int trainingId){
+    public void addSeriesList(List<Series> seriesList, long trainingId){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -68,31 +54,7 @@ public class SeriesDB extends SQLiteOpenHelper{
         db.close();
     }
 
-    public List<Series> getAllSeries() {
-        ExerciseDB exerciseDb = new ExerciseDB(context);
-        List<Series> seriesList = new ArrayList<Series>();
-        String selectQuery = "SELECT * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            do {
-                Series series = new Series();
-                series.setId(cursor.getInt(0));
-                series.setTrainingId(cursor.getInt(1));
-                series.setExerciseId(cursor.getInt(2));
-                series.setOrder(cursor.getInt(3));
-                series.setRepeat(cursor.getInt(4));
-                series.setWeight(cursor.getInt(5));
-                series.setExercise(exerciseDb.getExercise(series.getExerciseId()));
-
-                seriesList.add(series);
-            } while (cursor.moveToNext());
-        }
-        db.close();
-        return seriesList;
-    }
-
-    public List<Series> getSeriesByTrainingId(int trainingId) {
+    public List<Series> getSeriesByTrainingId(long trainingId) {
         ExerciseDB exerciseDb = new ExerciseDB(context);
         List<Series> seriesList = new ArrayList<Series>();
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + TRAINING_ID + " = " + trainingId;
@@ -101,9 +63,9 @@ public class SeriesDB extends SQLiteOpenHelper{
         if (cursor.moveToFirst()) {
             do {
                 Series series = new Series();
-                series.setId(cursor.getInt(0));
-                series.setTrainingId(cursor.getInt(1));
-                series.setExerciseId(cursor.getInt(2));
+                series.setId(cursor.getLong(0));
+                series.setTrainingId(cursor.getLong(1));
+                series.setExerciseId(cursor.getLong(2));
                 series.setOrder(cursor.getInt(3));
                 series.setRepeat(cursor.getInt(4));
                 series.setWeight(cursor.getInt(5));
@@ -114,39 +76,6 @@ public class SeriesDB extends SQLiteOpenHelper{
         }
         db.close();
         return seriesList;
-    }
-
-    public Series getSeries(int ID){
-        ExerciseDB exerciseDb = new ExerciseDB(context);
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + ID;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        Series series = new Series();
-        if (cursor.moveToFirst()) {
-            series.setId(cursor.getInt(0));
-            series.setTrainingId(cursor.getInt(1));
-            series.setExerciseId(cursor.getInt(2));
-            series.setOrder(cursor.getInt(3));
-            series.setRepeat(cursor.getInt(4));
-            series.setWeight(cursor.getInt(5));
-            series.setExercise(exerciseDb.getExercise(series.getExerciseId()));
-        }
-        db.close();
-        return series;
-    }
-
-    public void deleteSeries(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, KEY_ID + " = ?",
-                new String[]{String.valueOf(id)});
-        db.close();
-    }
-
-    public void deleteSeriesByTrainingId(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, TRAINING_ID + " = ?",
-                new String[]{String.valueOf(id)});
-        db.close();
     }
 
     public void removeAll() {

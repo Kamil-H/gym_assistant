@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:id="@+id/startedTrainingPlanNameTextView"
+                android:id="@+id/exerciseNameTextView"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -43,13 +43,13 @@
 
 
     </RelativeLayout>
-    
+
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:canExpand="true">
-    
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,53 +58,16 @@
             android:paddingRight="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
-    
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/training_name"
-                android:id="@+id/muscleGroupTextView"
-                android:layout_alignParentTop="true"
-                style="@style/titleTextSmall" />
-    
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/trainingNameTextView"
-                android:layout_below="@+id/muscleGroupTextView"/>
-    
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/plan_name"
-                android:id="@+id/textView32"
-                style="@style/titleTextSmall"
-                android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/textView31"
-                android:layout_alignEnd="@+id/textView31" />
-    
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/trainingPlanNameTextView"
-                android:layout_below="@+id/textView32"
-                android:layout_alignLeft="@+id/textView32"
-                android:layout_alignStart="@+id/textView32" />
-    
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/traning_description"
+                android:text="@string/plan_description_short"
                 android:id="@+id/textView29"
-                android:layout_below="@+id/trainingNameTextView"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp"
                 style="@style/titleTextSmall" />
-    
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -113,69 +76,49 @@
                 android:layout_below="@+id/textView29"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
-    
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/traning_start_date"
-                android:id="@+id/textView30"
+                android:text="@string/number_of_training_days"
+                android:layout_marginTop="10dp"
+                android:id="@+id/textView34"
                 android:layout_below="@+id/descriptionTextView"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp"
                 style="@style/titleTextSmall" />
-    
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="05-20-2016"
-                android:id="@+id/startDateTextView"
-                android:layout_below="@+id/textView30"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-    
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/expected_end_date"
-                android:id="@+id/textView31"
-                android:layout_below="@+id/startDateTextView"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp"
-                style="@style/titleTextSmall" />
-    
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:id="@+id/endDateTextView"
-                android:layout_below="@+id/textView31"
+                android:id="@+id/numOfTrainingDaysTextView"
+                android:layout_below="@+id/textView34"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
-    
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorText"
                 android:id="@+id/view"
-                android:layout_below="@+id/endDateTextView"
+                android:layout_below="@+id/numOfTrainingDaysTextView"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp"/>
-    
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/finish"
-                android:id="@+id/finishButton"
+                android:text="@string/activate"
+                android:id="@+id/activateButton"
                 android:textColor="@color/colorText"
                 style="?android:attr/borderlessButtonStyle"
                 android:drawableLeft="@drawable/ic_done_white_24dp"
                 android:layout_alignTop="@+id/view"
                 android:layout_toLeftOf="@+id/editButton"
                 android:layout_toStartOf="@+id/editButton" />
-    
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -184,12 +127,24 @@
                 android:textColor="@color/colorText"
                 style="?android:attr/borderlessButtonStyle"
                 android:drawableLeft="@drawable/ic_mode_edit_white_24dp"
-                android:layout_alignTop="@+id/view"
+                android:layout_below="@+id/view"
+                android:layout_toLeftOf="@+id/deleteButton"
+                android:layout_toStartOf="@+id/deleteButton" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:id="@+id/deleteButton"
+                android:textColor="@color/colorText"
+                style="?android:attr/borderlessButtonStyle"
+                android:drawableLeft="@drawable/ic_delete_white_24dp"
+                android:layout_below="@+id/view"
                 android:layout_alignRight="@+id/view"
                 android:layout_alignEnd="@+id/view" />
-    
+
         </RelativeLayout>
-    
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -198,5 +153,4 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
     </RelativeLayout>
-
 </com.kyo.expandablelayout.ExpandableLayout>

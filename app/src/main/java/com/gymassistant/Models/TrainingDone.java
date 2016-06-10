@@ -7,15 +7,15 @@ import java.util.List;
  * Created by KamilH on 2016-05-19.
  */
 public class TrainingDone implements ParentListItem{
-    private int id;
+    private long id;
     private String date;
     private int day;
-    private int startedTrainingPlanId;
+    private long startedTrainingPlanId;
     private List<SeriesDone> seriesDoneList;
     private String time;
     private List<SeriesDoneGroup> seriesDoneGroupList;
 
-    public TrainingDone(String date, int day, int startedTrainingPlanId) {
+    public TrainingDone(String date, int day, long startedTrainingPlanId) {
         this.date = date;
         this.day = day;
         this.startedTrainingPlanId = startedTrainingPlanId;
@@ -23,11 +23,11 @@ public class TrainingDone implements ParentListItem{
 
     public TrainingDone(){}
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -47,11 +47,11 @@ public class TrainingDone implements ParentListItem{
         this.day = day;
     }
 
-    public int getStartedTrainingPlanId() {
+    public long getStartedTrainingPlanId() {
         return startedTrainingPlanId;
     }
 
-    public void setStartedTrainingPlanId(int startedTrainingPlanId) {
+    public void setStartedTrainingPlanId(long startedTrainingPlanId) {
         this.startedTrainingPlanId = startedTrainingPlanId;
     }
 

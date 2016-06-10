@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.gymassistant.Database.StartedTrainingPlanDB;
 import com.gymassistant.Models.StartedTrainingPlan;
 import com.gymassistant.R;
-import com.gymassistant.RecyclerView.TraningFinishedExpandableAdapter;
+import com.gymassistant.RecyclerView.TrainingFinishedExpandableAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +38,10 @@ public class FinishedBottomFragment extends Fragment {
     }
 
     private void setUpExpandableRecyclerView(){
-        TraningFinishedExpandableAdapter traningFinishedExpandableAdapter = new TraningFinishedExpandableAdapter(getActivity(),
+        TrainingFinishedExpandableAdapter trainingFinishedExpandableAdapter = new TrainingFinishedExpandableAdapter(getActivity(),
                 generateList(startedTrainingPlanDB.getAllStartedTrainingPlans()));
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        recyclerView.setAdapter(traningFinishedExpandableAdapter);
+        recyclerView.setAdapter(trainingFinishedExpandableAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 

@@ -128,5 +128,6 @@
     <string name="traning_time">czas trwania treningu</string>
     <string name="series">poszczególne serie</string>
     <string name="add_deleted_plans">dołącz usunięte plany</string>
+    <string name="repeats">Liczba powtórzeń</string>
 
 </resources>

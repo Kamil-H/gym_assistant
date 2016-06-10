@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class TrainingPlanDB extends SQLiteOpenHelper{
 
-    private final String TABLE_NAME = "TrainingPlan", KEY_ID = "id", DAYS = "days", OWNER = "owner", IS_PUBLIC = "isPublic", NAME = "name", DESCRIPTION = "description";
+    private final String TABLE_NAME = "TrainingPlan", KEY_ID = "id", DAYS = "days", NAME = "name", DESCRIPTION = "description", EXIST = "exist";
     private Context context;
 
     public TrainingPlanDB(Context context) {
@@ -28,8 +28,8 @@ public class TrainingPlanDB extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE =
-                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s TEXT, %s TEXT)",
-                        TABLE_NAME, KEY_ID, DAYS, OWNER, IS_PUBLIC, NAME, DESCRIPTION);
+                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s TEXT, %s TEXT, %s INTEGER)",
+                        TABLE_NAME, KEY_ID, DAYS, NAME, DESCRIPTION, EXIST);
         db.execSQL(CREATE_TABLE);
     }
 
@@ -44,36 +44,13 @@ public class TrainingPlanDB extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
 
         values.put(DAYS, trainingPlan.getDays());
-        values.put(OWNER, trainingPlan.getOwner());
         values.put(NAME, trainingPlan.getName());
         values.put(DESCRIPTION, trainingPlan.getDescription());
-
-        if(trainingPlan.isPublic())
-            values.put(IS_PUBLIC, 1);
-        else values.put(IS_PUBLIC, 0);
+        values.put(EXIST, getIntFromBoolean(trainingPlan.isExist()));
 
         long rowid = db.insert(TABLE_NAME, null, values);
         db.close();
         return rowid;
-    }
-
-    public void addTrainingPlanList(List<TrainingPlan> trainingPlans){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        for(TrainingPlan trainingPlan : trainingPlans){
-            values.put(DAYS, trainingPlan.getDays());
-            values.put(OWNER, trainingPlan.getOwner());
-            values.put(NAME, trainingPlan.getName());
-            values.put(DESCRIPTION, trainingPlan.getDescription());
-
-            if(trainingPlan.isPublic())
-                values.put(IS_PUBLIC, 1);
-            else values.put(IS_PUBLIC, 0);
-
-            db.insert(TABLE_NAME, null, values);
-        }
-        db.close();
     }
 
     public List<TrainingPlan> getAllTrainingPlans() {
@@ -84,14 +61,11 @@ public class TrainingPlanDB extends SQLiteOpenHelper{
         if (cursor.moveToFirst()) {
             do {
                 TrainingPlan trainingPlan = new TrainingPlan();
-                trainingPlan.setId(cursor.getInt(0));
+                trainingPlan.setId(cursor.getLong(0));
                 trainingPlan.setDays(cursor.getInt(1));
-                trainingPlan.setOwner(cursor.getInt(2));
-                trainingPlan.setName(cursor.getString(4));
-                trainingPlan.setDescription(cursor.getString(5));
-                if(cursor.getInt(3) == 0)
-                    trainingPlan.setPublic(false);
-                else trainingPlan.setPublic(true);
+                trainingPlan.setName(cursor.getString(2));
+                trainingPlan.setDescription(cursor.getString(3));
+                trainingPlan.setExist(getBooleanFromInt(cursor.getInt(4)));
 
                 trainingPlans.add(trainingPlan);
             } while (cursor.moveToNext());
@@ -100,34 +74,60 @@ public class TrainingPlanDB extends SQLiteOpenHelper{
         return trainingPlans;
     }
 
-    public TrainingPlan getTrainingPlan(int ID){
+    public List<TrainingPlan> getExistingTrainingPlans() {
+        List<TrainingPlan> trainingPlans = new ArrayList<TrainingPlan>();
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + EXIST + "=" + 1;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                TrainingPlan trainingPlan = new TrainingPlan();
+                trainingPlan.setId(cursor.getLong(0));
+                trainingPlan.setDays(cursor.getInt(1));
+                trainingPlan.setName(cursor.getString(2));
+                trainingPlan.setDescription(cursor.getString(3));
+                trainingPlan.setExist(getBooleanFromInt(cursor.getInt(4)));
+
+                trainingPlans.add(trainingPlan);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return trainingPlans;
+    }
+
+    public TrainingPlan getTrainingPlan(long ID){
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + ID;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         TrainingPlan trainingPlan = new TrainingPlan();
         if (cursor.moveToFirst()) {
-            trainingPlan.setId(cursor.getInt(0));
+            trainingPlan.setId(cursor.getLong(0));
             trainingPlan.setDays(cursor.getInt(1));
-            trainingPlan.setOwner(cursor.getInt(2));
-            trainingPlan.setName(cursor.getString(4));
-            trainingPlan.setDescription(cursor.getString(5));
-            if(cursor.getInt(3) == 0)
-                trainingPlan.setPublic(false);
-            else trainingPlan.setPublic(true);
+            trainingPlan.setName(cursor.getString(2));
+            trainingPlan.setDescription(cursor.getString(3));
+            trainingPlan.setExist(getBooleanFromInt(cursor.getInt(4)));
         }
         db.close();
         return trainingPlan;
     }
 
+    private int getIntFromBoolean(boolean value){
+        return value ? 1 : 0;
+    }
+
+    private boolean getBooleanFromInt(int value){
+        return value == 1;
+    }
+
     public void deleteTrainingPlan(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, KEY_ID + " = ?",
-                new String[]{String.valueOf(id)});
+        ContentValues cv = new ContentValues();
+        cv.put(EXIST, getIntFromBoolean(false));
+        db.update(TABLE_NAME, cv, KEY_ID + "= ?", new String[] {String.valueOf(id)});
         db.close();
     }
 
-    public void removeAll()
-    {
+    public void removeAll() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
     }

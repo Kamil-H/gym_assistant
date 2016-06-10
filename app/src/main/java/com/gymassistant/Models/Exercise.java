@@ -35,7 +35,7 @@ public class Exercise {
     private String attentions;
     @SerializedName("second_name")
     private String secondName;
-    private int id;
+    private long id;
 
     @SerializedName("Exercises")
     private List<Exercise> exercises = new ArrayList<Exercise>();
@@ -144,11 +144,11 @@ public class Exercise {
         this.attentions = attentions;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.gymassistant.Activities.LoginActivity;
 import com.gymassistant.Database.ExerciseDB;
 import com.gymassistant.Fragments.ExercisesFragment;
 import com.gymassistant.Fragments.HistoryFragment;
@@ -115,9 +114,6 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-            return true;
         }
 
         return super.onOptionsItemSelected(item);

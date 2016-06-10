@@ -1,36 +1,31 @@
 package com.gymassistant.Models;
 
-import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
-
 import java.util.List;
 /**
  * Created by KamilH on 2016-04-21.
  */
-public class TrainingPlan implements ParentListItem {
-    private int id;
+public class TrainingPlan {
+    private long id;
     private int days;
-    private int owner;
-    private boolean isPublic;
+    private boolean exist;
     private String name;
     private String description;
     private List<Training> trainingList;
-    private List<TrainingPlan> trainingPlanList;
 
     public TrainingPlan(){}
 
-    public TrainingPlan(int days, int owner, boolean isPublic, String name, String description) {
+    public TrainingPlan(int days, boolean exist, String name, String description) {
         this.days = days;
-        this.owner = owner;
-        this.isPublic = isPublic;
+        this.exist = exist;
         this.name = name;
         this.description = description;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -40,22 +35,6 @@ public class TrainingPlan implements ParentListItem {
 
     public void setDays(int days) {
         this.days = days;
-    }
-
-    public int getOwner() {
-        return owner;
-    }
-
-    public void setOwner(int owner) {
-        this.owner = owner;
-    }
-
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
     }
 
     public String getName() {
@@ -87,21 +66,11 @@ public class TrainingPlan implements ParentListItem {
         this.trainingList = trainingList;
     }
 
-    @Override
-    public List<?> getChildItemList() {
-        return trainingPlanList;
+    public boolean isExist() {
+        return exist;
     }
 
-    @Override
-    public boolean isInitiallyExpanded() {
-        return false;
-    }
-
-    public List<TrainingPlan> getTrainingPlanList() {
-        return trainingPlanList;
-    }
-
-    public void setTrainingPlanList(List<TrainingPlan> trainingPlanList) {
-        this.trainingPlanList = trainingPlanList;
+    public void setExist(boolean exist) {
+        this.exist = exist;
     }
 }

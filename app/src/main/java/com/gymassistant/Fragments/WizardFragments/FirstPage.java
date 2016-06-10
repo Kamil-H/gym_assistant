@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -32,20 +33,29 @@ import java.util.List;
  */
 public class FirstPage extends Fragment {
     private View view;
-    private RadioButton newPlanRadioButton, existingPlanRadioButton;
+    private RadioButton newPlanRadioButton;
     private DiscreteSeekBar trainingDaySeekBar;
     private Spinner existingPlansSpinner;
     private TextView textView8;
     private CheckBox deletedPlansCheckBox;
-    private boolean THIS_PAGE = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_page_first, container, false);
 
-        deletedPlansCheckBox = (CheckBox) view.findViewById(R.id.deletedPlansCheckBox);
-        textView8 = (TextView) view.findViewById(R.id.textView8);
         trainingDaySeekBar = (DiscreteSeekBar) view.findViewById(R.id.trainingDaySeekBar);
+        deletedPlansCheckBox = (CheckBox) view.findViewById(R.id.deletedPlansCheckBox);
+        deletedPlansCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+
+                } else {
+
+                }
+            }
+        });
+        textView8 = (TextView) view.findViewById(R.id.textView8);
 
         setUpSpinner();
         setUpButtons();
@@ -71,11 +81,11 @@ public class FirstPage extends Fragment {
         ((WizardActivity)getActivity()).setMap(map);
     }
 
-    private void fillMap(int trainingPlanId){
+    private void fillMap(long trainingPlanId){
         List<List<Series>> map = ((WizardActivity)getActivity()).getMap();
         TrainingDB trainingDB = new TrainingDB(getActivity());
         SeriesDB seriesDB = new SeriesDB(getActivity());
-        List<Integer> ids = trainingDB.getTrainingIdsByTraningPlanId(trainingPlanId);
+        List<Integer> ids = trainingDB.getTrainingIdsByTrainingPlanId(trainingPlanId);
         for(int i = 0; i < ids.size(); i++){
             map.add(i, seriesDB.getSeriesByTrainingId(ids.get(i)));
         }
@@ -90,12 +100,11 @@ public class FirstPage extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(((WizardActivity)getActivity()).getActualPage() == 0){
                     int days = ((TrainingPlan) existingPlansSpinner.getSelectedItem()).getDays();
-                    int trainingPlanId = ((TrainingPlan) existingPlansSpinner.getSelectedItem()).getId();
+                    long trainingPlanId = ((TrainingPlan) existingPlansSpinner.getSelectedItem()).getId();
                     initMap(days);
                     fillMap(trainingPlanId);
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -115,7 +124,6 @@ public class FirstPage extends Fragment {
                 if(newPlanRadioButton.isChecked()){
                     initMap(trainingDaySeekBar.getProgress());
                 }
-                THIS_PAGE = false;
                 ((WizardActivity)getActivity()).setItemCount(trainingDaySeekBar.getProgress());
                 ((WizardActivity)getActivity()).navigateToNextPage();
             }
@@ -132,7 +140,6 @@ public class FirstPage extends Fragment {
 
     private void setUpRadioButtons(){
         newPlanRadioButton = (RadioButton) view.findViewById(R.id.newPlanRadioButton);
-        existingPlanRadioButton = (RadioButton) view.findViewById(R.id.existingPlanRadioButton);
         RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

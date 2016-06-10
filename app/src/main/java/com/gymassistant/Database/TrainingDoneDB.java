@@ -62,8 +62,8 @@ public class TrainingDoneDB extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 TrainingDone trainingDone = new TrainingDone();
-                trainingDone.setId(cursor.getInt(0));
-                trainingDone.setStartedTrainingPlanId(cursor.getInt(1));
+                trainingDone.setId(cursor.getLong(0));
+                trainingDone.setStartedTrainingPlanId(cursor.getLong(1));
                 trainingDone.setDay(cursor.getInt(2));
                 trainingDone.setDate(DateConverter.timeToDate(cursor.getLong(3)));
                 trainingDone.setTime(DateConverter.timeConversion(cursor.getInt(4)));
@@ -76,7 +76,7 @@ public class TrainingDoneDB extends SQLiteOpenHelper {
         return trainingDones;
     }
 
-    public TrainingDone getTrainingDone(int ID){
+    public TrainingDone getTrainingDone(long ID){
         SeriesDoneDB seriesDoneDB = new SeriesDoneDB(context);
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + ID;
         SQLiteDatabase db = this.getWritableDatabase();

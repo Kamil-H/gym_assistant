@@ -5,8 +5,8 @@ import java.util.List;
  * Created by KamilH on 2016-05-04.
  */
 public class Training {
-    private int id;
-    private int trainingPlanId;
+    private long id;
+    private long trainingPlanId;
     private TrainingPlan trainingPlan;
     private int day;
     private String description;
@@ -14,25 +14,25 @@ public class Training {
 
     public Training(){}
 
-    public Training(int trainingPlanId, int day, String description) {
+    public Training(long trainingPlanId, int day, String description) {
         this.trainingPlanId = trainingPlanId;
         this.day = day;
         this.description = description;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getTrainingPlanId() {
+    public long getTrainingPlanId() {
         return trainingPlanId;
     }
 
-    public void setTrainingPlanId(int trainingPlanId) {
+    public void setTrainingPlanId(long trainingPlanId) {
         this.trainingPlanId = trainingPlanId;
     }
 

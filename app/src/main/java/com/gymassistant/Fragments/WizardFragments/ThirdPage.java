@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +30,8 @@ import java.util.List;
  */
 public class ThirdPage extends Fragment {
     private View view;
-    private Button nextButton, backButton;
     private RecyclerView recyclerView;
     private List<List<Series>> map;
-    private Training training;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,31 +54,27 @@ public class ThirdPage extends Fragment {
             long trainingId = addNewTraining(trainingPlanId, i);
             List<Series> seriesList = map.get(i);
             if(seriesList.size() > 0){
-                saveSeriesToDb(seriesList, (int)trainingId);
+                saveSeriesToDb(seriesList, trainingId);
             }
         }
     }
 
     private long addNewTraining(long trainingPlanId, int day){
         TrainingDB trainingDB = new TrainingDB(getActivity());
-        this.training = new Training((int)trainingPlanId, day, null);
-        long trainingId = trainingDB.addTraining(training);
-        Log.i("Added", String.format("Training ID: %d", trainingId));
+        Training training = new Training(trainingPlanId, day, null);
 
-        return trainingId;
+        return trainingDB.addTraining(training);
     }
 
-    private void saveSeriesToDb(List<Series> seriesList, int trainingId){
+    private void saveSeriesToDb(List<Series> seriesList, long trainingId){
         SeriesDB seriesDB = new SeriesDB(getActivity());
         seriesDB.addSeriesList(seriesList, trainingId);
     }
 
     private long addNewTrainingPlan(String name, String description){
         TrainingPlanDB trainingPlanDB = new TrainingPlanDB(getActivity());
-        long trainingPlanId = trainingPlanDB.addTrainingPlan(new TrainingPlan(map.size(), 0, false, name, description));
-        Log.i("Added", String.format("TrainingPlan ID: %d", trainingPlanId));
 
-        return trainingPlanId;
+        return trainingPlanDB.addTrainingPlan(new TrainingPlan(map.size(), true, name, description));
     }
 
     private void populateRecyclerView(){
@@ -90,8 +83,8 @@ public class ThirdPage extends Fragment {
     }
 
     private void setUpButtons(){
-        nextButton = (Button) view.findViewById(R.id.nextButton);
-        backButton = (Button) view.findViewById(R.id.backButton);
+        Button nextButton = (Button) view.findViewById(R.id.nextButton);
+        Button backButton = (Button) view.findViewById(R.id.backButton);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override

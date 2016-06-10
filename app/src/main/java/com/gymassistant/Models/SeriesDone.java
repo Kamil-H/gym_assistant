@@ -4,9 +4,9 @@ package com.gymassistant.Models;
  * Created by KamilH on 2016-05-19.
  */
 public class SeriesDone {
-    private int id;
-    private int trainingId;
-    private int exerciseId;
+    private long id;
+    private long trainingId;
+    private long exerciseId;
     private int actualOrder;
     private int actualRepeat;
     private int actualWeight;
@@ -27,11 +27,11 @@ public class SeriesDone {
         this.plannedWeight = series.getWeight();
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -59,11 +59,11 @@ public class SeriesDone {
         this.actualWeight = actualWeight;
     }
 
-    public int getExerciseId() {
+    public long getExerciseId() {
         return exerciseId;
     }
 
-    public void setExerciseId(int exerciseId) {
+    public void setExerciseId(long exerciseId) {
         this.exerciseId = exerciseId;
     }
 
@@ -91,11 +91,11 @@ public class SeriesDone {
         this.plannedWeight = plannedWeight;
     }
 
-    public int getTrainingDoneId() {
+    public long getTrainingDoneId() {
         return trainingId;
     }
 
-    public void setTrainingDoneId(int trainingId) {
+    public void setTrainingDoneId(long trainingId) {
         this.trainingId = trainingId;
     }
 

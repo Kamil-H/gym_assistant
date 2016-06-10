@@ -47,8 +47,8 @@ public class ExercisesPreview extends AppCompatActivity {
         ExerciseDB exerciseDB = new ExerciseDB(this);
         exercises = exerciseDB.getAllExercises();
 
-        int id = readParameter();
-        exercise = getSpecyficExercise(id);
+        long id = readParameter();
+        exercise = getExercise(id);
 
         setUpToolbar();
 
@@ -74,7 +74,7 @@ public class ExercisesPreview extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back_white_24dp));
     }
 
-    private Exercise getSpecyficExercise(int id){
+    private Exercise getExercise(long id){
         for(Exercise exer : exercises){
             if(exer.getId() == id)
                 return exer;
@@ -82,10 +82,10 @@ public class ExercisesPreview extends AppCompatActivity {
         return null;
     }
 
-    private int readParameter(){
+    private long readParameter(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            return extras.getInt("id");
+            return extras.getLong("id");
         }
         return 0;
     }

@@ -70,15 +70,15 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
         childViewHolder.exerciseEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id = ((Exercise) childListItem).getId();
+                long id = ((Exercise) childListItem).getId();
                 goToExercisesPreviewScreen(id);
             }
         });
     }
 
-    private void goToExercisesPreviewScreen(int id){
+    private void goToExercisesPreviewScreen(long id){
         Bundle b = new Bundle();
-        b.putInt("id", id);
+        b.putLong("id", id);
         Intent intent = new Intent(context.getApplicationContext(), ExercisesPreview.class);
         intent.putExtras(b);
         context.startActivity(intent);

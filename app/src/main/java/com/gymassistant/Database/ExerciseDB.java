@@ -54,29 +54,7 @@ public class ExerciseDB extends SQLiteOpenHelper {
         BufferedReader in = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(R.raw.exercises)));
         Gson gson = new GsonBuilder().create();
         Exercise exer = gson.fromJson(in, Exercise.class);
-        List<Exercise> exercises = exer.getExercises();
-        return exercises;
-    }
-
-    public void addExercise(Exercise exercise){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(CATEGORY, exercise.getCategory());
-        values.put(NAME, exercise.getName());
-        values.put(IMG_1, exercise.getImg1());
-        values.put(IMG_2, exercise.getImg2());
-        values.put(IMG_3, exercise.getImg3());
-        values.put(VIDEO, exercise.getVideo());
-        values.put(MAIN_MUSCLES, exercise.getMainMuscles());
-        values.put(AUX_MUSCLES, exercise.getAuxMuscles());
-        values.put(STABILIZERS, exercise.getStabilizers());
-        values.put(HOW_TO, exercise.getHowTo());
-        values.put(SECOND_NAME, exercise.getSecondName());
-        values.put(ATTENTIONS, exercise.getAttentions());
-
-        db.insert(TABLE_NAME, null, values);
-        db.close();
+        return exer.getExercises();
     }
 
     public void addExercisesList(List<Exercise> exercises){
@@ -110,7 +88,7 @@ public class ExerciseDB extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Exercise exercise = new Exercise();
-                exercise.setId(cursor.getInt(0));
+                exercise.setId(cursor.getLong(0));
                 exercise.setCategory(cursor.getString(1));
                 exercise.setName(cursor.getString(2));
                 exercise.setSecondName(cursor.getString(3));
@@ -131,13 +109,13 @@ public class ExerciseDB extends SQLiteOpenHelper {
         return exercises;
     }
 
-    public Exercise getExercise(int ID){
+    public Exercise getExercise(long ID){
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + ID;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         Exercise exercise = new Exercise();
         if (cursor.moveToFirst()) {
-            exercise.setId(cursor.getInt(0));
+            exercise.setId(cursor.getLong(0));
             exercise.setCategory(cursor.getString(1));
             exercise.setName(cursor.getString(2));
             exercise.setSecondName(cursor.getString(3));
@@ -168,13 +146,6 @@ public class ExerciseDB extends SQLiteOpenHelper {
         }
         db.close();
         return categories;
-    }
-
-    public void deleteExercise(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, KEY_ID + " = ?",
-                new String[]{String.valueOf(id)});
-        db.close();
     }
 
     public void removeAll()

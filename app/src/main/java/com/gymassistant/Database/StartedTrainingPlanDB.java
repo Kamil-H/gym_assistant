@@ -57,23 +57,6 @@ public class StartedTrainingPlanDB extends SQLiteOpenHelper {
         return rowid;
     }
 
-    public void addStartedTrainingPlanList(List<StartedTrainingPlan> startedTrainingPlanList){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        for(StartedTrainingPlan startedTrainingPlan : startedTrainingPlanList){
-            values.put(TRAINING_PLAN_ID, startedTrainingPlan.getTrainingPlanId());
-            values.put(START_DATE, DateConverter.dateToTime(startedTrainingPlan.getStartDate()));
-            values.put(EXPECTED_END_DATE, DateConverter.dateToTime(startedTrainingPlan.getExpectedEndDate()));
-            values.put(END_DATE, DateConverter.dateToTime(startedTrainingPlan.getEndDate()));
-            values.put(NAME, startedTrainingPlan.getName());
-            values.put(DESCRIPTION, startedTrainingPlan.getDescription());
-
-            db.insert(TABLE_NAME, null, values);
-        }
-        db.close();
-    }
-
     public List<StartedTrainingPlan> getAllStartedTrainingPlans() {
         TrainingPlanDB trainingPlanDB = new TrainingPlanDB(context);
         List<StartedTrainingPlan> startedTrainingPlanList = new ArrayList<StartedTrainingPlan>();
@@ -83,8 +66,8 @@ public class StartedTrainingPlanDB extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 StartedTrainingPlan startedTrainingPlan = new StartedTrainingPlan();
-                startedTrainingPlan.setId(cursor.getInt(0));
-                startedTrainingPlan.setTrainingPlanId(cursor.getInt(1));
+                startedTrainingPlan.setId(cursor.getLong(0));
+                startedTrainingPlan.setTrainingPlanId(cursor.getLong(1));
                 startedTrainingPlan.setStartDate(DateConverter.timeToDate(cursor.getLong(2)));
                 startedTrainingPlan.setExpectedEndDate(DateConverter.timeToDate(cursor.getLong(3)));
                 startedTrainingPlan.setEndDate(DateConverter.timeToDate(cursor.getLong(4)));
@@ -108,8 +91,8 @@ public class StartedTrainingPlanDB extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 StartedTrainingPlan startedTrainingPlan = new StartedTrainingPlan();
-                startedTrainingPlan.setId(cursor.getInt(0));
-                startedTrainingPlan.setTrainingPlanId(cursor.getInt(1));
+                startedTrainingPlan.setId(cursor.getLong(0));
+                startedTrainingPlan.setTrainingPlanId(cursor.getLong(1));
                 startedTrainingPlan.setStartDate(DateConverter.timeToDate(cursor.getLong(2)));
                 startedTrainingPlan.setExpectedEndDate(DateConverter.timeToDate(cursor.getLong(3)));
                 startedTrainingPlan.setEndDate(DateConverter.timeToDate(cursor.getLong(4)));
@@ -124,15 +107,15 @@ public class StartedTrainingPlanDB extends SQLiteOpenHelper {
         return startedTrainingPlanList;
     }
 
-    public StartedTrainingPlan getStartedTrainingPlan(int ID){
+    public StartedTrainingPlan getStartedTrainingPlan(long ID){
         TrainingPlanDB trainingPlanDB = new TrainingPlanDB(context);
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + ID;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         StartedTrainingPlan startedTrainingPlan = new StartedTrainingPlan();
         if (cursor.moveToFirst()) {
-            startedTrainingPlan.setId(cursor.getInt(0));
-            startedTrainingPlan.setTrainingPlanId(cursor.getInt(1));
+            startedTrainingPlan.setId(cursor.getLong(0));
+            startedTrainingPlan.setTrainingPlanId(cursor.getLong(1));
             startedTrainingPlan.setStartDate(DateConverter.timeToDate(cursor.getLong(2)));
             startedTrainingPlan.setExpectedEndDate(DateConverter.timeToDate(cursor.getLong(3)));
             startedTrainingPlan.setEndDate(DateConverter.timeToDate(cursor.getLong(4)));
@@ -144,7 +127,7 @@ public class StartedTrainingPlanDB extends SQLiteOpenHelper {
         return startedTrainingPlan;
     }
 
-    public void updateStartedTraningPlan(StartedTrainingPlan startedTrainingPlan){
+    public void updateStartedTrainingPlan(StartedTrainingPlan startedTrainingPlan){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
