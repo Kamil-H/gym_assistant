@@ -59,6 +59,7 @@ public class HistoryExpandableAdapter extends ExpandableRecyclerAdapter<HistoryE
         StartedTrainingPlanDB startedTrainingPlanDB = new StartedTrainingPlanDB(context);
         StartedTrainingPlan startedTrainingPlan = startedTrainingPlanDB.getStartedTrainingPlan(item.getStartedTrainingPlanId());
 
+        parentViewHolder.trainingDayTextView.setText(String.valueOf(startedTrainingPlan.getTrainingPlan().getDays()));
         parentViewHolder.trainingNameTextView.setText(startedTrainingPlan.getName());
         parentViewHolder.trainingPlanNameTextView.setText(startedTrainingPlan.getTrainingPlan().getName());
         parentViewHolder.dateTextView.setText(item.getDate());
@@ -90,7 +91,7 @@ public class HistoryExpandableAdapter extends ExpandableRecyclerAdapter<HistoryE
     }
 
     public class HistoryParentViewHolder extends ParentViewHolder {
-        public TextView trainingNameTextView, trainingPlanNameTextView, dateTextView, timeTextView;
+        public TextView trainingNameTextView, trainingPlanNameTextView, dateTextView, timeTextView, trainingDayTextView;
         private ImageView arrowImageView;
 
         private static final float INITIAL_POSITION = 0.0f;
@@ -104,6 +105,7 @@ public class HistoryExpandableAdapter extends ExpandableRecyclerAdapter<HistoryE
             dateTextView = (TextView) itemView.findViewById(R.id.dateTextView);
             timeTextView = (TextView) itemView.findViewById(R.id.timeTextView);
             arrowImageView = (ImageView) itemView.findViewById(R.id.arrowImageView);
+            trainingDayTextView = (TextView) itemView.findViewById(R.id.trainingDayTextView);
         }
 
         @SuppressLint("NewApi")

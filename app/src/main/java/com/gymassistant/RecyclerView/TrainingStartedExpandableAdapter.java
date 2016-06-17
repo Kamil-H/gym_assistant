@@ -83,8 +83,8 @@ public class TrainingStartedExpandableAdapter extends RecyclerView.Adapter<Train
     }
 
     private void finishTraining(StartedTrainingPlan startedTrainingPlan){
-        startedTrainingPlan.setEndDate(DateConverter.today());
-        updateTraining(startedTrainingPlan);
+        StartedTrainingPlanDB startedTrainingPlanDB = new StartedTrainingPlanDB(context);
+        startedTrainingPlanDB.finishStartedTrainingPlan(startedTrainingPlan.getId());
     }
 
     private void updateTraining(StartedTrainingPlan startedTrainingPlan){

@@ -16,10 +16,9 @@ import com.gymassistant.Database.StartedTrainingPlanDB;
 import com.gymassistant.Database.TrainingDB;
 import com.gymassistant.Models.StartedTrainingPlan;
 import com.gymassistant.R;
-import com.gymassistant.RecyclerView.TraningDayExpandableAdapter;
+import com.gymassistant.RecyclerView.TrainingDayExpandableAdapter;
 
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Created by KamilH on 2016-03-21.
@@ -27,6 +26,7 @@ import java.util.ArrayList;
 public class TrainingFragment extends Fragment {
     private View view;
     private List<StartedTrainingPlan> startedTrainingPlanList;
+    private FloatingActionButton fab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class TrainingFragment extends Fragment {
         setUpList();
         setUpRecyclerView();
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,8 +70,17 @@ public class TrainingFragment extends Fragment {
     public void setUpRecyclerView(){
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        TraningDayExpandableAdapter traningDayExpandableAdapter = new TraningDayExpandableAdapter(getActivity(), startedTrainingPlanList);
-        recyclerView.setAdapter(traningDayExpandableAdapter);
+        TrainingDayExpandableAdapter trainingDayExpandableAdapter = new TrainingDayExpandableAdapter(getActivity(), startedTrainingPlanList);
+        recyclerView.setAdapter(trainingDayExpandableAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0)
+                    fab.hide();
+                else if (dy < 0)
+                    fab.show();
+            }
+        });
     }
 
     private void setUpList(){
@@ -79,9 +88,6 @@ public class TrainingFragment extends Fragment {
         for(StartedTrainingPlan startedTrainingPlan : startedTrainingPlanList){
             startedTrainingPlan.getTrainingPlan().setTrainingList(
                     trainingDB.getTrainingsByTraningPlanId(startedTrainingPlan.getTrainingPlanId()));
-            List<StartedTrainingPlan> childList = new ArrayList<>();
-            childList.add(startedTrainingPlan);
-            startedTrainingPlan.setStartedTrainingPlanList(childList);
         }
     }
 

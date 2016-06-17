@@ -19,7 +19,7 @@ import java.util.List;
 public class StartedTrainingPlanDB extends SQLiteOpenHelper {
 
     private final String TABLE_NAME = "StartedTrainingPlan", KEY_ID = "id", NAME = "name", DESCRIPTION = "description", TRAINING_PLAN_ID = "trainingPlanId",
-            START_DATE = "startDate", EXPECTED_END_DATE = "expectedEndDate", END_DATE = "endDate";
+            START_DATE = "startDate", EXPECTED_END_DATE = "expectedEndDate", END_DATE = "endDate", EXIST = "exist";
     private Context context;
 
     public StartedTrainingPlanDB(Context context) {
@@ -30,8 +30,8 @@ public class StartedTrainingPlanDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE =
-                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s TEXT, %s TEXT)",
-                        TABLE_NAME, KEY_ID, TRAINING_PLAN_ID, START_DATE, EXPECTED_END_DATE, END_DATE, NAME, DESCRIPTION);
+                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s TEXT, %s TEXT, %s INTEGER)",
+                        TABLE_NAME, KEY_ID, TRAINING_PLAN_ID, START_DATE, EXPECTED_END_DATE, END_DATE, NAME, DESCRIPTION, EXIST);
         db.execSQL(CREATE_TABLE);
     }
 
@@ -51,35 +51,11 @@ public class StartedTrainingPlanDB extends SQLiteOpenHelper {
         values.put(END_DATE, DateConverter.dateToTime(startedTrainingPlan.getEndDate()));
         values.put(NAME, startedTrainingPlan.getName());
         values.put(DESCRIPTION, startedTrainingPlan.getDescription());
+        values.put(EXIST, getIntFromBoolean(true));
 
         long rowid = db.insert(TABLE_NAME, null, values);
         db.close();
         return rowid;
-    }
-
-    public List<StartedTrainingPlan> getAllStartedTrainingPlans() {
-        TrainingPlanDB trainingPlanDB = new TrainingPlanDB(context);
-        List<StartedTrainingPlan> startedTrainingPlanList = new ArrayList<StartedTrainingPlan>();
-        String selectQuery = "SELECT * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            do {
-                StartedTrainingPlan startedTrainingPlan = new StartedTrainingPlan();
-                startedTrainingPlan.setId(cursor.getLong(0));
-                startedTrainingPlan.setTrainingPlanId(cursor.getLong(1));
-                startedTrainingPlan.setStartDate(DateConverter.timeToDate(cursor.getLong(2)));
-                startedTrainingPlan.setExpectedEndDate(DateConverter.timeToDate(cursor.getLong(3)));
-                startedTrainingPlan.setEndDate(DateConverter.timeToDate(cursor.getLong(4)));
-                startedTrainingPlan.setName(cursor.getString(5));
-                startedTrainingPlan.setDescription(cursor.getString(6));
-                startedTrainingPlan.setTrainingPlan(trainingPlanDB.getTrainingPlan(startedTrainingPlan.getTrainingPlanId()));
-
-                startedTrainingPlanList.add(startedTrainingPlan);
-            } while (cursor.moveToNext());
-        }
-        db.close();
-        return startedTrainingPlanList;
     }
 
     public List<StartedTrainingPlan> getActiveStartedTrainingPlans() {
@@ -98,6 +74,33 @@ public class StartedTrainingPlanDB extends SQLiteOpenHelper {
                 startedTrainingPlan.setEndDate(DateConverter.timeToDate(cursor.getLong(4)));
                 startedTrainingPlan.setName(cursor.getString(5));
                 startedTrainingPlan.setDescription(cursor.getString(6));
+                startedTrainingPlan.setExist(getBooleanFromInt(cursor.getInt(7)));
+                startedTrainingPlan.setTrainingPlan(trainingPlanDB.getTrainingPlan(startedTrainingPlan.getTrainingPlanId()));
+
+                startedTrainingPlanList.add(startedTrainingPlan);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return startedTrainingPlanList;
+    }
+
+    public List<StartedTrainingPlan> getFinishedStartedTrainingPlans() {
+        TrainingPlanDB trainingPlanDB = new TrainingPlanDB(context);
+        List<StartedTrainingPlan> startedTrainingPlanList = new ArrayList<StartedTrainingPlan>();
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + END_DATE + ">" + -1 + " AND " + EXIST + "=" + getIntFromBoolean(true);
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                StartedTrainingPlan startedTrainingPlan = new StartedTrainingPlan();
+                startedTrainingPlan.setId(cursor.getLong(0));
+                startedTrainingPlan.setTrainingPlanId(cursor.getLong(1));
+                startedTrainingPlan.setStartDate(DateConverter.timeToDate(cursor.getLong(2)));
+                startedTrainingPlan.setExpectedEndDate(DateConverter.timeToDate(cursor.getLong(3)));
+                startedTrainingPlan.setEndDate(DateConverter.timeToDate(cursor.getLong(4)));
+                startedTrainingPlan.setName(cursor.getString(5));
+                startedTrainingPlan.setDescription(cursor.getString(6));
+                startedTrainingPlan.setExist(getBooleanFromInt(cursor.getInt(7)));
                 startedTrainingPlan.setTrainingPlan(trainingPlanDB.getTrainingPlan(startedTrainingPlan.getTrainingPlanId()));
 
                 startedTrainingPlanList.add(startedTrainingPlan);
@@ -121,6 +124,7 @@ public class StartedTrainingPlanDB extends SQLiteOpenHelper {
             startedTrainingPlan.setEndDate(DateConverter.timeToDate(cursor.getLong(4)));
             startedTrainingPlan.setName(cursor.getString(5));
             startedTrainingPlan.setDescription(cursor.getString(6));
+            startedTrainingPlan.setExist(getBooleanFromInt(cursor.getInt(7)));
             startedTrainingPlan.setTrainingPlan(trainingPlanDB.getTrainingPlan(startedTrainingPlan.getTrainingPlanId()));
         }
         db.close();
@@ -142,10 +146,27 @@ public class StartedTrainingPlanDB extends SQLiteOpenHelper {
         db.update(TABLE_NAME, values, KEY_ID + " = ?", new String[]{String.valueOf(startedTrainingPlan.getId())});
     }
 
+    private int getIntFromBoolean(boolean value){
+        return value ? 1 : 0;
+    }
+
+    private boolean getBooleanFromInt(int value){
+        return value == 1;
+    }
+
     public void deleteStartedTrainingPlan(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, KEY_ID + " = ?",
-                new String[]{String.valueOf(id)});
+        ContentValues cv = new ContentValues();
+        cv.put(EXIST, getIntFromBoolean(false));
+        db.update(TABLE_NAME, cv, KEY_ID + "= ?", new String[] {String.valueOf(id)});
+        db.close();
+    }
+
+    public void finishStartedTrainingPlan(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(END_DATE, DateConverter.dateToTime(DateConverter.today()));
+        db.update(TABLE_NAME, cv, KEY_ID + "= ?", new String[] {String.valueOf(id)});
         db.close();
     }
 

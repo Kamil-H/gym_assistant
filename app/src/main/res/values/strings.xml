@@ -125,9 +125,10 @@
     <string name="close_without_saving">Zamknąć bez zapisywania?</string>
     <string name="save_traning">Zapisać trening?</string>
     <string name="training_date">data treningu</string>
-    <string name="traning_time">czas trwania treningu</string>
+    <string name="training_time">czas trwania treningu</string>
     <string name="series">poszczególne serie</string>
     <string name="add_deleted_plans">dołącz usunięte plany</string>
     <string name="repeats">Liczba powtórzeń</string>
+    <string name="which_training_day">numer dnia treningowego</string>
 
 </resources>

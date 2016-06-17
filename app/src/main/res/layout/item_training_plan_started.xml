@@ -58,48 +58,64 @@
             android:paddingRight="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
-    
-            <TextView
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/training_name"
-                android:id="@+id/muscleGroupTextView"
-                android:layout_alignParentTop="true"
-                style="@style/titleTextSmall" />
-    
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/trainingNameTextView"
-                android:layout_below="@+id/muscleGroupTextView"/>
-    
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/plan_name"
-                android:id="@+id/textView32"
-                style="@style/titleTextSmall"
-                android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/textView31"
-                android:layout_alignEnd="@+id/textView31" />
-    
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/trainingPlanNameTextView"
-                android:layout_below="@+id/textView32"
-                android:layout_alignLeft="@+id/textView32"
-                android:layout_alignStart="@+id/textView32" />
+                android:orientation="horizontal"
+                android:id="@+id/linearLayout">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/training_name"
+                        android:id="@+id/muscleGroupTextView"
+                        style="@style/titleTextSmall" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/trainingNameTextView"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/plan_name"
+                        android:id="@+id/textView32"
+                        style="@style/titleTextSmall"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/trainingPlanNameTextView" />
+
+                </LinearLayout>
+
+            </LinearLayout>
     
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/traning_description"
                 android:id="@+id/textView29"
-                android:layout_below="@+id/trainingNameTextView"
+                android:layout_below="@+id/linearLayout"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp"

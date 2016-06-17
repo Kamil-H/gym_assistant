@@ -30,64 +30,110 @@
             android:id="@+id/trainingNameTextView"
             android:layout_below="@+id/muscleGroupTextView"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/plan_name"
-            android:id="@+id/textView32"
-            style="@style/titleTextSmall"
             android:layout_below="@+id/trainingNameTextView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="5dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="qwertyuiopasdfghjklz"
-            android:id="@+id/trainingPlanNameTextView"
-            android:layout_below="@+id/textView32"
-            android:layout_alignLeft="@+id/textView32"
-            android:layout_alignStart="@+id/textView32" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/training_date"
-            android:id="@+id/textView20"
-            android:layout_below="@+id/trainingPlanNameTextView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:orientation="horizontal"
             android:layout_marginTop="5dp"
-            style="@style/titleTextSmall" />
+            android:id="@+id/linearLayout">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/dateTextView"
-            android:layout_below="@+id/textView20"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/traning_time"
-            android:id="@+id/textView36"
-            style="@style/titleTextSmall"
-            android:layout_alignTop="@+id/textView20"
-            android:layout_alignRight="@+id/arrowImageView"
-            android:layout_alignEnd="@+id/arrowImageView" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/plan_name"
+                    android:id="@+id/textView32"
+                    style="@style/titleTextSmall"
+                    android:layout_marginTop="5dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="qwertyuiopasdfghjklz"
+                    android:id="@+id/trainingPlanNameTextView" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/which_training_day"
+                    android:id="@+id/textView38"
+                    style="@style/titleTextSmall" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/trainingDayTextView" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/timeTextView"
-            android:layout_below="@+id/textView36"
-            android:layout_alignLeft="@+id/textView36"
-            android:layout_alignStart="@+id/textView36" />
+            android:layout_below="@+id/linearLayout"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/training_date"
+                    android:id="@+id/textView20"
+                    style="@style/titleTextSmall" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/dateTextView" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/training_time"
+                    android:id="@+id/textView36"
+                    style="@style/titleTextSmall" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/timeTextView" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <ImageView
             android:layout_width="wrap_content"

@@ -60,7 +60,7 @@ public class TrainingManagementAdapter extends RecyclerView.Adapter<TrainingMana
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder rowViewHolder, final int position) {
+    public void onBindViewHolder(ViewHolder rowViewHolder, int position) {
         final TrainingPlan trainingPlan = trainingPlanList.get(position);
         rowViewHolder.nameTextView.setText(trainingPlan.getName());
         rowViewHolder.descriptionEditText.setText(trainingPlan.getDescription());
@@ -68,7 +68,7 @@ public class TrainingManagementAdapter extends RecyclerView.Adapter<TrainingMana
         rowViewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                remove(trainingPlan, position);
+                remove(trainingPlan);
             }
         });
         rowViewHolder.activateButton.setOnClickListener(new View.OnClickListener() {
@@ -79,9 +79,10 @@ public class TrainingManagementAdapter extends RecyclerView.Adapter<TrainingMana
         });
     }
 
-    private void remove(final TrainingPlan trainingPlan, int position){
+    private void remove(final TrainingPlan trainingPlan){
         deleteTrainingPlan(trainingPlan.getId());
-        notifyItemRemoved(position);
+        trainingPlanList.remove(trainingPlan);
+        notifyDataSetChanged();
     }
 
     public void deleteTrainingPlan(long id){

@@ -49,6 +49,15 @@ public class PlansBottomFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setAdapter(trainingManagementAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0)
+                    fab.hide();
+                else if (dy < 0)
+                    fab.show();
+            }
+        });
     }
 
     public void refresh(){

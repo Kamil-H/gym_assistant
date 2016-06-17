@@ -76,44 +76,6 @@ public class TrainingDoneDB extends SQLiteOpenHelper {
         return trainingDones;
     }
 
-    public TrainingDone getTrainingDone(long ID){
-        SeriesDoneDB seriesDoneDB = new SeriesDoneDB(context);
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + ID;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        TrainingDone trainingDone = new TrainingDone();
-        if (cursor.moveToFirst()) {
-            trainingDone.setId(cursor.getInt(0));
-            trainingDone.setStartedTrainingPlanId(cursor.getInt(1));
-            trainingDone.setDay(cursor.getInt(2));
-            trainingDone.setDate(DateConverter.timeToDate(cursor.getLong(3)));
-            trainingDone.setTime(DateConverter.timeConversion(cursor.getInt(4)));
-            trainingDone.setSeriesDoneList(seriesDoneDB.getSeriesDoneByTrainingDoneId(trainingDone.getId()));
-        }
-        db.close();
-        return trainingDone;
-    }
-
-    public void updateStartedTraningPlan(TrainingDone trainingDone, int time){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(KEY_ID, trainingDone.getId());
-        values.put(STARTED_TRAINING_PLN, trainingDone.getStartedTrainingPlanId());
-        values.put(DAY, trainingDone.getDay());
-        values.put(DATE, DateConverter.dateToTime(trainingDone.getDate()));
-        values.put(TIME, time);
-
-        db.update(TABLE_NAME, values, KEY_ID + " = ?", new String[]{String.valueOf(trainingDone.getId())});
-    }
-
-    public void deleteTrainingDone(long id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, KEY_ID + " = ?",
-                new String[]{String.valueOf(id)});
-        db.close();
-    }
-
     public void removeAll()
     {
         SQLiteDatabase db = this.getWritableDatabase();

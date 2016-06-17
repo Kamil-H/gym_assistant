@@ -39,6 +39,7 @@ import java.util.Set;
 public class HistoryFragment extends Fragment {
     private View view;
     private List<TrainingDone> trainingDoneList;
+    private FloatingActionButton fab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class HistoryFragment extends Fragment {
         setUpTrainingDoneList();
         setUpRecyclerView(DateConverter.today());
 
-        FloatingActionButton fab = (FloatingActionButton) (view.findViewById(R.id.fab));
+        fab = (FloatingActionButton) (view.findViewById(R.id.fab));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +94,15 @@ public class HistoryFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         HistoryExpandableAdapter historyExpandableAdapter = new HistoryExpandableAdapter(getActivity(), generateList(getTrainingDonesByDate(date)));
         recyclerView.setAdapter(historyExpandableAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0)
+                    fab.hide();
+                else if (dy < 0)
+                    fab.show();
+            }
+        });
     }
 
     private List<TrainingDone> getTrainingDonesByDate(String date){
