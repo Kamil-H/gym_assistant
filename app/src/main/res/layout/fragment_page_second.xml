@@ -25,7 +25,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <Spinner
+        <com.gymassistant.UIComponents.WhiteSpinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/daySpinner"
@@ -44,7 +44,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="20dp"/>
 
-        <Spinner
+        <com.gymassistant.UIComponents.WhiteSpinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/muscleGroupSpinner"
@@ -62,7 +62,7 @@
             android:layout_marginTop="20dp"
             style="@style/titleTextSmall"/>
 
-        <Spinner
+        <com.gymassistant.UIComponents.WhiteSpinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/exerciseSpinner"
@@ -87,13 +87,13 @@
             android:layout_below="@+id/textView10"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             app:dsb_min="1"
             app:dsb_max="15"
             app:dsb_progressColor="@color/colorPrimaryDark"
             app:dsb_rippleColor="@color/colorPrimaryDark"
-            app:dsb_indicatorColor="@color/colorPrimaryDark"/>
+            app:dsb_indicatorColor="@color/colorPrimaryDark"
+            android:layout_toLeftOf="@+id/seriesTextView"
+            android:layout_toStartOf="@+id/seriesTextView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -114,13 +114,13 @@
             android:layout_below="@+id/textView11"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             app:dsb_min="1"
             app:dsb_max="50"
             app:dsb_progressColor="@color/colorPrimaryDark"
             app:dsb_rippleColor="@color/colorPrimaryDark"
-            app:dsb_indicatorColor="@color/colorPrimaryDark"/>
+            app:dsb_indicatorColor="@color/colorPrimaryDark"
+            android:layout_toLeftOf="@+id/repeatsTextView"
+            android:layout_toStartOf="@+id/repeatsTextView" />
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -134,19 +134,15 @@
             style="@style/titleTextSmall"
             android:textColor="@color/colorText" />
 
-        <EditText
-            android:layout_width="20dp"
+        <TextView
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:inputType="numberSigned"
             android:ems="10"
-            android:id="@+id/seriesEditText"
-            android:layout_alignBottom="@+id/seriesCheckBox"
-            android:layout_toRightOf="@+id/seriesCheckBox"
-            android:layout_toEndOf="@+id/seriesCheckBox"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="3dp"
-            style="@style/editTextStyle"
-            android:visibility="invisible"/>
+            android:id="@+id/seriesTextView"
+            android:text="150"
+            android:layout_alignTop="@+id/seriesSeekBar"
+            android:layout_alignRight="@+id/exerciseSpinner"
+            android:layout_alignEnd="@+id/exerciseSpinner" />
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -159,18 +155,15 @@
             style="@style/titleTextSmall"
             android:textColor="@color/colorText" />
 
-        <EditText
-            android:layout_width="20dp"
+        <TextView
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:inputType="numberSigned"
             android:ems="10"
-            android:id="@+id/repeatsEditText"
-            android:layout_below="@+id/repeatsSeekBar"
-            android:layout_alignLeft="@+id/seriesEditText"
-            android:layout_alignStart="@+id/seriesEditText"
-            android:layout_marginBottom="3dp"
-            style="@style/editTextStyle"
-            android:visibility="invisible"/>
+            android:id="@+id/repeatsTextView"
+            android:text="1"
+            android:layout_alignTop="@+id/repeatsSeekBar"
+            android:layout_toRightOf="@+id/seriesSeekBar"
+            android:layout_toEndOf="@+id/seriesSeekBar" />
     </RelativeLayout>
 
     <LinearLayout
@@ -193,7 +186,8 @@
             android:textColor="@color/colorText"
             android:textStyle="bold"
             android:background="@color/colorCard"
-            android:layout_marginRight="1dp"/>
+            android:layout_marginRight="1dp"
+            android:clickable="true" />
 
         <Button
             style="?android:attr/buttonBarButtonStyle"
@@ -205,7 +199,8 @@
             android:text="@string/save_button"
             android:textColor="@color/colorText"
             android:textStyle="bold"
-            android:background="@color/colorCard"/>
+            android:background="@color/colorCard"
+            android:clickable="true" />
     </LinearLayout>
 
 </RelativeLayout>

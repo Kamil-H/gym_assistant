@@ -2,6 +2,7 @@ package com.gymassistant.Fragments.WizardFragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
@@ -13,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +24,7 @@ import com.gymassistant.Models.Category;
 import com.gymassistant.Models.Exercise;
 import com.gymassistant.Models.Series;
 import com.gymassistant.R;
+import com.gymassistant.UIComponents.NumberDialog;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
@@ -35,13 +36,12 @@ public class SecondPage extends Fragment {
     private List<Category> categories;
     private List<Exercise> exercises;
     private Spinner muscleGroupSpinner, exerciseSpinner, daySpinner;
-    private DiscreteSeekBar seriesSeekBar, repeatsSeekBar;
-    private EditText seriesEditText, repeatsEditText;
+    private DiscreteSeekBar repeatsSeekBar, seriesSeekBar;
+    private TextView seriesTextView, repeatsTextView;
     private ArrayAdapter<Exercise> exerciseSpinnerAdapter;
     private CheckBox seriesCheckBox, repeatsCheckBox;
-    private Button nextButton, backButton;
     private boolean isFirst = true, FILL = true, UPDATE = false;
-    private int pageCounter = 0, numOfSeries;
+    private int numOfSeries;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,15 +53,15 @@ public class SecondPage extends Fragment {
 
         isFirst = true;
 
-        seriesSeekBar = (DiscreteSeekBar) view.findViewById(R.id.seriesSeekBar);
-        repeatsSeekBar = (DiscreteSeekBar) view.findViewById(R.id.repeatsSeekBar);
-
-        seriesEditText = (EditText) view.findViewById(R.id.seriesEditText);
-        repeatsEditText = (EditText) view.findViewById(R.id.repeatsEditText);
-
+        setUpSeekBars();
         setUpButtons();
         setUpSpinners();
         setUpCheckBoxes();
+
+        seriesTextView = (TextView) view.findViewById(R.id.seriesTextView);
+        seriesTextView.setText(String.valueOf(seriesSeekBar.getProgress()));
+        repeatsTextView = (TextView) view.findViewById(R.id.repeatsTextView);
+        repeatsTextView.setText(String.valueOf(repeatsSeekBar.getProgress()));
         
         return view;
     }
@@ -69,19 +69,9 @@ public class SecondPage extends Fragment {
     private Series readValues(){
         Exercise exercise = (Exercise) exerciseSpinner.getSelectedItem();
 
-        int repeats;
+        numOfSeries = Integer.parseInt(seriesTextView.getText().toString());
+        int repeats = Integer.parseInt(repeatsTextView.getText().toString());
 
-        if(seriesCheckBox.isChecked()){
-            numOfSeries = Integer.parseInt(seriesEditText.getText().toString());
-        } else {
-            numOfSeries = seriesSeekBar.getProgress();
-        }
-
-        if(repeatsCheckBox.isChecked()){
-            repeats = Integer.parseInt(repeatsEditText.getText().toString());
-        } else {
-            repeats = repeatsSeekBar.getProgress();
-        }
         return new Series(null, 0, exercise, exercise.getId(), 0, repeats, 0);
     }
 
@@ -156,14 +146,13 @@ public class SecondPage extends Fragment {
     }
 
     private void setUpButtons(){
-        nextButton = (Button) view.findViewById(R.id.nextButton);
-        backButton = (Button) view.findViewById(R.id.backButton);
+        Button nextButton = (Button) view.findViewById(R.id.nextButton);
+        Button backButton = (Button) view.findViewById(R.id.backButton);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showSummaryDialog(readValues());
-                pageCounter++;
             }
         });
 
@@ -175,15 +164,62 @@ public class SecondPage extends Fragment {
         });
     }
 
+    private void setUpSeekBars(){
+        seriesSeekBar = (DiscreteSeekBar) view.findViewById(R.id.seriesSeekBar);
+        repeatsSeekBar = (DiscreteSeekBar) view.findViewById(R.id.repeatsSeekBar);
+        repeatsSeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                repeatsTextView.setText(String.valueOf(value));
+                if(repeatsCheckBox.isChecked()){
+                    repeatsCheckBox.setChecked(false);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+        });
+        seriesSeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                seriesTextView.setText(String.valueOf(value));
+                if(seriesCheckBox.isChecked()){
+                    seriesCheckBox.setChecked(false);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+        });
+    }
+
     private void setUpCheckBoxes(){
         seriesCheckBox = (CheckBox) view.findViewById(R.id.seriesCheckBox);
         seriesCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    seriesEditText.setVisibility(View.VISIBLE);
-                } else {
-                    seriesEditText.setVisibility(View.INVISIBLE);
+                    DialogFragment newFragment = NumberDialog.newInstance(getString(R.string.choose_series), false, new NumberDialog.NumberSetListener() {
+                        @Override
+                        public void onNumberSet(String text) {
+                            seriesTextView.setText(text);
+                        }
+                    });
+                    newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
                 }
             }
         });
@@ -192,9 +228,13 @@ public class SecondPage extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    repeatsEditText.setVisibility(View.VISIBLE);
-                } else {
-                    repeatsEditText.setVisibility(View.INVISIBLE);
+                    DialogFragment newFragment = NumberDialog.newInstance(getString(R.string.choose_repeats), false, new NumberDialog.NumberSetListener() {
+                        @Override
+                        public void onNumberSet(String text) {
+                            repeatsTextView.setText(text);
+                        }
+                    });
+                    newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
                 }
             }
         });

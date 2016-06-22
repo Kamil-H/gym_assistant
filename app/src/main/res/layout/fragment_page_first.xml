@@ -119,7 +119,8 @@
             android:textColor="@color/colorText"
             android:textStyle="bold"
             android:background="@color/colorCard"
-            android:layout_marginRight="1dp"/>
+            android:layout_marginRight="1dp"
+            android:clickable="true" />
 
         <Button
             style="?android:attr/buttonBarButtonStyle"
@@ -131,7 +132,8 @@
             android:text="@string/add_exercises"
             android:textColor="@color/colorText"
             android:textStyle="bold"
-            android:background="@color/colorCard"/>
+            android:background="@color/colorCard"
+            android:clickable="true" />
     </LinearLayout>
 
     

@@ -63,11 +63,11 @@
                     android:id="@+id/textView15"
                     style="@style/titleTextSmall"/>
 
-                <EditText
-                    android:layout_width="50dp"
+                <com.gymassistant.UIComponents.WhiteEditText
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/repeatsEditText"
-                    style="@style/editTextStyle"
+                    android:minWidth="50dp"
+                    android:id="@+id/repeatsTextView"
                     android:inputType="numberSigned"
                     android:cursorVisible="false"/>
             </LinearLayout>
@@ -87,11 +87,11 @@
                     android:id="@+id/textView14"
                     style="@style/titleTextSmall" />
 
-                <EditText
-                    android:layout_width="50dp"
+                <com.gymassistant.UIComponents.WhiteEditText
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minWidth="50dp"
                     android:id="@+id/loadEditText"
-                    style="@style/editTextStyle"
                     android:inputType="numberSigned"
                     android:cursorVisible="false"/>
             </LinearLayout>

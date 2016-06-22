@@ -2,8 +2,10 @@ package com.gymassistant;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,10 +13,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.gymassistant.Activities.FillProfileActivity;
 import com.gymassistant.Database.ExerciseDB;
 import com.gymassistant.Fragments.ExercisesFragment;
 import com.gymassistant.Fragments.HistoryFragment;
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        onFirstTime();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,22 +67,33 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         setupTabIcons(tabLayout);
+    }
 
+    private void onFirstTime(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!prefs.getBoolean("firstTime", false)) {
+            setUpExercises();
+            goToFillProfileActivity();
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("firstTime", true);
+            editor.apply();
+        }
+    }
+
+    private void goToFillProfileActivity(){
+        Intent intent = new Intent(this, FillProfileActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    private void setUpExercises(){
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                saveExercises();
+                ExerciseDB exerciseDB = new ExerciseDB(MainActivity.this);
+                exerciseDB.populateExerciseDB();
             }
         });
-    }
-
-    private void saveExercises(){
-        ExerciseDB exerciseDB = new ExerciseDB(MainActivity.this);
-        long rowCount = exerciseDB.getRowCount();
-        Log.i("ExerciseDB", "populate, rowCount: " + String.valueOf(rowCount));
-        if(rowCount < 1){
-            exerciseDB.populateExerciseDB();
-        }
     }
 
     @Override

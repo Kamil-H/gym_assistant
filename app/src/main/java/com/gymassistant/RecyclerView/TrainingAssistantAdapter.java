@@ -7,7 +7,8 @@ package com.gymassistant.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
-import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.gymassistant.Activities.ExercisesPreview;
 import com.gymassistant.Models.Series;
 import com.gymassistant.R;
+import com.gymassistant.UIComponents.NumberDialog;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 
 public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssistantAdapter.TrainingAssistantRowViewHolder> {
@@ -70,49 +68,35 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
-                    NumberPickerBuilder npb = new NumberPickerBuilder()
-                            .setFragmentManager(((FragmentActivity)context).getSupportFragmentManager())
-                            .setStyleResId(R.style.BetterPickersDialogFragment)
-                            .setPlusMinusVisibility(View.INVISIBLE)
-                            .setDecimalVisibility(View.INVISIBLE)
-                            .setLabelText(context.getString(R.string.repeats));
-                    npb.show();
-                    rowViewHolder.repeatsEditText.clearFocus();
-                    npb.addNumberPickerDialogHandler(new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
+                    DialogFragment newFragment = NumberDialog.newInstance(context.getString(R.string.repeats), false, new NumberDialog.NumberSetListener() {
                         @Override
-                        public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
-                            rowViewHolder.repeatsEditText.setText(String.valueOf(number));
-                            repeatsArray[position] = number.intValue();
+                        public void onNumberSet(String text) {
+                            int repeats = Integer.valueOf(text);
+                            repeatsArray[position] = repeats;
+                            rowViewHolder.repeatsEditText.setText(text);
                         }
                     });
+                    newFragment.show(((AppCompatActivity)context).getSupportFragmentManager(), "dialog");
                 }
             }
         });
-
         rowViewHolder.loadEditText.setText(String.valueOf(loadsArray[position]));
         rowViewHolder.loadEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
-                    NumberPickerBuilder npb = new NumberPickerBuilder()
-                            .setFragmentManager(((FragmentActivity)context).getSupportFragmentManager())
-                            .setStyleResId(R.style.BetterPickersDialogFragment)
-                            .setPlusMinusVisibility(View.INVISIBLE)
-                            .setDecimalVisibility(View.INVISIBLE)
-                            .setLabelText(context.getString(R.string.weight));
-                    npb.show();
-                    rowViewHolder.loadEditText.clearFocus();
-                    npb.addNumberPickerDialogHandler(new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
+                    DialogFragment newFragment = NumberDialog.newInstance(context.getString(R.string.load), false, new NumberDialog.NumberSetListener() {
                         @Override
-                        public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
-                            rowViewHolder.loadEditText.setText(String.valueOf(number));
-                            loadsArray[position] = number.intValue();
+                        public void onNumberSet(String text) {
+                            int load = Integer.valueOf(text);
+                            loadsArray[position] = load;
+                            rowViewHolder.loadEditText.setText(text);
                         }
                     });
+                    newFragment.show(((AppCompatActivity)context).getSupportFragmentManager(), "dialog");
                 }
             }
         });
-
         rowViewHolder.exercisePreviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +124,7 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
             this.muscleGroupTextView = (TextView) view.findViewById(R.id.muscleGroupTextView);
             this.exerciseTextView = (TextView) view.findViewById(R.id.exerciseNameTextView);
             this.seriesTextView = (TextView) view.findViewById(R.id.seriesTextView);
-            this.repeatsEditText = (EditText) view.findViewById(R.id.repeatsEditText);
+            this.repeatsEditText = (EditText) view.findViewById(R.id.repeatsTextView);
             this.loadEditText = (EditText) view.findViewById(R.id.loadEditText);
 
             this.exercisePreviewButton = (Button) view.findViewById(R.id.exercisePreviewButton);

@@ -51,7 +51,7 @@ public class ThirdPage extends Fragment {
     private void saveToDatabase(String planName, String planDescription){
         long trainingPlanId = addNewTrainingPlan(planName, planDescription);
         for (int i = 0; i < map.size(); i++){
-            long trainingId = addNewTraining(trainingPlanId, i);
+            long trainingId = addNewTraining(trainingPlanId, i + 1);
             List<Series> seriesList = map.get(i);
             if(seriesList.size() > 0){
                 saveSeriesToDb(seriesList, trainingId);

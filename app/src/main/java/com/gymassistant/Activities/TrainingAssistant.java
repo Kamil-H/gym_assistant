@@ -164,17 +164,21 @@ public class TrainingAssistant extends AppCompatActivity {
     }
 
     private void showDialog(final boolean choice){
-        String title, message;
+        String title, message, positive, negative;
         title = getString(R.string.closing_assistant);
         if(choice){
             message = getString(R.string.close_without_saving);
+            positive = getString(R.string.yes);
+            negative = getString(R.string.cancel);
         } else {
             message = getString(R.string.save_traning);
+            positive = getString(R.string.save_button);
+            negative = getString(R.string.cancel);
         }
         AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog)).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.yes),
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, positive,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if(choice){
@@ -185,14 +189,14 @@ public class TrainingAssistant extends AppCompatActivity {
                         }
                     }
                 });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, negative,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(choice){
                             dialog.dismiss();
                         } else {
-                            onCancel();
+                            dialog.dismiss();
                         }
                     }
         });

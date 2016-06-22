@@ -3,8 +3,8 @@
     <string name="action_settings">Settings</string>
 
     <string name="tab_1_name">"Profil użytkownika"</string>
-    <string name="tab_2_name">"Asystent treningu"</string>
-    <string name="tab_3_name">"Historia ćwiczeń"</string>
+    <string name="tab_2_name">"Treningi"</string>
+    <string name="tab_3_name">"Historia treningów"</string>
     <string name="tab_4_name">"Atlas ćwiczeń"</string>
     <string name="age">WIEK</string>
     <string name="height">WZROST</string>

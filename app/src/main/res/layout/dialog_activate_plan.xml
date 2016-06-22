@@ -16,13 +16,12 @@
         android:layout_alignParentStart="true"
         style="@style/titleTextSmall"/>
 
-    <EditText
+    <com.gymassistant.UIComponents.WhiteEditText
         android:id="@+id/traningNameEditText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:singleLine="true"
-        style="@style/editTextStyle"
         android:layout_below="@+id/textView12"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -39,13 +38,12 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"/>
 
-    <EditText
+    <com.gymassistant.UIComponents.WhiteEditText
         android:id="@+id/trainingDescriptionEditText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:singleLine="true"
-        style="@style/editTextStyle"
         android:inputType="textMultiLine"
         android:layout_below="@+id/textView17"
         android:layout_alignParentLeft="true"

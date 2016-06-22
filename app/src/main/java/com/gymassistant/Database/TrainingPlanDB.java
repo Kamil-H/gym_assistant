@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class TrainingPlanDB extends SQLiteOpenHelper{
 
-    private final String TABLE_NAME = "TrainingPlan", KEY_ID = "id", DAYS = "days", NAME = "name", DESCRIPTION = "description", EXIST = "exist";
+    private final String TABLE_NAME = "TrainingPlan", KEY_ID = "id", DAYS = "days", NAME = "name", DESCRIPTION = "description", EXIST = "available";
     private Context context;
 
     public TrainingPlanDB(Context context) {

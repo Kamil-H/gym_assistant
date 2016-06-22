@@ -92,7 +92,7 @@ public class HistoryFragment extends Fragment {
     private void setUpRecyclerView(String date){
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        HistoryExpandableAdapter historyExpandableAdapter = new HistoryExpandableAdapter(getActivity(), generateList(getTrainingDonesByDate(date)));
+        HistoryExpandableAdapter historyExpandableAdapter = new HistoryExpandableAdapter(getActivity(), generateList(getTrainingsDoneByDate(date)));
         recyclerView.setAdapter(historyExpandableAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
             @Override
@@ -105,7 +105,7 @@ public class HistoryFragment extends Fragment {
         });
     }
 
-    private List<TrainingDone> getTrainingDonesByDate(String date){
+    private List<TrainingDone> getTrainingsDoneByDate(String date){
         List<TrainingDone> parentList = new ArrayList<>();
         for(TrainingDone trainingDone : trainingDoneList){
             if(trainingDone.getDate().matches(date)){

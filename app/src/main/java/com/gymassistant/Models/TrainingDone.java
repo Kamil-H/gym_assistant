@@ -1,12 +1,10 @@
 package com.gymassistant.Models;
 
-import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
-
 import java.util.List;
 /**
  * Created by KamilH on 2016-05-19.
  */
-public class TrainingDone implements ParentListItem{
+public class TrainingDone {
     private long id;
     private String date;
     private int day;
@@ -77,15 +75,5 @@ public class TrainingDone implements ParentListItem{
 
     public void setSeriesDoneGroupList(List<SeriesDoneGroup> seriesDoneGroupList) {
         this.seriesDoneGroupList = seriesDoneGroupList;
-    }
-
-    @Override
-    public List<?> getChildItemList() {
-        return seriesDoneGroupList;
-    }
-
-    @Override
-    public boolean isInitiallyExpanded() {
-        return false;
     }
 }

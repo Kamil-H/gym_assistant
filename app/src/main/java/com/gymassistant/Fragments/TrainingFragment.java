@@ -3,9 +3,11 @@ package com.gymassistant.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.gymassistant.Database.TrainingDB;
 import com.gymassistant.Models.StartedTrainingPlan;
 import com.gymassistant.R;
 import com.gymassistant.RecyclerView.TrainingDayExpandableAdapter;
+import com.gymassistant.UIComponents.NumberDialog;
 
 import java.util.List;
 
@@ -54,6 +57,18 @@ public class TrainingFragment extends Fragment {
                 goToTrainingPlanManagmentActivity();
             }
         });
+    }
+
+    private void showSummaryDialog() {
+        DialogFragment newFragment = NumberDialog.newInstance("SERRER", true, new NumberDialog.NumberSetListener() {
+            @Override
+            public void onNumberSet(String text) {
+                Double d = Double.parseDouble(text);
+                Log.i("INTEGER: ", String.valueOf(d.intValue()));
+                Log.i("DOUBLE: ", String.valueOf(d));
+            }
+        });
+        newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
     }
 
     private void initEmptyStateUI(LayoutInflater inflater, ViewGroup container) {

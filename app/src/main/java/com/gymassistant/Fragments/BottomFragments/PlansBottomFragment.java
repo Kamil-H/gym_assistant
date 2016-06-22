@@ -61,7 +61,9 @@ public class PlansBottomFragment extends Fragment {
     }
 
     public void refresh(){
-        setUpRecyclerView();
+        if(trainingPlanDB.getRowCount() > 0){
+            setUpRecyclerView();
+        }
     }
 
     private void goToWizardActivity(){

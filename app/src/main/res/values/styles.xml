@@ -7,20 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/colorText</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:spinnerStyle">@style/spinnerStyle</item>
-    </style>
-
-    <style name="editTextStyle" parent="@android:style/Widget.EditText">
-        <item name="android:textColor">@color/colorText</item>
-        <item name="android:backgroundTint">@color/colorText</item>
-    </style>
-    
-    <style name="spinnerStyle" parent="@style/Widget.AppCompat.Spinner.Underlined">
-        <item name="android:textColor">@color/colorText</item>
-        <item name="android:backgroundTint">@color/colorText</item>
-        <item name="android:popupBackground">@color/colorCard</item>
-        <item name="android:spinnerMode">dropdown</item>
-        <item name="colorControlHighlight">@color/colorText</item>
+        <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner.Underlined</item>
     </style>
 
     <style name="titleTextSmall">

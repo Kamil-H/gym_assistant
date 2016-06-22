@@ -29,6 +29,6 @@
         android:background="@color/colorBackground"
         android:textColor="@color/colorAccent"
         style="?android:attr/borderlessButtonStyle"
-        />
+        android:clickable="true"/>
 
 </RelativeLayout>

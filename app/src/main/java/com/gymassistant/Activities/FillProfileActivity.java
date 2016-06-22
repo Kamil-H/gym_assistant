@@ -1,7 +1,7 @@
 package com.gymassistant.Activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -67,23 +67,16 @@ public class FillProfileActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ProgressDialog progressDialog = new ProgressDialog(FillProfileActivity.this, R.style.progressDialog);
-                progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Aktualizowanie danych...");
-                progressDialog.show();
-
-                // TODO: Implement your own signup logic here.
-
-                new android.os.Handler().postDelayed(
-                        new Runnable() {
-                            public void run() {
-                                readValues();
-                                goToMainActivity();
-                                progressDialog.dismiss();
-                            }
-                        }, 2000);
+                readValues();
+                finishWithResult();
             }
         });
+    }
+
+    public void finishWithResult(){
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+        this.finish();
     }
 
     private void showDateDialog(){
