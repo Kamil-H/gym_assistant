@@ -1,7 +1,7 @@
 package com.gymassistant.Fragments;
 
 import android.os.Bundle;
-import android.os.StrictMode;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,15 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.gymassistant.Database.UserDB;
 import com.gymassistant.Models.User;
 import com.gymassistant.R;
-import com.gymassistant.UIComponents.UniversalDialog;
+import com.gymassistant.UIComponents.NumberDialog;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 import org.joda.time.format.DateTimeFormat;
@@ -31,7 +31,7 @@ public class ProfileFragment extends Fragment {
     private FloatingActionButton calfFAB, thighFAB, fipFAB, waistFAB, bicepsFAB, chestFAB, weightFAB;
     private FloatingActionMenu floatingActionMenu;
     private FrameLayout frameLayout;
-    private TextView ageTextView, heightTextView, weightTextView, bmiTextView;
+    private TextView ageTextView, heightTextView, weightTextView, bmiTextView, fatTextView, chestTextView, bicepsTextView, waistTextView, fipTextView, thighTextView, calfTextView;
     private User user;
 
     @Override
@@ -76,6 +76,14 @@ public class ProfileFragment extends Fragment {
         heightTextView = (TextView) view.findViewById(R.id.heightTextView);
         weightTextView = (TextView) view.findViewById(R.id.weightTextView);
         bmiTextView = (TextView) view.findViewById(R.id.bmiTextView);
+
+        fatTextView = (TextView) view.findViewById(R.id.fatTextView);
+        chestTextView = (TextView) view.findViewById(R.id.chestTextView);
+        bicepsTextView = (TextView) view.findViewById(R.id.bicepsTextView);
+        waistTextView = (TextView) view.findViewById(R.id.waistTextView);
+        fipTextView = (TextView) view.findViewById(R.id.fipTextView);
+        thighTextView = (TextView) view.findViewById(R.id.thighTextView);
+        calfTextView = (TextView) view.findViewById(R.id.calfTextView);
     }
 
     private void setUpFAM(){
@@ -113,32 +121,47 @@ public class ProfileFragment extends Fragment {
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            UniversalDialog universalDialog = new UniversalDialog(view.getContext(), ProfileFragment.this);
             switch (v.getId()) {
                 case R.id.calfFAB:
-                    universalDialog.showUniversalDialog("calf", getString(R.string.calf_FAB).toUpperCase());
+                    showNumberDialog(getString(R.string.calf_FAB));
                     break;
                 case R.id.thighFAB:
-                    universalDialog.showUniversalDialog("thigh", getString(R.string.thigh_FAB).toUpperCase());
+                    showNumberDialog(getString(R.string.thigh_FAB));
                     break;
                 case R.id.fipFAB:
-                    universalDialog.showUniversalDialog("fip", getString(R.string.fip_FAB).toUpperCase());
+                    showNumberDialog(getString(R.string.fip_FAB));
                     break;
                 case R.id.waistFAB:
-                    universalDialog.showUniversalDialog("waist", getString(R.string.waist_FAB).toUpperCase());
+                    showNumberDialog(getString(R.string.waist_FAB));
                     break;
                 case R.id.bicepsFAB:
-                    universalDialog.showUniversalDialog("biceps", getString(R.string.biceps_FAB).toUpperCase());
+                    showNumberDialog(getString(R.string.biceps_FAB));
                     break;
                 case R.id.chestFAB:
-                    universalDialog.showUniversalDialog("chest", getString(R.string.chest_FAB).toUpperCase());
+                    showNumberDialog(getString(R.string.chest_FAB));
                     break;
                 case R.id.weightFAB:
-                    universalDialog.showUniversalDialog("weight", getString(R.string.weight_FAB).toUpperCase());
+                    showNumberDialog(getString(R.string.weight_FAB));
                     break;
             }
         }
     };
+
+    private void showNumberDialog(final String title){
+        DialogFragment newFragment = NumberDialog.newInstance(title, true, new NumberDialog.NumberSetListener() {
+            @Override
+            public void onNumberSet(String text) {
+                addValueToDB(Double.parseDouble(text), title);
+                closeFAM();
+            }
+        });
+        newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+    }
+
+    private void addValueToDB(double value, String name){
+        Log.i(name, String.valueOf(value));
+        Toast.makeText(getActivity(), String.format("Dodano: %s: %f", name, value), Toast.LENGTH_LONG).show();
+    }
 
     public void closeFAM(){
         floatingActionMenu.toggle(true);

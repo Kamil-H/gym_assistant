@@ -130,5 +130,12 @@
     <string name="add_deleted_plans">dołącz usunięte plany</string>
     <string name="repeats">Liczba powtórzeń</string>
     <string name="which_training_day">numer dnia treningowego</string>
+    <string name="fat">tłuszcz</string>
+    <string name="chest">pierś</string>
+    <string name="biceps">ramię</string>
+    <string name="waist">talia</string>
+    <string name="fip">biodra</string>
+    <string name="thigh">udo</string>
+    <string name="calf">łydka</string>
 
 </resources>

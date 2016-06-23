@@ -4,32 +4,39 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/colorBackground"
-    android:paddingLeft="10dp"
-    android:paddingTop="10dp"
-    android:paddingRight="10dp">
+    android:background="@color/colorBackground">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/training_name"
-        android:id="@+id/titleTextView"
-        style="@style/titleTextSmall"/>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/numberTextView"
-        android:textSize="40sp"/>
-
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorText"
-        android:id="@+id/view"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/training_name"
+            android:id="@+id/titleTextView"
+            style="@style/titleTextSmall"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/numberTextView"
+            android:textSize="40sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorText"
+            android:id="@+id/view"/>
+
+    </LinearLayout>
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -183,7 +190,6 @@
     </GridLayout>
 
     <LinearLayout
-        android:background="@color/colorBackground"
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -6,129 +6,324 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/fragment_padding"
     android:background="@color/colorBackground">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/fragment_padding">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:background="@color/colorCard"
-            style="@style/CardView"
-            android:id="@+id/relativeLayout">
+            android:id="@+id/relativeLayout3"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:id="@+id/imageView"
-                android:src="@drawable/icon"
-                android:adjustViewBounds="true"/>
-
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/age"
-                android:id="@+id/textView"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/imageView"
-                android:layout_toEndOf="@+id/imageView"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
-                style="@style/titleTextSmall"
-                />
+                android:padding="5dp"
+                android:background="@color/colorCard"
+                style="@style/CardView"
+                android:id="@+id/relativeLayout">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="25 lat"
-                android:id="@+id/ageTextView"
-                android:layout_below="@+id/textView"
-                android:layout_alignLeft="@+id/textView"
-                android:layout_alignStart="@+id/textView"
-                android:textSize="15sp"/>
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/imageView"
+                    android:src="@drawable/icon"
+                    android:adjustViewBounds="true"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/height"
-                android:id="@+id/textView2"
-                android:layout_below="@+id/ageTextView"
-                android:layout_alignLeft="@+id/ageTextView"
-                android:layout_alignStart="@+id/ageTextView"
-                android:layout_marginTop="10dp"
-                style="@style/titleTextSmall"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/age"
+                    android:id="@+id/textView"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/imageView"
+                    android:layout_toEndOf="@+id/imageView"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    style="@style/titleTextSmall"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="176 cm"
-                android:id="@+id/heightTextView"
-                android:layout_below="@+id/textView2"
-                android:layout_alignLeft="@+id/textView2"
-                android:layout_alignStart="@+id/textView2" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25 lat"
+                    android:id="@+id/ageTextView"
+                    android:layout_below="@+id/textView"
+                    android:layout_alignLeft="@+id/textView"
+                    android:layout_alignStart="@+id/textView"
+                    android:textSize="15sp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/weight"
-                android:id="@+id/textView3"
-                android:layout_below="@+id/heightTextView"
-                android:layout_alignLeft="@+id/heightTextView"
-                android:layout_alignStart="@+id/heightTextView"
-                android:layout_marginTop="10dp"
-                style="@style/titleTextSmall" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/height"
+                    android:id="@+id/textView2"
+                    android:layout_below="@+id/ageTextView"
+                    android:layout_alignLeft="@+id/ageTextView"
+                    android:layout_alignStart="@+id/ageTextView"
+                    android:layout_marginTop="10dp"
+                    style="@style/titleTextSmall"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="75 kg"
-                android:id="@+id/weightTextView"
-                android:layout_below="@+id/textView3"
-                android:layout_alignLeft="@+id/textView3"
-                android:layout_alignStart="@+id/textView3" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="176 cm"
+                    android:id="@+id/heightTextView"
+                    android:layout_below="@+id/textView2"
+                    android:layout_alignLeft="@+id/textView2"
+                    android:layout_alignStart="@+id/textView2" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/BMI"
-                android:id="@+id/textView4"
-                android:layout_below="@+id/weightTextView"
-                android:layout_alignLeft="@+id/weightTextView"
-                android:layout_alignStart="@+id/weightTextView"
-                android:layout_marginTop="10dp"
-                style="@style/titleTextSmall" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight"
+                    android:id="@+id/textView3"
+                    android:layout_below="@+id/heightTextView"
+                    android:layout_alignLeft="@+id/heightTextView"
+                    android:layout_alignStart="@+id/heightTextView"
+                    android:layout_marginTop="10dp"
+                    style="@style/titleTextSmall" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="24.2"
-                android:id="@+id/bmiTextView"
-                android:layout_below="@+id/textView4"
-                android:layout_alignLeft="@+id/textView4"
-                android:layout_alignStart="@+id/textView4" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="75 kg"
+                    android:id="@+id/weightTextView"
+                    android:layout_below="@+id/textView3"
+                    android:layout_alignLeft="@+id/textView3"
+                    android:layout_alignStart="@+id/textView3" />
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/BMI"
+                    android:id="@+id/textView4"
+                    android:layout_below="@+id/weightTextView"
+                    android:layout_alignLeft="@+id/weightTextView"
+                    android:layout_alignStart="@+id/weightTextView"
+                    android:layout_marginTop="10dp"
+                    style="@style/titleTextSmall" />
 
-        <View
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="24.2"
+                    android:id="@+id/bmiTextView"
+                    android:layout_below="@+id/textView4"
+                    android:layout_alignLeft="@+id/textView4"
+                    android:layout_alignStart="@+id/textView4" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorDivider"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/colorDivider"
-            android:layout_below="@+id/relativeLayout"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorCard"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:gravity="left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/fat"
+                            android:id="@+id/textView45"
+                            style="@style/titleTextSmall"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/fatTextView"
+                            android:text="-"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:gravity="left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/chest"
+                            android:id="@+id/textView14"
+                            style="@style/titleTextSmall" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/chestTextView"
+                            android:text="-"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:gravity="left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/biceps"
+                            android:id="@+id/textView44"
+                            style="@style/titleTextSmall" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/bicepsTextView"
+                            android:text="-"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:gravity="left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/waist"
+                            style="@style/titleTextSmall"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/waistTextView"
+                            android:text="-"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:gravity="left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/fip"
+                            style="@style/titleTextSmall" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/fipTextView"
+                            android:text="-"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:gravity="left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/thigh"
+                            style="@style/titleTextSmall" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/thighTextView"
+                            android:text="-"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:gravity="left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/calf"
+                            style="@style/titleTextSmall"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/calfTextView"
+                            android:text="-"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:background="@color/colorDivider" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/frame_layout"
-        android:background="#F3F3F3">
+        android:background="#F3F3F3"
+        android:visibility="gone">
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/menuFAM"

@@ -74,6 +74,7 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
                             int repeats = Integer.valueOf(text);
                             repeatsArray[position] = repeats;
                             rowViewHolder.repeatsEditText.setText(text);
+                            rowViewHolder.repeatsEditText.clearFocus();
                         }
                     });
                     newFragment.show(((AppCompatActivity)context).getSupportFragmentManager(), "dialog");
@@ -91,6 +92,7 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
                             int load = Integer.valueOf(text);
                             loadsArray[position] = load;
                             rowViewHolder.loadEditText.setText(text);
+                            rowViewHolder.loadEditText.clearFocus();
                         }
                     });
                     newFragment.show(((AppCompatActivity)context).getSupportFragmentManager(), "dialog");

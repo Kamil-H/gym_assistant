@@ -95,7 +95,7 @@ public class NumberDialog extends DialogFragment {
 
     private void notifyValueChanged(){
         if(!text.isEmpty()) {
-            if(text.charAt(0) == '0' && !text.contains(".") && text.charAt(text.length()) != '.'){
+            if(text.charAt(0) == '0' && !text.contains(".") && text.charAt(text.length() - 1) != '.'){
                 return;
             }
             numberSetListener.onNumberSet(text);
