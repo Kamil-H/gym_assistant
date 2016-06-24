@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackground"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_new_measurement"
+            style="@style/titleTextBig"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_dimension"
+            style="@style/titleTextSmall"
+            android:layout_marginTop="10dp"/>
+
+        <com.gymassistant.UIComponents.WhiteSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dimensionSpinner" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/value"
+            style="@style/titleTextSmall"
+            android:id="@+id/valueTitleTextView"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.gymassistant.UIComponents.WhiteEditText
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/valueEditText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cm"
+                android:id="@+id/valueUnitTextView"
+                android:layout_marginBottom="5dp"
+                style="@style/titleTextBig"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="15dp">
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/backButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:text="@string/cancel"
+            android:textStyle="bold"
+            android:textColor="@color/colorText"
+            android:background="?attr/selectableItemBackground"
+            android:layout_marginRight="1dp"
+            android:clickable="true" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/nextButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:text="@string/save_button"
+            android:textStyle="bold"
+            android:textColor="@color/colorText"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true" />
+    </LinearLayout>
+</LinearLayout>

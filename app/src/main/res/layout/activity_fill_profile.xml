@@ -2,7 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    android:focusableInTouchMode="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -31,51 +32,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/name"
-            android:id="@+id/textView23"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            style="@style/titleTextSmall"/>
-
-        <com.gymassistant.UIComponents.WhiteEditText
-            android:id="@+id/nameEditText"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:layout_below="@+id/textView23"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/surname"
-            android:id="@+id/textView24"
-            android:layout_below="@+id/nameEditText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
-            style="@style/titleTextSmall" />
-
-        <com.gymassistant.UIComponents.WhiteEditText
-            android:id="@+id/surnameEditText"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:layout_below="@+id/textView24"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/gender"
             android:id="@+id/textView21"
-            android:layout_below="@+id/surnameEditText"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="30dp"
@@ -124,89 +82,93 @@
             style="@style/titleTextSmall" />
 
 
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/dateEditText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:layout_below="@+id/dateEditText">
 
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/height"
-                android:id="@+id/textView25"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="80dp"
-                android:layout_marginStart="80dp"
-                style="@style/titleTextSmall"/>
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/height"
+                    android:id="@+id/textView15"
+                    style="@style/titleTextSmall"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.gymassistant.UIComponents.NumberEditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="50dp"
+                        android:id="@+id/heightEditText"
+                        android:inputType="numberSigned"
+                        android:cursorVisible="false"
+                        xmlns:customNS="http://schemas.android.com/apk/res/com.gymassistant"
+                        customNS:titleText="@string/height"
+                        customNS:isDouble="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="cm"
+                        android:id="@+id/heightUnitTextView"
+                        android:layout_marginBottom="5dp"
+                        style="@style/titleTextBig"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/weight"
-                android:id="@+id/textView26"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="80dp"
-                android:layout_marginEnd="80dp"
-                style="@style/titleTextSmall" />
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
-            <com.gymassistant.UIComponents.NumberEditText
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-                android:id="@+id/heightEditText"
-                android:layout_below="@+id/textView25"
-                android:layout_alignLeft="@+id/textView25"
-                android:layout_alignStart="@+id/textView25"
-                xmlns:customNS="http://schemas.android.com/apk/res/com.gymassistant"
-                customNS:titleText="@string/height"
-                customNS:isDouble="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/weight"
+                    android:id="@+id/textView14"
+                    style="@style/titleTextSmall" />
 
-            <com.gymassistant.UIComponents.NumberEditText
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-                android:id="@+id/weightEditText"
-                android:layout_below="@+id/textView26"
-                android:layout_alignLeft="@+id/textView26"
-                android:layout_alignStart="@+id/textView26"
-                xmlns:customNS="http://schemas.android.com/apk/res/com.gymassistant"
-                customNS:titleText="@string/weight"
-                customNS:isDouble="true"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="cm"
-                android:id="@+id/textView27"
-                android:layout_alignBottom="@+id/heightEditText"
-                android:layout_toRightOf="@+id/textView25"
-                android:layout_toEndOf="@+id/textView25"
-                android:layout_marginBottom="5dp"
-                style="@style/titleTextBig"/>
+                    <com.gymassistant.UIComponents.NumberEditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="50dp"
+                        android:id="@+id/weightEditText"
+                        android:inputType="numberSigned"
+                        android:cursorVisible="false"
+                        xmlns:customNS="http://schemas.android.com/apk/res/com.gymassistant"
+                        customNS:titleText="@string/weight"
+                        customNS:isDouble="true"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="kg"
-                android:id="@+id/textView28"
-                android:layout_alignBottom="@+id/weightEditText"
-                android:layout_toRightOf="@+id/weightEditText"
-                android:layout_toEndOf="@+id/weightEditText"
-                android:layout_marginBottom="5dp"
-                style="@style/titleTextBig" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="kg"
+                        android:id="@+id/weightUnitTextView"
+                        android:layout_marginBottom="5dp"
+                        style="@style/titleTextBig"/>
 
-        </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
 
         <com.gymassistant.UIComponents.WhiteEditText
             android:layout_width="match_parent"

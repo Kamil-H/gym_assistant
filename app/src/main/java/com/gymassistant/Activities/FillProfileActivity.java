@@ -3,21 +3,23 @@ package com.gymassistant.Activities;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.gymassistant.Database.DimensionDB;
 import com.gymassistant.Database.UserDB;
 import com.gymassistant.DateConverter;
-import com.gymassistant.MainActivity;
+import com.gymassistant.Models.Dimension;
 import com.gymassistant.Models.User;
 import com.gymassistant.R;
 
@@ -27,12 +29,8 @@ import java.util.Calendar;
  * Created by KamilH on 2016-05-10.
  */
 public class FillProfileActivity extends AppCompatActivity {
-    private EditText surnameEditText, nameEditText, weightEditText, heightEditText, dateEditText;
-    private RadioGroup radioGroup;
-    private Button saveButton;
+    private EditText weightEditText, heightEditText, dateEditText;
     private RadioButton maleRadioButton;
-    private UserDB userDB;
-    private User user;
     private String date;
 
     @Override
@@ -40,20 +38,29 @@ public class FillProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_profile);
 
+        setUpToolbar();
+
+        TextView heightUnitTextView = (TextView) findViewById(R.id.heightUnitTextView);
+        TextView weightUnitTextView = (TextView) findViewById(R.id.weightUnitTextView);
+        heightUnitTextView.setText("CM");
+        weightUnitTextView.setText("KG");
+
+        maleRadioButton = (RadioButton) findViewById(R.id.maleRadioButton);
+
+        setUpEditTextes();
+        setUpButton();
+    }
+
+    private void setUpToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setTitle("Uzupełnij swój profil");
+    }
 
-        userDB = new UserDB(this);
-        user = userDB.getUser();
-
-        maleRadioButton = (RadioButton) findViewById(R.id.maleRadioButton);
+    private void setUpEditTextes(){
         heightEditText = (EditText) findViewById(R.id.heightEditText);
         weightEditText = (EditText) findViewById(R.id.weightEditText);
-        nameEditText = (EditText) findViewById(R.id.nameEditText);
-        surnameEditText = (EditText) findViewById(R.id.surnameEditText);
-        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         dateEditText = (EditText) findViewById(R.id.dateEditText);
         dateEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -63,11 +70,15 @@ public class FillProfileActivity extends AppCompatActivity {
                 }
             }
         });
-        saveButton = (Button) findViewById(R.id.saveButton);
+    }
+
+    private void setUpButton(){
+        Button saveButton = (Button) findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 readValues();
+                editFirstTime();
                 finishWithResult();
             }
         });
@@ -91,15 +102,7 @@ public class FillProfileActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private void goToMainActivity(){
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-        this.finish();
-    }
-
     private void readValues(){
-        String name = nameEditText.getText().toString();
-        String surname = surnameEditText.getText().toString();
         String gender;
         String birthday = date;
         double weight, height;
@@ -123,27 +126,27 @@ public class FillProfileActivity extends AppCompatActivity {
             gender = "F";
         }
 
-        user.setFirstName(name);
-        user.setSurname(surname);
-        user.setGender(gender);
-        user.setBirthday(birthday);
-        user.setWeight(weight);
-        user.setHeight(height);
+        User user = new User(gender, birthday, height, weight);
 
-        Log.i("USER", user.toString());
-
-        if(userDB.getRowCount() == 0){
-            addUser();
-        } else {
-            updateUser();
-        }
+        addUser(user);
+        addNewDimension(weight);
     }
 
-    private void updateUser(){
-        userDB.updateUser(user);
+    private void addNewDimension(double weight){
+        Dimension dimension = new Dimension(weight, DateConverter.today(), 1);
+        DimensionDB dimensionDB = new DimensionDB(this);
+        dimensionDB.addDimension(dimension);
     }
 
-    private void addUser(){
+    private void addUser(User user){
+        UserDB userDB = new UserDB(this);
         userDB.addUser(user);
+    }
+
+    private void editFirstTime(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstTime", true);
+        editor.apply();
     }
 }

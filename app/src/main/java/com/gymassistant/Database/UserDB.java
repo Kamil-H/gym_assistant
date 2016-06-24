@@ -14,8 +14,7 @@ import com.gymassistant.Models.User;
  * Created by KamilH on 2016-05-10.
  */
 public class UserDB extends SQLiteOpenHelper {
-    private final String TABLE_NAME = "User", KEY_ID = "id", USER_ID = "userId", ADDED_DATE = "addedDate", BIRTHDAY = "birthday", EMAIL = "EMAIL",
-            FIRSTNAME = "firstName", GENDER = "gender", PASSWORD = "password", SURNAME = "surname", USERNAME = "userName", HEIGHT = "height", WEIGHT = "weight";
+    private final String TABLE_NAME = "User", KEY_ID = "id", BIRTHDAY = "birthday", GENDER = "gender", HEIGHT = "height", WEIGHT = "weight";
     private Context context;
 
     public UserDB(Context context) {
@@ -26,8 +25,8 @@ public class UserDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE =
-                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s REAL, %s REAL)",
-                        TABLE_NAME, KEY_ID, USER_ID, ADDED_DATE, BIRTHDAY, EMAIL, FIRSTNAME, GENDER, PASSWORD, SURNAME, USERNAME, HEIGHT, WEIGHT);
+                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s TEXT, %s REAL, %s REAL)",
+                        TABLE_NAME, KEY_ID, BIRTHDAY, GENDER, HEIGHT, WEIGHT);
         db.execSQL(CREATE_TABLE);
     }
 
@@ -41,15 +40,8 @@ public class UserDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(USER_ID, user.getUserId());
-        values.put(ADDED_DATE, DateConverter.dateToTime(user.getAddedDate()));
         values.put(BIRTHDAY, DateConverter.dateToTime(user.getBirthday()));
-        values.put(EMAIL, user.getEmail());
-        values.put(FIRSTNAME, user.getFirstName());
         values.put(GENDER, user.getGender());
-        values.put(PASSWORD, user.getPassword());
-        values.put(SURNAME, user.getSurname());
-        values.put(USERNAME, user.getUserName());
         values.put(HEIGHT, user.getHeight());
         values.put(WEIGHT, user.getWeight());
 
@@ -63,40 +55,22 @@ public class UserDB extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         User user = new User();
         if (cursor.moveToFirst()) {
-            user.setId(cursor.getInt(0));
-            user.setUserId(cursor.getInt(1));
-            user.setAddedDate(DateConverter.timeToDate(cursor.getLong(2)));
-            user.setBirthday(DateConverter.timeToDate(cursor.getLong(3)));
-            user.setEmail(cursor.getString(4));
-            user.setFirstName(cursor.getString(5));
-            user.setGender(cursor.getString(6));
-            user.setPassword(cursor.getString(7));
-            user.setSurname(cursor.getString(8));
-            user.setUserName(cursor.getString(9));
-            user.setHeight(cursor.getDouble(10));
-            user.setWeight(cursor.getDouble(11));
+            user.setId(cursor.getLong(0));
+            user.setBirthday(DateConverter.timeToDate(cursor.getLong(1)));
+            user.setGender(cursor.getString(2));
+            user.setHeight(cursor.getDouble(3));
+            user.setWeight(cursor.getDouble(4));
         }
         db.close();
         return user;
     }
 
-    public void updateUser(User user){
+    public void updateUser(double weight){
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(USER_ID, user.getUserId());
-        values.put(ADDED_DATE, DateConverter.dateToTime(user.getAddedDate()));
-        values.put(BIRTHDAY, DateConverter.dateToTime(user.getBirthday()));
-        values.put(EMAIL, user.getEmail());
-        values.put(FIRSTNAME, user.getFirstName());
-        values.put(GENDER, user.getGender());
-        values.put(PASSWORD, user.getPassword());
-        values.put(SURNAME, user.getSurname());
-        values.put(USERNAME, user.getUserName());
-        values.put(HEIGHT, user.getHeight());
-        values.put(WEIGHT, user.getWeight());
-
-        db.update(TABLE_NAME, values, KEY_ID + " = ?", new String[]{"1"});
+        ContentValues cv = new ContentValues();
+        cv.put(WEIGHT, weight);
+        db.update(TABLE_NAME, cv, KEY_ID + "= ?", new String[] {String.valueOf(1)});
+        db.close();
     }
 
     public void deleteUser(int id) {

@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gymassistant.Activities.FillProfileActivity;
+import com.gymassistant.Database.DimensionTypeDB;
 import com.gymassistant.Database.ExerciseDB;
 import com.gymassistant.Fragments.ExercisesFragment;
 import com.gymassistant.Fragments.HistoryFragment;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!prefs.getBoolean("firstTime", false)) {
             setUpExercises();
+            setUpDimensionTypes();
             goToFillProfileActivity();
 
             SharedPreferences.Editor editor = prefs.edit();
@@ -92,6 +94,16 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 ExerciseDB exerciseDB = new ExerciseDB(MainActivity.this);
                 exerciseDB.populateExerciseDB();
+            }
+        });
+    }
+
+    private void setUpDimensionTypes(){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                DimensionTypeDB dimensionTypeDB = new DimensionTypeDB(MainActivity.this);
+                dimensionTypeDB.populateDimensionTypeDB();
             }
         });
     }

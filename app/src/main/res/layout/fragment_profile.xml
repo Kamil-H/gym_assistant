@@ -131,182 +131,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/linearLayout"
+            android:background="@color/colorCard">
 
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorCard"
-                android:padding="5dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:gravity="left"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/fat"
-                            android:id="@+id/textView45"
-                            style="@style/titleTextSmall"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/fatTextView"
-                            android:text="-"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:gravity="left"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/chest"
-                            android:id="@+id/textView14"
-                            style="@style/titleTextSmall" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/chestTextView"
-                            android:text="-"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:gravity="left"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/biceps"
-                            android:id="@+id/textView44"
-                            style="@style/titleTextSmall" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/bicepsTextView"
-                            android:text="-"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:gravity="left"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/waist"
-                            style="@style/titleTextSmall"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/waistTextView"
-                            android:text="-"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:gravity="left"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/fip"
-                            style="@style/titleTextSmall" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/fipTextView"
-                            android:text="-"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:gravity="left"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/thigh"
-                            style="@style/titleTextSmall" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/thighTextView"
-                            android:text="-"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.33"
-                        android:gravity="left"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/calf"
-                            style="@style/titleTextSmall"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/calfTextView"
-                            android:text="-"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerview"
+                android:layout_margin="5dp">
+            </android.support.v7.widget.RecyclerView>
 
             <View
                 android:layout_width="wrap_content"
@@ -314,87 +148,15 @@
                 android:background="@color/colorDivider" />
 
         </LinearLayout>
-
-
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/frame_layout"
-        android:background="#F3F3F3"
-        android:visibility="gone">
-
-        <com.github.clans.fab.FloatingActionMenu
-            android:id="@+id/menuFAM"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            fab:menu_icon="@drawable/fab_add"
-            fab:menu_colorNormal="@color/colorPrimary"
-            fab:menu_colorPressed="@color/colorPrimaryDark"
-            fab:menu_colorRipple="#99FFFFFF"
-            fab:menu_labels_colorNormal="@color/colorCard"
-            android:layout_gravity="end|bottom">
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/calfFAB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_mode_edit_white_24dp"
-                fab:fab_size="mini"
-                app:fab_label="@string/calf_FAB" />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/thighFAB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_mode_edit_white_24dp"
-                fab:fab_size="mini"
-                app:fab_label="@string/thigh_FAB" />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fipFAB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_mode_edit_white_24dp"
-                fab:fab_size="mini"
-                app:fab_label="@string/fip_FAB" />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/waistFAB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_mode_edit_white_24dp"
-                fab:fab_size="mini"
-                app:fab_label="@string/waist_FAB" />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/bicepsFAB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_mode_edit_white_24dp"
-                fab:fab_size="mini"
-                app:fab_label="@string/biceps_FAB" />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/chestFAB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_mode_edit_white_24dp"
-                fab:fab_size="mini"
-                app:fab_label="@string/chest_FAB" />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/weightFAB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_mode_edit_white_24dp"
-                fab:fab_size="mini"
-                app:fab_label="@string/weight_FAB" />
-
-        </com.github.clans.fab.FloatingActionMenu>
-
-    </FrameLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:scaleType="center"
+        android:src="@drawable/fab_add"
+        android:layout_margin="@dimen/fab_margin" />
 
 </FrameLayout>

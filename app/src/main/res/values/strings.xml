@@ -6,10 +6,10 @@
     <string name="tab_2_name">"Treningi"</string>
     <string name="tab_3_name">"Historia treningów"</string>
     <string name="tab_4_name">"Atlas ćwiczeń"</string>
-    <string name="age">WIEK</string>
-    <string name="height">WZROST</string>
-    <string name="weight">WAGA</string>
-    <string name="BMI">BMI</string>
+    <string name="age">wiek</string>
+    <string name="height">wzrost</string>
+    <string name="weight">waga</string>
+    <string name="BMI">bmi</string>
     <string name="calf_FAB">Obwód łydki</string>
     <string name="thigh_FAB">Obwód uda</string>
     <string name="fip_FAB">Obwód bioder</string>
@@ -131,11 +131,33 @@
     <string name="repeats">Liczba powtórzeń</string>
     <string name="which_training_day">numer dnia treningowego</string>
     <string name="fat">tłuszcz</string>
-    <string name="chest">pierś</string>
-    <string name="biceps">ramię</string>
+    <string name="chest">klatka piersiowa</string>
+    <string name="biceps_right">ramię (prawe)</string>
+    <string name="biceps_left">ramię (lewe)</string>
     <string name="waist">talia</string>
     <string name="fip">biodra</string>
-    <string name="thigh">udo</string>
-    <string name="calf">łydka</string>
+    <string name="thigh_right">udo (prawe)</string>
+    <string name="thigh_left">udo (lewe)</string>
+    <string name="calf_right">łydka (prawa)</string>
+    <string name="calf_left">łydka (lewa)</string>
+    <string name="choose_dimension">wybierz wymiar</string>
+    <string name="value">wartość</string>
+    <string name="add_measurement">dodaj pomiar</string>
+    <string name="add_new_measurement">dodaj nowy pomiar</string>
+    <string name="fill_measurment">PROSZĘ PODAĆ POMIAR!</string>
+
+    <string-array name="dimension_types">
+        <item>@string/weight</item>
+        <item>@string/fat</item>
+        <item>@string/chest</item>
+        <item>@string/biceps_right</item>
+        <item>@string/biceps_left</item>
+        <item>@string/waist</item>
+        <item>@string/fip</item>
+        <item>@string/thigh_right</item>
+        <item>@string/thigh_left</item>
+        <item>@string/calf_right</item>
+        <item>@string/calf_left</item>
+    </string-array>
 
 </resources>
