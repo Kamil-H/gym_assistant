@@ -1,5 +1,6 @@
 package com.gymassistant.Fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,8 +30,7 @@ public class ExercisesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_exercises,container,false);
 
-        getExerciseLists();
-        setUpExpandableRecyclerView();
+        new AsyncUI().execute();
 
         return view;
     }
@@ -41,8 +41,8 @@ public class ExercisesFragment extends Fragment {
         categories = exerciseDB.getCategories();
     }
 
-    private void setUpExpandableRecyclerView(){
-        ExerciseExpandableAdapter exerciseExpandableAdapter = new ExerciseExpandableAdapter(getActivity(), generateList());
+    private void setUpExpandableRecyclerView(ArrayList<Category> categories){
+        ExerciseExpandableAdapter exerciseExpandableAdapter = new ExerciseExpandableAdapter(getActivity(), categories);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setAdapter(exerciseExpandableAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -61,6 +61,22 @@ public class ExercisesFragment extends Fragment {
             parentList.add(parentItem);
         }
         return parentList;
+    }
+
+    class AsyncUI extends AsyncTask<Void, Void, ArrayList<Category>> {
+
+        @Override
+        protected ArrayList<Category> doInBackground(Void... params) {
+            getExerciseLists();
+
+            return generateList();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Category> categories) {
+            super.onPostExecute(categories);
+            setUpExpandableRecyclerView(categories);
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 package com.gymassistant.Fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
@@ -53,7 +54,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        setUpRecyclerView();
+        new AsyncUI().execute();
 
         return view;
     }
@@ -112,10 +113,32 @@ public class ProfileFragment extends Fragment {
         return map;
     }
 
+    public void setUpRecyclerView(LongSparseArray<List<Dimension>> map){
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        DimensionAdapter dimensionAdapter = new DimensionAdapter(getActivity(), map);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        recyclerView.setAdapter(dimensionAdapter);
+    }
+
     public void setUpRecyclerView(){
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         DimensionAdapter dimensionAdapter = new DimensionAdapter(getActivity(), groupDimensions());
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(dimensionAdapter);
+    }
+
+    class AsyncUI extends AsyncTask<Void, Void, LongSparseArray<List<Dimension>>>{
+
+        @Override
+        protected LongSparseArray<List<Dimension>> doInBackground(Void... params) {
+
+            return groupDimensions();
+        }
+
+        @Override
+        protected void onPostExecute(LongSparseArray<List<Dimension>>  map) {
+            super.onPostExecute(map);
+            setUpRecyclerView(map);
+        }
     }
 }

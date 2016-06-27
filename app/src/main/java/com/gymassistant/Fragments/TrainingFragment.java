@@ -1,13 +1,12 @@
 package com.gymassistant.Fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import com.gymassistant.Database.TrainingDB;
 import com.gymassistant.Models.StartedTrainingPlan;
 import com.gymassistant.R;
 import com.gymassistant.RecyclerView.TrainingDayExpandableAdapter;
-import com.gymassistant.UIComponents.NumberDialog;
 
 import java.util.List;
 
@@ -41,14 +39,14 @@ public class TrainingFragment extends Fragment {
             initEmptyStateUI(inflater, container);
         } else {
             initFragmentTrainingUI(inflater, container);
+            new AsyncUI().execute();
         }
+
         return view;
     }
 
     private void initFragmentTrainingUI(LayoutInflater inflater, ViewGroup container){
         view = inflater.inflate(R.layout.fragment_training, container, false);
-        setUpList();
-        setUpRecyclerView();
 
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -57,18 +55,6 @@ public class TrainingFragment extends Fragment {
                 goToTrainingPlanManagmentActivity();
             }
         });
-    }
-
-    private void showSummaryDialog() {
-        DialogFragment newFragment = NumberDialog.newInstance("SERRER", true, new NumberDialog.NumberSetListener() {
-            @Override
-            public void onNumberSet(String text) {
-                Double d = Double.parseDouble(text);
-                Log.i("INTEGER: ", String.valueOf(d.intValue()));
-                Log.i("DOUBLE: ", String.valueOf(d));
-            }
-        });
-        newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
     }
 
     private void initEmptyStateUI(LayoutInflater inflater, ViewGroup container) {
@@ -109,5 +95,20 @@ public class TrainingFragment extends Fragment {
     private void goToTrainingPlanManagmentActivity(){
         Intent intent = new Intent(getActivity(), TrainingPlanManagmentActivity.class);
         getActivity().startActivityForResult(intent, 1);
+    }
+
+    class AsyncUI extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            setUpList();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void avoid) {
+            super.onPostExecute(avoid);
+            setUpRecyclerView();
+        }
     }
 }

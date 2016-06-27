@@ -1,19 +1,16 @@
 package com.gymassistant.Fragments;
 
-import android.app.DatePickerDialog;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 
 import com.gymassistant.Database.TrainingDoneDB;
 import com.gymassistant.DateConverter;
@@ -45,8 +42,7 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_history, container, false);
 
-        setUpTrainingDoneList();
-        setUpRecyclerView(DateConverter.today());
+        new AsyncUI().execute();
 
         fab = (FloatingActionButton) (view.findViewById(R.id.fab));
         fab.setOnClickListener(new View.OnClickListener() {
@@ -62,17 +58,6 @@ public class HistoryFragment extends Fragment {
     private void setUpTrainingDoneList(){
         TrainingDoneDB trainingDoneDB = new TrainingDoneDB(getActivity());
         trainingDoneList = trainingDoneDB.getAllTrainingsDone();
-    }
-
-    private void showDateDialog(){
-        Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = new DatePickerDialog(new ContextThemeWrapper(getActivity(), android.R.style.Theme_Holo_Dialog), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Log.i("DATE", String.format("INSIDE: %d, %d, %d", year, monthOfYear, dayOfMonth));
-            }
-        },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
     }
 
     private void showCalendar(){
@@ -93,6 +78,22 @@ public class HistoryFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         HistoryExpandableAdapter historyExpandableAdapter = new HistoryExpandableAdapter(getActivity(), generateList(getTrainingsDoneByDate(date)));
+        recyclerView.setAdapter(historyExpandableAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0)
+                    fab.hide();
+                else if (dy < 0)
+                    fab.show();
+            }
+        });
+    }
+
+    private void setUpRecyclerView(List<TrainingDone> trainingDoneList){
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        HistoryExpandableAdapter historyExpandableAdapter = new HistoryExpandableAdapter(getActivity(), trainingDoneList);
         recyclerView.setAdapter(historyExpandableAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
             @Override
@@ -160,5 +161,21 @@ public class HistoryFragment extends Fragment {
         args.putInt(CaldroidFragment.THEME_RESOURCE, com.caldroid.R.style.CaldroidDefaultDark);
 
         return args;
+    }
+
+    class AsyncUI extends AsyncTask<Void, Void, List<TrainingDone>> {
+
+        @Override
+        protected List<TrainingDone> doInBackground(Void... params) {
+            setUpTrainingDoneList();
+
+            return generateList(getTrainingsDoneByDate(DateConverter.today()));
+        }
+
+        @Override
+        protected void onPostExecute(List<TrainingDone> trainingDoneList) {
+            super.onPostExecute(trainingDoneList);
+            setUpRecyclerView(trainingDoneList);
+        }
     }
 }

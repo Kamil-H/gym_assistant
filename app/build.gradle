@@ -36,6 +36,7 @@ dependencies {
     compile 'com.roughike:bottom-bar:1.3.3'
     compile 'com.roomorama:caldroid:3.0.1'
     compile 'com.github.KyoSherlock:ExpandableLayout:65d47e2d7f'
+    compile 'me.relex:circleindicator:1.2.1@aar'
 }
 
 allprojects {

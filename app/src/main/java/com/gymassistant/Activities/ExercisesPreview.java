@@ -23,6 +23,8 @@ import com.gymassistant.UIComponents.YouTubeDialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.relex.circleindicator.CircleIndicator;
+
 /**
  * Created by KamilH on 2016-03-25.
  */
@@ -64,6 +66,8 @@ public class ExercisesPreview extends AppCompatActivity {
                 return false;
             }
         });
+        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(viewPager);
     }
 
     private void setUpToolbar(){
