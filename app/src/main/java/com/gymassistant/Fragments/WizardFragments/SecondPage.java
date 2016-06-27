@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class SecondPage extends Fragment {
     private DiscreteSeekBar repeatsSeekBar, seriesSeekBar;
     private TextView seriesTextView, repeatsTextView;
     private ArrayAdapter<Exercise> exerciseSpinnerAdapter;
+    private ArrayAdapter<String> daysAdapter;
     private CheckBox seriesCheckBox, repeatsCheckBox;
     private boolean isFirst = true, FILL = true, UPDATE = false;
     private int numOfSeries;
@@ -148,6 +150,18 @@ public class SecondPage extends Fragment {
     private void setUpButtons(){
         Button nextButton = (Button) view.findViewById(R.id.nextButton);
         Button backButton = (Button) view.findViewById(R.id.backButton);
+        ImageButton addDayButton = (ImageButton) view.findViewById(R.id.addDayButton);
+
+        addDayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<List<Series>> map = ((WizardActivity)getActivity()).getMap();
+                daysAdapter.add(getActivity().getString(R.string.day, map.size() + 1));
+                daysAdapter.notifyDataSetChanged();
+                map.add(null);
+                ((WizardActivity)getActivity()).setMap(map);
+            }
+        });
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,7 +283,7 @@ public class SecondPage extends Fragment {
         for (int i = 0; i < ((WizardActivity)getActivity()).getItemCount(); i++){
             days.add(getActivity().getString(R.string.day, i + 1));
         }
-        ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_spinner, R.id.text, days);
+        daysAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_spinner, R.id.text, days);
         daySpinner.setAdapter(daysAdapter);
     }
 

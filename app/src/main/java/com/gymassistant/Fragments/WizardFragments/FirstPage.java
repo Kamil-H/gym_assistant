@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -38,6 +37,8 @@ public class FirstPage extends Fragment {
     private Spinner existingPlansSpinner;
     private TextView textView8;
     private CheckBox deletedPlansCheckBox;
+    private ArrayAdapter<TrainingPlan> existingPlansAdapter;
+    private boolean EXISTING = true, ALL = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,9 +50,9 @@ public class FirstPage extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-
+                    updateExistingPlansSpinner(ALL);
                 } else {
-
+                    updateExistingPlansSpinner(EXISTING);
                 }
             }
         });
@@ -64,13 +65,14 @@ public class FirstPage extends Fragment {
         return view;
     }
 
-    private List<TrainingPlan> getTrainingPlans(){
+    private List<TrainingPlan> getAllTrainingPlans(){
         TrainingPlanDB trainingPlanDB = new TrainingPlanDB(getActivity());
-        List<TrainingPlan> trainingPlanList = new ArrayList<>();
-        if(trainingPlanDB.getRowCount() > 0){
-            trainingPlanList = trainingPlanDB.getAllTrainingPlans();
-        }
-        return trainingPlanList;
+        return trainingPlanDB.getAllTrainingPlans();
+    }
+
+    private List<TrainingPlan> getExistingTrainingPlans(){
+        TrainingPlanDB trainingPlanDB = new TrainingPlanDB(getActivity());
+        return trainingPlanDB.getExistingTrainingPlans();
     }
 
     private void initMap(int size){
@@ -87,33 +89,32 @@ public class FirstPage extends Fragment {
         SeriesDB seriesDB = new SeriesDB(getActivity());
         List<Integer> ids = trainingDB.getTrainingIdsByTrainingPlanId(trainingPlanId);
         for(int i = 0; i < ids.size(); i++){
-            map.add(i, seriesDB.getSeriesByTrainingId(ids.get(i)));
+            map.set(i, seriesDB.getSeriesByTrainingId(ids.get(i)));
         }
         ((WizardActivity)getActivity()).setMap(map);
     }
 
     private void setUpSpinner(){
         existingPlansSpinner = (Spinner) view.findViewById(R.id.existingPlansSpinner);
-        populateExistingPlansSpinner();
-        existingPlansSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(((WizardActivity)getActivity()).getActualPage() == 0){
-                    int days = ((TrainingPlan) existingPlansSpinner.getSelectedItem()).getDays();
-                    long trainingPlanId = ((TrainingPlan) existingPlansSpinner.getSelectedItem()).getId();
-                    initMap(days);
-                    fillMap(trainingPlanId);
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+        initExistingPlansSpinner();
     }
 
-    private void populateExistingPlansSpinner(){
-        List<TrainingPlan> trainingPlanList = getTrainingPlans();
-        ArrayAdapter<TrainingPlan> existingPlansAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_spinner, R.id.text, trainingPlanList);
+    private void initExistingPlansSpinner(){
+        List<TrainingPlan> trainingPlanList = getExistingTrainingPlans();
+        existingPlansAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_spinner, R.id.text, trainingPlanList);
         existingPlansSpinner.setAdapter(existingPlansAdapter);
+    }
+
+    private void updateExistingPlansSpinner(boolean action){
+        List<TrainingPlan> trainingPlanList;
+        if(action){
+            trainingPlanList = getExistingTrainingPlans();
+        } else {
+            trainingPlanList = getAllTrainingPlans();
+        }
+        existingPlansAdapter.clear();
+        existingPlansAdapter.addAll(trainingPlanList);
+        existingPlansAdapter.notifyDataSetChanged();
     }
 
     private void setUpButtons(){
@@ -122,10 +123,19 @@ public class FirstPage extends Fragment {
             @Override
             public void onClick(View v) {
                 if(newPlanRadioButton.isChecked()){
-                    initMap(trainingDaySeekBar.getProgress());
+                    int days = trainingDaySeekBar.getProgress();
+                    initMap(days);
+                    ((WizardActivity)getActivity()).setItemCount(days);
+                    ((WizardActivity)getActivity()).navigateToNextPage();
+                } else {
+                    TrainingPlan trainingPlan = ((TrainingPlan) existingPlansSpinner.getSelectedItem());
+                    long trainingPlanId = trainingPlan.getId();
+                    int days = trainingPlan.getDays();
+                    ((WizardActivity)getActivity()).setItemCount(days);
+                    initMap(days);
+                    fillMap(trainingPlanId);
+                    ((WizardActivity)getActivity()).navigateToLastPage();
                 }
-                ((WizardActivity)getActivity()).setItemCount(trainingDaySeekBar.getProgress());
-                ((WizardActivity)getActivity()).navigateToNextPage();
             }
         });
 

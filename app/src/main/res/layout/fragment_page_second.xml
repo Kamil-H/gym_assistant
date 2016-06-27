@@ -30,7 +30,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/daySpinner"
             android:layout_below="@+id/textView18"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/addDayButton"
+            android:layout_toStartOf="@+id/addDayButton" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -164,6 +166,18 @@
             android:layout_alignTop="@+id/repeatsSeekBar"
             android:layout_toRightOf="@+id/seriesSeekBar"
             android:layout_toEndOf="@+id/seriesSeekBar" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addDayButton"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/fab_add"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"/>
     </RelativeLayout>
 
     <LinearLayout

@@ -83,6 +83,11 @@ public class WizardActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true);
     }
 
+    public void navigateToLastPage() {
+        refresh();
+        mViewPager.setCurrentItem(2, true);
+    }
+
     public void finishWithResult(boolean value){
         Intent returnIntent = new Intent();
         if(value){
@@ -91,10 +96,6 @@ public class WizardActivity extends AppCompatActivity {
             setResult(Activity.RESULT_CANCELED, returnIntent);
         }
         this.finish();
-    }
-
-    public int getActualPage(){
-        return mViewPager.getCurrentItem();
     }
 
     public void removeEmptyObjects(){

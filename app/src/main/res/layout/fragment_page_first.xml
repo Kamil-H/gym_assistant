@@ -129,7 +129,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginTop="1dp"
-            android:text="@string/add_exercises"
+            android:text="@string/next_button"
             android:textColor="@color/colorText"
             android:textStyle="bold"
             android:background="@color/colorCard"

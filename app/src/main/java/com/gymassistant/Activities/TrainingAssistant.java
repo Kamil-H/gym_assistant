@@ -43,7 +43,7 @@ public class TrainingAssistant extends AppCompatActivity {
     private long trainingId, startedTrainingPlanId;
     private int day;
     private List<SeriesDone> seriesDoneList;
-    private long traningDoneId;
+    private long trainingDoneId;
     private boolean isClose = false, CLOSE = true, SAVE = false;
 
     @Override
@@ -55,13 +55,20 @@ public class TrainingAssistant extends AppCompatActivity {
         readParameters();
 
         setUpSeriesList();
-        seriesDoneList = new ArrayList<>(seriesList.size());
+        setUpSeriesDoneList();
 
-        setUpRecyclerview();
+        setUpRecyclerView();
         setUpButtons();
 
         handler = new Handler();
         startMeasureTime();
+    }
+
+    private void setUpSeriesDoneList(){
+        this.seriesDoneList = new ArrayList<>();
+        for(int i = 0; i < seriesList.size(); i++){
+            this.seriesDoneList.add(null);
+        }
     }
 
     private void nextButtonCheck(){
@@ -76,7 +83,7 @@ public class TrainingAssistant extends AppCompatActivity {
         seriesList = trainingDB.getTraining(trainingId).getSeriesList();
     }
 
-    private void setUpRecyclerview(){
+    private void setUpRecyclerView(){
         linearLayoutManager = new MyCustomLayoutManager(this);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
@@ -92,20 +99,20 @@ public class TrainingAssistant extends AppCompatActivity {
 
     private void saveTrainingDoneToDatabase(){
         TrainingDoneDB trainingDoneDB = new TrainingDoneDB(this);
-        traningDoneId = trainingDoneDB.addTrainingDone(new TrainingDone(DateConverter.today(), day, startedTrainingPlanId), timeFromStart());
+        trainingDoneId = trainingDoneDB.addTrainingDone(new TrainingDone(DateConverter.today(), day, startedTrainingPlanId), timeFromStart());
     }
 
     private void saveSeriesDoneListToDatabase(){
         SeriesDoneDB seriesDoneDB = new SeriesDoneDB(this);
-        seriesDoneDB.addSeriesDoneList(seriesDoneList, traningDoneId);
+        seriesDoneDB.addSeriesDoneList(seriesDoneList, trainingDoneId);
     }
 
     private void addSeriesDoneToList(){
         SeriesDone seriesDone = new SeriesDone(seriesList.get(currentRow));
         seriesDone.setActualRepeat(repeatsArray[currentRow]);
         seriesDone.setActualWeight(loadsArray[currentRow]);
-        seriesDone.setTrainingDoneId((int)traningDoneId);
-        seriesDoneList.add(currentRow, seriesDone);
+        seriesDone.setTrainingDoneId((int) trainingDoneId);
+        seriesDoneList.set(currentRow, seriesDone);
     }
 
     private void readParameters(){
