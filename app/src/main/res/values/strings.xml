@@ -17,7 +17,8 @@
     <string name="biceps_FAB">Obwód ramienia</string>
     <string name="chest_FAB">Obwód klatki piersiowej</string>
     <string name="weight_FAB">Waga</string>
-    <string name="please_insert">"Proszę podać %1$s</string>
+    <string name="please_insert">Proszę podać %1$s</string>
+    <string name="please_insert_all_info">Proszę wypełnić wszystkie informacje</string>
     <string name="cancel">Anuluj</string>
     <string name="add_size">Dodaj pomiar</string>
     <string name="date">DATA</string>
@@ -145,6 +146,12 @@
     <string name="add_measurement">dodaj pomiar</string>
     <string name="add_new_measurement">dodaj nowy pomiar</string>
     <string name="fill_measurment">PROSZĘ PODAĆ POMIAR!</string>
+    <string name="lengthUnit">długość</string>
+    <string name="weightUnit">masa</string>
+    <string name="user_profile">profil użytkownika</string>
+    <string name="units">jednostki</string>
+    <string name="pleas_give_birthday">Proszę podać datę urodzenia</string>
+    <string name="fill_all">Proszę wypełnić wszystkie dane</string>
 
     <string-array name="dimension_types">
         <item>@string/weight</item>

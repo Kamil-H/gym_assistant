@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.gymassistant.Models.DimensionType;
+import com.gymassistant.Preferences;
 import com.gymassistant.R;
 
 import java.util.ArrayList;
@@ -18,11 +19,16 @@ import java.util.List;
  */
 public class DimensionTypeDB extends SQLiteOpenHelper {
     private Context context;
+    private String lengthUnit, weightUnit;
     private final String TABLE_NAME = "DimensionType", KEY_ID = "id", NAME = "name", UNIT = "unit";
 
     public DimensionTypeDB(Context context) {
         super(context, "DimensionType", null, 1);
         this.context = context;
+
+        Preferences preferences = new Preferences(context);
+        this.lengthUnit = preferences.getLengthUnit();
+        this.weightUnit = preferences.getWeightUnit();
     }
 
     @Override
@@ -39,7 +45,7 @@ public class DimensionTypeDB extends SQLiteOpenHelper {
     }
 
     public void populateDimensionTypeDB(){
-        String[] units = {"kg", "%", "cm", "cm", "cm", "cm", "cm", "cm", "cm", "cm", "cm"};
+        String[] units = {weightUnit, "%", lengthUnit, lengthUnit, lengthUnit, lengthUnit, lengthUnit, lengthUnit, lengthUnit, lengthUnit, lengthUnit};
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         String[] dimensionTypesArray = context.getResources().getStringArray(R.array.dimension_types);
@@ -115,9 +121,9 @@ public class DimensionTypeDB extends SQLiteOpenHelper {
     private String getUnitFromInt(int value){
         switch (value){
             case 1:
-                return "cm";
+                return lengthUnit;
             case 2:
-                return "kg";
+                return weightUnit;
             case 3:
                 return "%";
         }
@@ -125,14 +131,15 @@ public class DimensionTypeDB extends SQLiteOpenHelper {
     }
 
     private int getIntFromUnit(String unit){
-        switch (unit){
-            case "cm":
-                return 1;
-            case "kg":
-                return 2;
-            case "%":
-                return 3;
+        if(unit.matches("cm|inch")){
+            return 1;
         }
-        return 0;
+        if(unit.matches("kg|lb")){
+            return 2;
+        }
+        if(unit.matches("%")){
+            return 3;
+        }
+        return -1;
     }
 }

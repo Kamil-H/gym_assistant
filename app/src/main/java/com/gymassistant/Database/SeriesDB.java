@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.gymassistant.Models.Series;
+import com.gymassistant.Preferences;
+import com.gymassistant.UnitConversions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +20,19 @@ import java.util.List;
 public class SeriesDB extends SQLiteOpenHelper{
     private final String TABLE_NAME = "Series", KEY_ID = "id", TRAINING_ID = "trainingId", EXERCISE_ID = "exerciseId", ORDER = "order_", REPEAT = "repeat", WEIGHT = "weight";
     private Context context;
+    private UnitConversions converter;
 
     public SeriesDB(Context context) {
         super(context, "Series", null, 1);
         this.context = context;
+        Preferences preferences = new Preferences(context);
+        converter = new UnitConversions(preferences.getWeightUnit());
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE =
-                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER)",
+                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s REAL)",
                         TABLE_NAME, KEY_ID, TRAINING_ID, EXERCISE_ID, ORDER, REPEAT, WEIGHT);
         db.execSQL(CREATE_TABLE);
     }
@@ -47,7 +52,7 @@ public class SeriesDB extends SQLiteOpenHelper{
             values.put(EXERCISE_ID, series.getExerciseId());
             values.put(ORDER, series.getOrder());
             values.put(REPEAT, series.getRepeat());
-            values.put(WEIGHT, series.getWeight());
+            values.put(WEIGHT, converter.saveWeightConverter(series.getWeight()));
 
             db.insert(TABLE_NAME, null, values);
         }
@@ -68,7 +73,7 @@ public class SeriesDB extends SQLiteOpenHelper{
                 series.setExerciseId(cursor.getLong(2));
                 series.setOrder(cursor.getInt(3));
                 series.setRepeat(cursor.getInt(4));
-                series.setWeight(cursor.getInt(5));
+                series.setWeight(converter.retrieveWeightConverter(cursor.getDouble(5)));
                 series.setExercise(exerciseDb.getExercise(series.getExerciseId()));
 
                 seriesList.add(series);

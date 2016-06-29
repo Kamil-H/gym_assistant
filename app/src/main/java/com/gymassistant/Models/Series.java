@@ -11,11 +11,11 @@ public class Series {
     private long exerciseId;
     private int order;
     private int repeat;
-    private int weight;
+    private double weight;
 
     public Series(){}
 
-    public Series(Training training, long trainingId, Exercise exercise, long exerciseId, int order, int repeat, int weight) {
+    public Series(Training training, long trainingId, Exercise exercise, long exerciseId, int order, int repeat, double weight) {
         this.training = training;
         this.trainingId = trainingId;
         this.exercise = exercise;
@@ -81,11 +81,11 @@ public class Series {
         this.repeat = repeat;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 

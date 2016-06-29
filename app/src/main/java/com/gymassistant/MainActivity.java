@@ -2,10 +2,8 @@ package com.gymassistant;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -71,20 +69,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onFirstTime(){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.getBoolean("firstTime", false)) {
+        Preferences preferences = new Preferences(this);
+        if (!preferences.isFirstTime()) {
             setUpExercises();
             setUpDimensionTypes();
-            goToFillProfileActivity();
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("firstTime", true);
-            editor.apply();
+            goToFillProfileActivity(false);
         }
     }
 
-    private void goToFillProfileActivity(){
+    private void goToFillProfileActivity(boolean isUpdate){
+        Bundle b = new Bundle();
+        b.putBoolean("isUpdate", isUpdate);
         Intent intent = new Intent(this, FillProfileActivity.class);
+        intent.putExtras(b);
         startActivityForResult(intent, 1);
     }
 
@@ -141,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            goToFillProfileActivity(true);
         }
 
         return super.onOptionsItemSelected(item);

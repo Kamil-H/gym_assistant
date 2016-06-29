@@ -21,90 +21,215 @@
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        android:layout_below="@+id/appbar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/appbar">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/gender"
-            android:id="@+id/textView21"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
-            style="@style/titleTextSmall"/>
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignWithParentIfMissing="false"
-            android:gravity="center"
-            android:id="@+id/radioGroup"
-            android:layout_below="@+id/textView21"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true">
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/male"
-                android:id="@+id/maleRadioButton"
-                style="@style/titleTextBig"
-                android:textColor="@color/colorText"
-                android:checked="true"/>
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/female"
-                android:id="@+id/femaleRadioButton"
-                style="@style/titleTextBig"
-                android:textColor="@color/colorText" />
-        </RadioGroup>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/birthdate"
-            android:id="@+id/textView22"
-            android:layout_below="@+id/radioGroup"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
-            style="@style/titleTextSmall" />
+            android:text="@string/units"
+            style="@style/titleTextBig"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/colorText"/>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_below="@+id/dateEditText">
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider"/>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/lengthUnit"
+                    style="@style/titleTextSmall"/>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:gravity="center"
+                    android:id="@+id/lengthRadioGroup">
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="cm"
+                        android:id="@+id/cmRadioButton"
+                        style="@style/titleTextSmall"
+                        android:textColor="@color/colorText"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="inch"
+                        android:id="@+id/inchRadioButton"
+                        style="@style/titleTextSmall"
+                        android:textColor="@color/colorText" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weightUnit"
+                    style="@style/titleTextSmall"/>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:id="@+id/weightRadioGroup">
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="kg"
+                        android:id="@+id/kgRadioButton"
+                        style="@style/titleTextSmall"
+                        android:textColor="@color/colorText"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="lb"
+                        android:id="@+id/lbRadioButton"
+                        style="@style/titleTextSmall"
+                        android:textColor="@color/colorText" />
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_profile"
+            style="@style/titleTextBig"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/colorText"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gender"
+                android:id="@+id/textView21"
+                style="@style/titleTextSmall"
+                android:layout_marginTop="10dp"/>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:id="@+id/radioGroup">
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/male"
+                    android:id="@+id/maleRadioButton"
+                    style="@style/titleTextSmall"
+                    android:textColor="@color/colorText"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/female"
+                    android:id="@+id/femaleRadioButton"
+                    style="@style/titleTextSmall"
+                    android:textColor="@color/colorText" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/birthdate"
+                    android:id="@+id/textView22"
+                    style="@style/titleTextSmall"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+
+                    <com.gymassistant.UIComponents.WhiteEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/dateEditText"
+                        android:padding="10dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
                     android:text="@string/height"
                     android:id="@+id/textView15"
                     style="@style/titleTextSmall"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
 
                     <com.gymassistant.UIComponents.NumberEditText
                         android:layout_width="wrap_content"
@@ -117,33 +242,26 @@
                         customNS:titleText="@string/height"
                         customNS:isDouble="true"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="cm"
-                        android:id="@+id/heightUnitTextView"
-                        android:layout_marginBottom="5dp"
-                        style="@style/titleTextBig"/>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="vertical">
+                android:layout_marginTop="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_weight="0.5"
                     android:text="@string/weight"
                     android:id="@+id/textView14"
                     style="@style/titleTextSmall" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
 
                     <com.gymassistant.UIComponents.NumberEditText
                         android:layout_width="wrap_content"
@@ -156,31 +274,12 @@
                         customNS:titleText="@string/weight"
                         customNS:isDouble="true"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="kg"
-                        android:id="@+id/weightUnitTextView"
-                        android:layout_marginBottom="5dp"
-                        style="@style/titleTextBig"/>
-
                 </LinearLayout>
             </LinearLayout>
+
+
         </LinearLayout>
-
-
-
-        <com.gymassistant.UIComponents.WhiteEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/dateEditText"
-            android:layout_below="@+id/textView22"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:padding="10dp"/>
-
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:background="#2a2a2a"
@@ -206,3 +305,4 @@
 
     </LinearLayout>
 </RelativeLayout>
+

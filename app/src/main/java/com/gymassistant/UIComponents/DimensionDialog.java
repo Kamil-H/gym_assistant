@@ -56,7 +56,7 @@ public class DimensionDialog extends DialogFragment {
 
     private void updateUser(double weight){
         UserDB userDB = new UserDB(getActivity());
-        userDB.updateUser(weight);
+        userDB.updateWeight(weight);
     }
 
     private void refreshProfileFragment(){
@@ -138,7 +138,7 @@ public class DimensionDialog extends DialogFragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
-                    String title = String.format("%s (%s)", dimensionSpinner.getSelectedItem(), dimensionType.getUnit());
+                    String title = String.format("%s", dimensionSpinner.getSelectedItem());
                     DialogFragment newFragment = NumberDialog.newInstance(title, true, new NumberDialog.NumberSetListener() {
                         @Override
                         public void onNumberSet(String text) {

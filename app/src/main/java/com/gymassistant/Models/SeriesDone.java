@@ -9,10 +9,10 @@ public class SeriesDone {
     private long exerciseId;
     private int actualOrder;
     private int actualRepeat;
-    private int actualWeight;
+    private double actualWeight;
     private int plannedOrder;
     private int plannedRepeat;
-    private int plannedWeight;
+    private double plannedWeight;
     private Exercise exercise;
     private TrainingDone trainingDone;
 
@@ -51,11 +51,11 @@ public class SeriesDone {
         this.actualRepeat = actualRepeat;
     }
 
-    public int getActualWeight() {
+    public double getActualWeight() {
         return actualWeight;
     }
 
-    public void setActualWeight(int actualWeight) {
+    public void setActualWeight(double actualWeight) {
         this.actualWeight = actualWeight;
     }
 
@@ -83,11 +83,11 @@ public class SeriesDone {
         this.plannedRepeat = plannedRepeat;
     }
 
-    public int getPlannedWeight() {
+    public double getPlannedWeight() {
         return plannedWeight;
     }
 
-    public void setPlannedWeight(int plannedWeight) {
+    public void setPlannedWeight(double plannedWeight) {
         this.plannedWeight = plannedWeight;
     }
 
