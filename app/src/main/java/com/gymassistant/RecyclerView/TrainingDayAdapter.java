@@ -76,7 +76,7 @@ public class TrainingDayAdapter extends RecyclerView.Adapter<TrainingDayAdapter.
         for(String s : names){
             value = value + " " + s + " " + "\n";
         }
-        return value;
+        return value.substring(0, value.length() - 2);
     }
 
     public Set<String> getNames(final List<Series> seriesList) {

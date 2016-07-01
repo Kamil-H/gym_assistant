@@ -135,7 +135,7 @@ public class TrainingManagementAdapter extends RecyclerView.Adapter<TrainingMana
         public TextView nameTextView;
         private ImageView arrowImageView;
         public TextView descriptionEditText, numOfTrainingDaysTextView;
-        public Button activateButton, editButton, deleteButton;
+        public Button activateButton, deleteButton;
         public ExpandableLayout expandableLayout;
 
         public ViewHolder(View itemView) {
@@ -143,7 +143,6 @@ public class TrainingManagementAdapter extends RecyclerView.Adapter<TrainingMana
             descriptionEditText = (TextView) itemView.findViewById(R.id.descriptionTextView);
             numOfTrainingDaysTextView = (TextView) itemView.findViewById(R.id.numOfTrainingDaysTextView);
             activateButton = (Button) itemView.findViewById(R.id.activateButton);
-            editButton = (Button) itemView.findViewById(R.id.editButton);
             deleteButton = (Button) itemView.findViewById(R.id.deleteButton);
 
             nameTextView = (TextView) itemView.findViewById(R.id.exerciseNameTextView);

@@ -6,25 +6,24 @@ package com.gymassistant.Models;
 public class SeriesDone {
     private long id;
     private long trainingId;
+    private long trainingDoneId;
     private long exerciseId;
-    private int actualOrder;
-    private int actualRepeat;
-    private double actualWeight;
-    private int plannedOrder;
-    private int plannedRepeat;
-    private double plannedWeight;
+    private int order;
+    private int repeat;
+    private double weight;
     private Exercise exercise;
     private TrainingDone trainingDone;
+    private boolean isSaved;
 
     public SeriesDone(){}
 
     public SeriesDone(Series series){
         this.trainingId = series.getTrainingId();
         this.exerciseId = series.getExerciseId();
-        this.actualOrder = series.getOrder();
-        this.plannedOrder = series.getOrder();
-        this.plannedRepeat = series.getRepeat();
-        this.plannedWeight = series.getWeight();
+        this.exercise = series.getExercise();
+        this.order = series.getOrder();
+        this.repeat = series.getRepeat();
+        this.isSaved = true;
     }
 
     public long getId() {
@@ -35,28 +34,28 @@ public class SeriesDone {
         this.id = id;
     }
 
-    public int getActualOrder() {
-        return actualOrder;
+    public int getOrder() {
+        return order;
     }
 
-    public void setActualOrder(int actualOrder) {
-        this.actualOrder = actualOrder;
+    public void setOrder(int order) {
+        this.order = order;
     }
 
-    public int getActualRepeat() {
-        return actualRepeat;
+    public int getRepeat() {
+        return repeat;
     }
 
-    public void setActualRepeat(int actualRepeat) {
-        this.actualRepeat = actualRepeat;
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
     }
 
-    public double getActualWeight() {
-        return actualWeight;
+    public double getWeight() {
+        return weight;
     }
 
-    public void setActualWeight(double actualWeight) {
-        this.actualWeight = actualWeight;
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
     public long getExerciseId() {
@@ -67,36 +66,12 @@ public class SeriesDone {
         this.exerciseId = exerciseId;
     }
 
-    public int getPlannedOrder() {
-        return plannedOrder;
-    }
-
-    public void setPlannedOrder(int plannedOrder) {
-        this.plannedOrder = plannedOrder;
-    }
-
-    public int getPlannedRepeat() {
-        return plannedRepeat;
-    }
-
-    public void setPlannedRepeat(int plannedRepeat) {
-        this.plannedRepeat = plannedRepeat;
-    }
-
-    public double getPlannedWeight() {
-        return plannedWeight;
-    }
-
-    public void setPlannedWeight(double plannedWeight) {
-        this.plannedWeight = plannedWeight;
-    }
-
     public long getTrainingDoneId() {
-        return trainingId;
+        return trainingDoneId;
     }
 
-    public void setTrainingDoneId(long trainingId) {
-        this.trainingId = trainingId;
+    public void setTrainingDoneId(long trainingDoneId) {
+        this.trainingDoneId = trainingDoneId;
     }
 
     public Exercise getExercise() {
@@ -113,5 +88,21 @@ public class SeriesDone {
 
     public void setTrainingDone(TrainingDone training) {
         this.trainingDone = training;
+    }
+
+    public long getTrainingId() {
+        return trainingId;
+    }
+
+    public void setTrainingId(long trainingId) {
+        this.trainingId = trainingId;
+    }
+
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    public void setSaved(boolean saved) {
+        isSaved = saved;
     }
 }

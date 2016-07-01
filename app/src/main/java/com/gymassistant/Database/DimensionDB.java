@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.gymassistant.DateConverter;
 import com.gymassistant.Models.Dimension;
-import com.gymassistant.Preferences;
-import com.gymassistant.UnitConversions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +18,11 @@ import java.util.List;
  */
 public class DimensionDB extends SQLiteOpenHelper {
     private Context context;
-    private UnitConversions converter;
     private final String TABLE_NAME = "Dimension", KEY_ID = "id", VALUE = "value", ADD_DATE = "addDate", DIMENSION_TYPE_KEY = "unitKey";
 
     public DimensionDB(Context context) {
         super(context, "Dimension", null, 1);
         this.context = context;
-
-        Preferences preferences = new Preferences(context);
-        converter = new UnitConversions(preferences.getLengthUnit(), preferences.getWeightUnit());
     }
 
     @Override
@@ -48,7 +42,7 @@ public class DimensionDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(VALUE, saveValue(dimension.getValue(), dimension.getTypeKey()));
+        values.put(VALUE, dimension.getValue());
         values.put(ADD_DATE, DateConverter.dateToTime(dimension.getAddedDate()));
         values.put(DIMENSION_TYPE_KEY, dimension.getTypeKey());
 
@@ -67,9 +61,9 @@ public class DimensionDB extends SQLiteOpenHelper {
                 Dimension dimension = new Dimension();
 
                 dimension.setId(cursor.getLong(0));
+                dimension.setValue(cursor.getDouble(1));
                 dimension.setAddedDate(DateConverter.timeToDate(cursor.getLong(2)));
                 dimension.setTypeKey(cursor.getLong(3));
-                dimension.setValue(retrieveValue(cursor.getDouble(1), dimension.getTypeKey()));
                 dimension.setType(dimensionTypeDB.getDimensionType(dimension.getTypeKey()));
 
                 dimensions.add(dimension);
@@ -87,9 +81,9 @@ public class DimensionDB extends SQLiteOpenHelper {
         Dimension dimension = new Dimension();
         if (cursor.moveToFirst()) {
             dimension.setId(cursor.getLong(0));
+            dimension.setValue(cursor.getDouble(1));
             dimension.setAddedDate(DateConverter.timeToDate(cursor.getLong(2)));
             dimension.setTypeKey(cursor.getLong(3));
-            dimension.setValue(retrieveValue(cursor.getDouble(1), dimension.getTypeKey()));
             dimension.setType(dimensionTypeDB.getDimensionType(dimension.getTypeKey()));
         }
         db.close();
@@ -110,25 +104,5 @@ public class DimensionDB extends SQLiteOpenHelper {
 
     public long getRowCount() {
         return DatabaseUtils.queryNumEntries(getReadableDatabase(), TABLE_NAME);
-    }
-
-    private double saveValue(double value, long unit){
-        if(unit == 1){
-            return converter.saveLengthConverter(value);
-        }
-        if(unit == 2){
-            return converter.saveWeightConverter(value);
-        }
-        return value;
-    }
-
-    private double retrieveValue(double value, long unit){
-        if(unit == 1){
-            return converter.retrieveLengthConverter(value);
-        }
-        if(unit == 2){
-            return converter.retrieveWeightConverter(value);
-        }
-        return value;
     }
 }

@@ -54,10 +54,10 @@ public class DimensionAdapter extends RecyclerView.Adapter<DimensionAdapter.Dime
 
             if(comparedValue > 0){
                 rowViewHolder.oldValueTextView.setTextColor(Color.GREEN);
-                rowViewHolder.oldValueTextView.setText(String.format("(+%.1f)", comparedValue));
+                rowViewHolder.oldValueTextView.setText(String.format("(+%s)", String.valueOf(comparedValue)));
             } else {
                 rowViewHolder.oldValueTextView.setTextColor(Color.RED);
-                rowViewHolder.oldValueTextView.setText(String.format("(-%.1f)", comparedValue));
+                rowViewHolder.oldValueTextView.setText(String.format("(-%s)", String.valueOf(comparedValue)));
             }
         }
     }

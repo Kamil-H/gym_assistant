@@ -23,7 +23,8 @@ import java.util.List;
  */
 public class ExerciseDB extends SQLiteOpenHelper {
     private final String TABLE_NAME = "Exercise", KEY_ID = "id", CATEGORY = "category", NAME = "name", IMG_1 = "img1", IMG_2 = "img2", IMG_3 = "img3",
-    VIDEO = "video", MAIN_MUSCLES = "main_muscles", AUX_MUSCLES = "aux_muscles", STABILIZERS = "stabilizers", HOW_TO = "how_to", SECOND_NAME = "second_name", ATTENTIONS = "attentions";
+    VIDEO = "video", MAIN_MUSCLES = "main_muscles", AUX_MUSCLES = "aux_muscles", STABILIZERS = "stabilizers", HOW_TO = "how_to",
+            SECOND_NAME = "second_name", ATTENTIONS = "attentions", IS_FAVORITE = "is_favorite";
     private Context context;
 
     public ExerciseDB(Context context) {
@@ -34,8 +35,8 @@ public class ExerciseDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE =
-                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)",
-                        TABLE_NAME, KEY_ID, CATEGORY, NAME, SECOND_NAME, IMG_1, IMG_2, IMG_3, VIDEO, MAIN_MUSCLES, AUX_MUSCLES, STABILIZERS, HOW_TO, ATTENTIONS);
+                String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s INTEGER)",
+                        TABLE_NAME, KEY_ID, CATEGORY, NAME, SECOND_NAME, IMG_1, IMG_2, IMG_3, VIDEO, MAIN_MUSCLES, AUX_MUSCLES, STABILIZERS, HOW_TO, ATTENTIONS, IS_FAVORITE);
         db.execSQL(CREATE_TABLE);
     }
 
@@ -74,6 +75,7 @@ public class ExerciseDB extends SQLiteOpenHelper {
             values.put(HOW_TO, exercise.getHowTo());
             values.put(SECOND_NAME, exercise.getSecondName());
             values.put(ATTENTIONS, exercise.getAttentions());
+            values.put(IS_FAVORITE, getIntFromBoolean(false));
 
             db.insert(TABLE_NAME, null, values);
         }
@@ -101,6 +103,7 @@ public class ExerciseDB extends SQLiteOpenHelper {
                 exercise.setStabilizers(cursor.getString(10));
                 exercise.setHowTo(cursor.getString(11));
                 exercise.setAttentions(cursor.getString(12));
+                exercise.setFavorite(getBooleanFromInt(cursor.getInt(13)));
 
                 exercises.add(exercise);
             } while (cursor.moveToNext());
@@ -128,9 +131,18 @@ public class ExerciseDB extends SQLiteOpenHelper {
             exercise.setStabilizers(cursor.getString(10));
             exercise.setHowTo(cursor.getString(11));
             exercise.setAttentions(cursor.getString(12));
+            exercise.setFavorite(getBooleanFromInt(cursor.getInt(13)));
         }
         db.close();
         return exercise;
+    }
+
+    public void setFavorite(long id, boolean isFavorite){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(IS_FAVORITE, isFavorite);
+        db.update(TABLE_NAME, values, KEY_ID + "= ?", new String[] {String.valueOf(id)});
+        db.close();
     }
 
     public List<Category> getCategories(){
@@ -140,21 +152,28 @@ public class ExerciseDB extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
-            Category category = new Category(cursor.getString(0), null);
-            categories.add(category);
+                Category category = new Category(cursor.getString(0), null);
+                categories.add(category);
             } while (cursor.moveToNext());
         }
         db.close();
         return categories;
     }
 
-    public void removeAll()
-    {
+    public void removeAll() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
     }
 
     public long getRowCount() {
         return DatabaseUtils.queryNumEntries(getReadableDatabase(), TABLE_NAME);
+    }
+
+    private int getIntFromBoolean(boolean value){
+        return value ? 1 : 0;
+    }
+
+    private boolean getBooleanFromInt(int value){
+        return value == 1;
     }
 }

@@ -31,20 +31,17 @@ import java.util.List;
 
 public class TrainingAssistant extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private List<Series> seriesList;
     private Button backButton, nextButton;
     private MyCustomLayoutManager linearLayoutManager;
     private TextView timeTextView;
     private int currentRow = 0;
-    private int[] repeatsArray;
-    private int[] loadsArray;
     private Handler handler;
     private long tStart = 0;
     private long trainingId, startedTrainingPlanId;
     private int day;
-    private List<SeriesDone> seriesDoneList;
+    private List<SeriesDone> seriesDoneList = new ArrayList<>();
     private long trainingDoneId;
-    private boolean isClose = false, CLOSE = true, SAVE = false;
+    private boolean isClose = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +51,6 @@ public class TrainingAssistant extends AppCompatActivity {
 
         readParameters();
 
-        setUpSeriesList();
         setUpSeriesDoneList();
 
         setUpRecyclerView();
@@ -64,23 +60,29 @@ public class TrainingAssistant extends AppCompatActivity {
         startMeasureTime();
     }
 
+    private List<SeriesDone> getLastSeriesDone(){
+        SeriesDoneDB seriesDoneDB = new SeriesDoneDB(this);
+        return seriesDoneDB.getLastSeriesDoneByTrainingId(trainingId);
+    }
+
     private void setUpSeriesDoneList(){
-        this.seriesDoneList = new ArrayList<>();
+        List<Series> seriesList = setUpSeriesList();
         for(int i = 0; i < seriesList.size(); i++){
-            this.seriesDoneList.add(null);
+            SeriesDone seriesDone = new SeriesDone(seriesList.get(i));
+            seriesDoneList.add(seriesDone);
         }
     }
 
     private void nextButtonCheck(){
-        if(seriesList.size() == 1){
+        if(seriesDoneList.size() == 1){
             nextButton.setText(getString(R.string.save_button));
             isClose = true;
         }
     }
 
-    private void setUpSeriesList(){
+    private List<Series> setUpSeriesList(){
         TrainingDB trainingDB = new TrainingDB(this);
-        seriesList = trainingDB.getTraining(trainingId).getSeriesList();
+        return trainingDB.getTraining(trainingId).getSeriesList();
     }
 
     private void setUpRecyclerView(){
@@ -107,14 +109,6 @@ public class TrainingAssistant extends AppCompatActivity {
         seriesDoneDB.addSeriesDoneList(seriesDoneList, trainingDoneId);
     }
 
-    private void addSeriesDoneToList(){
-        SeriesDone seriesDone = new SeriesDone(seriesList.get(currentRow));
-        seriesDone.setActualRepeat(repeatsArray[currentRow]);
-        seriesDone.setActualWeight(loadsArray[currentRow]);
-        seriesDone.setTrainingDoneId((int) trainingDoneId);
-        seriesDoneList.set(currentRow, seriesDone);
-    }
-
     private void readParameters(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -130,18 +124,16 @@ public class TrainingAssistant extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(currentRow < seriesList.size() - 1){
-                    addSeriesDoneToList();
+                if(currentRow < seriesDoneList.size() - 1){
                     scrollDown();
                 }
                 if(currentRow == 1){
                     backButton.setText(getString(R.string.back_button));
                 }
-                if(currentRow == seriesList.size() - 1 && isClose){
-                    addSeriesDoneToList();
-                    showDialog(SAVE);
+                if(currentRow == seriesDoneList.size() - 1 && isClose){
+                    showDialog(false);
                 }
-                if(currentRow == seriesList.size() - 1 && !isClose){
+                if(currentRow == seriesDoneList.size() - 1 && !isClose){
                     nextButton.setText(getString(R.string.close));
                     isClose = true;
                 }
@@ -153,14 +145,13 @@ public class TrainingAssistant extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(currentRow == 0){
-                    showDialog(CLOSE);
+                    showDialog(true);
                 }
-                if(currentRow == seriesList.size() - 1 && isClose){
+                if(currentRow == seriesDoneList.size() - 1 && isClose){
                     nextButton.setText(getString(R.string.next_button));
                     isClose = false;
                 }
                 if(currentRow > 0){
-                    addSeriesDoneToList();
                     scrollUp();
                 }
                 if(currentRow == 0){
@@ -170,55 +161,15 @@ public class TrainingAssistant extends AppCompatActivity {
         });
     }
 
-    private void showDialog(final boolean choice){
-        String title, message, positive, negative;
-        title = getString(R.string.closing_assistant);
-        if(choice){
-            message = getString(R.string.close_without_saving);
-            positive = getString(R.string.yes);
-            negative = getString(R.string.cancel);
-        } else {
-            message = getString(R.string.save_traning);
-            positive = getString(R.string.save_button);
-            negative = getString(R.string.cancel);
-        }
-        AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog)).create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, positive,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(choice){
-                            onCancel();
-                        } else {
-                            closeWithSaving();
-                            dialog.dismiss();
-                        }
-                    }
-                });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, negative,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(choice){
-                            dialog.dismiss();
-                        } else {
-                            dialog.dismiss();
-                        }
-                    }
-        });
-        alertDialog.show();
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            showDialog(CLOSE);
+            showDialog(true);
         }
         return super.onKeyDown(keyCode, event);
     }
 
-    private void onCancel(){
+    private void closeWithoutSaving(){
         Intent returnIntent = new Intent();
         setResult(Activity.RESULT_CANCELED, returnIntent);
         this.finish();
@@ -233,18 +184,15 @@ public class TrainingAssistant extends AppCompatActivity {
         this.finish();
     }
 
-    private void initArrays(){
-        loadsArray = new int[seriesList.size()];
-        repeatsArray = new int[seriesList.size()];
-
-        for(int i = 0; i < seriesList.size(); i++){
-            repeatsArray[i] = seriesList.get(i).getRepeat();
+    private void onAbort(){
+        for(int i = currentRow; i < seriesDoneList.size(); i++){
+            seriesDoneList.get(i).setSaved(false);
         }
+        closeWithSaving();
     }
 
     private void populateRecyclerView(){
-        initArrays();
-        TrainingAssistantAdapter trainingAssistantAdapter = new TrainingAssistantAdapter(this, seriesList, repeatsArray, loadsArray);
+        TrainingAssistantAdapter trainingAssistantAdapter = new TrainingAssistantAdapter(this, seriesDoneList, getLastSeriesDone());
         recyclerView.setAdapter(trainingAssistantAdapter);
     }
 
@@ -286,5 +234,36 @@ public class TrainingAssistant extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopMeasureTime();
+    }
+
+    private void showDialog(final boolean isAborting){
+        AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog)).create();
+        alertDialog.setTitle(getString(R.string.closing_assistant));
+        alertDialog.setMessage(getString(R.string.save_traning));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(isAborting){
+                            onAbort();
+                        } else {
+                            closeWithSaving();
+                        }
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        closeWithoutSaving();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.cancel),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+        });
+        alertDialog.show();
     }
 }

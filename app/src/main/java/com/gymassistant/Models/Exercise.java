@@ -36,6 +36,7 @@ public class Exercise {
     @SerializedName("second_name")
     private String secondName;
     private long id;
+    private boolean isFavorite;
 
     @SerializedName("Exercises")
     private List<Exercise> exercises = new ArrayList<Exercise>();
@@ -163,5 +164,13 @@ public class Exercise {
 
     public void setSecondName(String secondName) {
         this.secondName = secondName;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

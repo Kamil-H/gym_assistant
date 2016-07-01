@@ -1,6 +1,7 @@
 package com.gymassistant.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -81,7 +82,7 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
         b.putLong("id", id);
         Intent intent = new Intent(context.getApplicationContext(), ExercisesPreview.class);
         intent.putExtras(b);
-        context.startActivity(intent);
+        ((Activity)context).startActivityForResult(intent, 1);
     }
 
     private boolean isSecondName(Exercise exercise){

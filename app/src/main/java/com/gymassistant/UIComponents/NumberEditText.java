@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 
 import com.gymassistant.R;
+import com.gymassistant.UIComponents.Dialogs.NumberDialog;
 
 /**
  * Created by KamilH on 2016-06-22.

@@ -14,56 +14,67 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gymassistant.Activities.ExercisesPreview;
-import com.gymassistant.Models.Series;
+import com.gymassistant.Models.SeriesDone;
+import com.gymassistant.Preferences;
 import com.gymassistant.R;
-import com.gymassistant.UIComponents.NumberDialog;
+import com.gymassistant.UIComponents.Dialogs.NumberDialog;
 
 import java.util.List;
 
 public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssistantAdapter.TrainingAssistantRowViewHolder> {
     private Context context;
-    private List<Series> itemsList;
-    private int[] repeatsArray;
-    private int[] loadsArray;
+    private List<SeriesDone> seriesDoneList;
+    private List<SeriesDone> lastSeriesDoneList;
 
-    public TrainingAssistantAdapter(Context context, List<Series> itemsList, int[] repeatsArray, int[] loadsArray) {
+    public TrainingAssistantAdapter(Context context, List<SeriesDone> seriesDoneList, List<SeriesDone> lastSeriesDoneList) {
         this.context = context;
-        this.itemsList = itemsList;
-        this.repeatsArray = repeatsArray;
-        this.loadsArray = loadsArray;
+        this.seriesDoneList = seriesDoneList;
+        this.lastSeriesDoneList = lastSeriesDoneList;
     }
 
     @Override
     public int getItemCount() {
-        if (itemsList == null) {
+        if (seriesDoneList == null) {
             return 0;
         } else {
-            return itemsList.size();
+            return seriesDoneList.size();
         }
     }
 
     @Override
     public TrainingAssistantAdapter.TrainingAssistantRowViewHolder onCreateViewHolder(ViewGroup viewGroup, final int position) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.item_training_assistant, null);
+        View view = inflater.inflate(R.layout.item_training_assistant, viewGroup, false);
 
-        TrainingAssistantRowViewHolder viewHolder = new TrainingAssistantRowViewHolder(view);
-        return viewHolder;
+        return new TrainingAssistantRowViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final TrainingAssistantRowViewHolder rowViewHolder, final int position) {
-        final Series items = itemsList.get(position);
+        final SeriesDone currentSeriesDone = seriesDoneList.get(position);
+        String unit = new Preferences(context).getWeightUnit();
 
-        rowViewHolder.muscleGroupTextView.setText(items.getExercise().getCategory());
-        rowViewHolder.exerciseTextView.setText(String.format("%s %s", items.getExercise().getName(), items.getExercise().getSecondName()));
-        rowViewHolder.seriesTextView.setText(String.valueOf(items.getOrder()));
+        if(lastSeriesDoneList.size() > 0){
+            final SeriesDone lastSeriesDone = lastSeriesDoneList.get(position);
+            if(lastSeriesDone.isSaved()){
+                rowViewHolder.loadLastTextView.setText(String.valueOf(lastSeriesDone.getWeight()));
+                rowViewHolder.repeatsLastTextView.setText(String.valueOf(lastSeriesDone.getRepeat()));
+                rowViewHolder.weightLastUnitTextView.setText(unit);
+            }
+        }
 
-        rowViewHolder.repeatsEditText.setText(String.valueOf(repeatsArray[position]));
+        rowViewHolder.muscleGroupTextView.setText(currentSeriesDone.getExercise().getCategory());
+        rowViewHolder.exerciseTextView.setText(String.format("%s %s", currentSeriesDone.getExercise().getName(), currentSeriesDone.getExercise().getSecondName()));
+        rowViewHolder.seriesTextView.setText(String.valueOf(currentSeriesDone.getOrder()));
+        rowViewHolder.heightUnitTextView.setText(unit);
+
+        rowViewHolder.repeatsEditText.setText(String.valueOf(currentSeriesDone.getRepeat()));
         rowViewHolder.repeatsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -72,7 +83,7 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
                         @Override
                         public void onNumberSet(String text) {
                             int repeats = Integer.valueOf(text);
-                            repeatsArray[position] = repeats;
+                            currentSeriesDone.setRepeat(repeats);
                             rowViewHolder.repeatsEditText.setText(text);
                             rowViewHolder.repeatsEditText.clearFocus();
                         }
@@ -81,16 +92,16 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
                 }
             }
         });
-        rowViewHolder.loadEditText.setText(String.valueOf(loadsArray[position]));
+        rowViewHolder.loadEditText.setText(String.valueOf(currentSeriesDone.getWeight()));
         rowViewHolder.loadEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
-                    DialogFragment newFragment = NumberDialog.newInstance(context.getString(R.string.load), false, new NumberDialog.NumberSetListener() {
+                    DialogFragment newFragment = NumberDialog.newInstance(context.getString(R.string.load), true, new NumberDialog.NumberSetListener() {
                         @Override
                         public void onNumberSet(String text) {
-                            int load = Integer.valueOf(text);
-                            loadsArray[position] = load;
+                            double load = Double.parseDouble(text);
+                            currentSeriesDone.setWeight(load);
                             rowViewHolder.loadEditText.setText(text);
                             rowViewHolder.loadEditText.clearFocus();
                         }
@@ -102,7 +113,15 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
         rowViewHolder.exercisePreviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToExercisesPreviewScreen(items.getId());
+                goToExercisesPreviewScreen(currentSeriesDone.getExerciseId());
+            }
+        });
+
+        rowViewHolder.saveCheckBox.setChecked(currentSeriesDone.isSaved());
+        rowViewHolder.saveCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                currentSeriesDone.setSaved(isChecked);
             }
         });
     }
@@ -117,17 +136,23 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
 
     public class TrainingAssistantRowViewHolder extends RecyclerView.ViewHolder {
         public View view;
-        public TextView muscleGroupTextView, exerciseTextView, seriesTextView;
+        public TextView muscleGroupTextView, exerciseTextView, seriesTextView, heightUnitTextView, repeatsLastTextView, loadLastTextView, weightLastUnitTextView;
         public EditText repeatsEditText, loadEditText;
         public Button exercisePreviewButton;
+        public CheckBox saveCheckBox;
 
         public TrainingAssistantRowViewHolder(View view) {
             super(view);
             this.muscleGroupTextView = (TextView) view.findViewById(R.id.muscleGroupTextView);
             this.exerciseTextView = (TextView) view.findViewById(R.id.exerciseNameTextView);
             this.seriesTextView = (TextView) view.findViewById(R.id.seriesTextView);
+            this.heightUnitTextView = (TextView) view.findViewById(R.id.heightUnitTextView);
+            this.repeatsLastTextView = (TextView) view.findViewById(R.id.repeatsLastTextView);
+            this.loadLastTextView = (TextView) view.findViewById(R.id.loadLastTextView);
+            this.weightLastUnitTextView = (TextView) view.findViewById(R.id.weightLastUnitTextView);
             this.repeatsEditText = (EditText) view.findViewById(R.id.repeatsTextView);
             this.loadEditText = (EditText) view.findViewById(R.id.loadEditText);
+            this.saveCheckBox = (CheckBox) view.findViewById(R.id.saveCheckBox);
 
             this.exercisePreviewButton = (Button) view.findViewById(R.id.exercisePreviewButton);
         }

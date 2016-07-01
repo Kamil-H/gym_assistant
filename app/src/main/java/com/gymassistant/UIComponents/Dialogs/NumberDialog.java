@@ -1,4 +1,4 @@
-package com.gymassistant.UIComponents;
+package com.gymassistant.UIComponents.Dialogs;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.gymassistant.R;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 /**
  * Created by KamilH on 2016-06-20.
@@ -95,11 +96,13 @@ public class NumberDialog extends DialogFragment {
 
     private void notifyValueChanged(){
         if(!text.isEmpty()) {
-            if(text.charAt(0) == '0' && !text.contains(".") && text.charAt(text.length() - 1) != '.'){
-                return;
-            }
-            numberSetListener.onNumberSet(text);
+            numberSetListener.onNumberSet(twoDigitsFormat(text));
         }
+    }
+
+    private String twoDigitsFormat(String text){
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        return decimalFormat.format(Double.parseDouble(text));
     }
 
     private void closeDialog(){

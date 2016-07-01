@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.gymassistant.Models.Series;
-import com.gymassistant.Preferences;
-import com.gymassistant.UnitConversions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +18,10 @@ import java.util.List;
 public class SeriesDB extends SQLiteOpenHelper{
     private final String TABLE_NAME = "Series", KEY_ID = "id", TRAINING_ID = "trainingId", EXERCISE_ID = "exerciseId", ORDER = "order_", REPEAT = "repeat", WEIGHT = "weight";
     private Context context;
-    private UnitConversions converter;
 
     public SeriesDB(Context context) {
         super(context, "Series", null, 1);
         this.context = context;
-        Preferences preferences = new Preferences(context);
-        converter = new UnitConversions(preferences.getWeightUnit());
     }
 
     @Override
@@ -52,7 +47,7 @@ public class SeriesDB extends SQLiteOpenHelper{
             values.put(EXERCISE_ID, series.getExerciseId());
             values.put(ORDER, series.getOrder());
             values.put(REPEAT, series.getRepeat());
-            values.put(WEIGHT, converter.saveWeightConverter(series.getWeight()));
+            values.put(WEIGHT, series.getWeight());
 
             db.insert(TABLE_NAME, null, values);
         }
@@ -73,7 +68,7 @@ public class SeriesDB extends SQLiteOpenHelper{
                 series.setExerciseId(cursor.getLong(2));
                 series.setOrder(cursor.getInt(3));
                 series.setRepeat(cursor.getInt(4));
-                series.setWeight(converter.retrieveWeightConverter(cursor.getDouble(5)));
+                series.setWeight(cursor.getDouble(5));
                 series.setExercise(exerciseDb.getExercise(series.getExerciseId()));
 
                 seriesList.add(series);

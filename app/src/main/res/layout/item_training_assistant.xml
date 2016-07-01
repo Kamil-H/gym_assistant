@@ -1,16 +1,18 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="455dp"
+        android:layout_height="match_parent"
         android:background="@color/colorCard"
         android:padding="16dp"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/linearLayout2">
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,29 +26,63 @@
             android:layout_height="wrap_content"
             android:text="Uginanie przedramion ze sztangielkami młotkowo"
             android:id="@+id/exerciseNameTextView"
-            android:layout_marginTop="10dp"
             style="@style/whiteText"
             android:textSize="20sp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/series_number"
-            android:id="@+id/textView13"
-            style="@style/titleTextSmall"
-            android:layout_marginTop="30dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3"
-            android:id="@+id/seriesTextView"
-            android:textSize="15sp"/>
+            android:text="@string/exercise_preview"
+            android:id="@+id/exercisePreviewButton"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/colorBackground"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/series_number"
+                    android:id="@+id/textView13"
+                    style="@style/titleTextSmall"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:id="@+id/seriesTextView"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/save_series"
+                android:id="@+id/saveCheckBox"
+                android:layout_marginTop="10dp"
+                android:checked="true"
+                style="@style/titleTextSmall"
+                android:textColor="@color/colorText" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -66,7 +102,7 @@
                 <com.gymassistant.UIComponents.WhiteEditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="50dp"
+                    android:minWidth="60dp"
                     android:id="@+id/repeatsTextView"
                     android:inputType="numberSigned"
                     android:cursorVisible="false"/>
@@ -87,34 +123,109 @@
                     android:id="@+id/textView14"
                     style="@style/titleTextSmall" />
 
-                <com.gymassistant.UIComponents.WhiteEditText
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="50dp"
-                    android:id="@+id/loadEditText"
-                    android:inputType="numberSigned"
-                    android:cursorVisible="false"/>
+                    android:layout_height="wrap_content">
+
+                    <com.gymassistant.UIComponents.WhiteEditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="60dp"
+                        android:id="@+id/loadEditText"
+                        android:inputType="numberSigned"
+                        android:cursorVisible="false"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:id="@+id/heightUnitTextView"
+                        style="@style/titleTextBig" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <Button
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_training"
+            style="@style/titleTextBig"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorText"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/exercise_preview"
-            android:id="@+id/exercisePreviewButton"
-            android:layout_marginTop="30dp"
-            android:textColor="@color/colorPrimary"
-            android:background="@color/colorBackground"/>
+            android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/colorBackground" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="left"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/repeats_number"
+                    style="@style/titleTextSmall"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:id="@+id/repeatsLastTextView"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="left"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/load"
+                    style="@style/titleTextSmall" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        android:id="@+id/loadLastTextView"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:id="@+id/weightLastUnitTextView"
+                        android:layout_marginLeft="5dp"
+                        style="@style/titleTextBig" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/colorDivider" />
-
-</LinearLayout>
+        android:background="@color/colorDivider"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

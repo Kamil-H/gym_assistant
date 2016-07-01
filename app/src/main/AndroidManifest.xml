@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.ExercisesPreview" />
         <activity
-            android:name=".UIComponents.YouTubeDialog"
+            android:name=".UIComponents.Dialogs.YouTubeDialog"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent" />
         <activity

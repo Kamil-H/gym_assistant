@@ -1,4 +1,4 @@
-package com.gymassistant.UIComponents;
+package com.gymassistant.UIComponents.Dialogs;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

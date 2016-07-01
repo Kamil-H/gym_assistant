@@ -234,7 +234,7 @@
                     <com.gymassistant.UIComponents.NumberEditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:minWidth="50dp"
+                        android:minWidth="60dp"
                         android:id="@+id/heightEditText"
                         android:inputType="numberSigned"
                         android:cursorVisible="false"
@@ -266,7 +266,7 @@
                     <com.gymassistant.UIComponents.NumberEditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:minWidth="50dp"
+                        android:minWidth="60dp"
                         android:id="@+id/weightEditText"
                         android:inputType="numberSigned"
                         android:cursorVisible="false"

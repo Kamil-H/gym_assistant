@@ -1,4 +1,4 @@
-package com.gymassistant.UIComponents;
+package com.gymassistant.UIComponents.Dialogs;
 
 import android.content.Intent;
 import android.os.Bundle;

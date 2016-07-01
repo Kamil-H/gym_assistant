@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gymassistant.Models.SeriesDone;
+import com.gymassistant.Preferences;
 import com.gymassistant.R;
 
 import java.util.List;
@@ -41,8 +42,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryR
     @Override
     public void onBindViewHolder(HistoryRowViewHolder rowViewHolder, final int position) {
         rowViewHolder.seriesNumberTextView.setText(String.valueOf(position + 1));
-        rowViewHolder.repeatsNumberTextView.setText(String.valueOf(seriesDoneList.get(position).getActualRepeat()));
-        rowViewHolder.loadTextView.setText(String.format("%d kg", seriesDoneList.get(position).getActualWeight()));
+        rowViewHolder.repeatsNumberTextView.setText(String.valueOf(seriesDoneList.get(position).getRepeat()));
+        rowViewHolder.loadTextView.setText(String.format("%s %s", String.valueOf(
+                seriesDoneList.get(position).getWeight()), new Preferences(context).getWeightUnit()));
     }
 
     class HistoryRowViewHolder extends RecyclerView.ViewHolder {

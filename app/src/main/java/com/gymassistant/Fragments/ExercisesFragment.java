@@ -23,22 +23,25 @@ import java.util.List;
  */
 public class ExercisesFragment extends Fragment {
     private View view;
-    private List<Category> categories;
-    private List<Exercise> exercises;
+    private ExerciseDB exerciseDB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_exercises,container,false);
+
+        exerciseDB = new ExerciseDB(getActivity());
 
         new AsyncUI().execute();
 
         return view;
     }
 
-    private void getExerciseLists(){
-        ExerciseDB exerciseDB = new ExerciseDB(getActivity());
-        exercises = exerciseDB.getAllExercises();
-        categories = exerciseDB.getCategories();
+    private List<Exercise> getExerciseLists(){
+        return exerciseDB.getAllExercises();
+    }
+
+    private List<Category> getCategoryLists(){
+        return exerciseDB.getCategories();
     }
 
     private void setUpExpandableRecyclerView(ArrayList<Category> categories){
@@ -48,18 +51,29 @@ public class ExercisesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private ArrayList<Category> generateList() {
+    private ArrayList<Category> generateList(List<Category> categories, List<Exercise> exercises) {
         ArrayList<Category> parentList = new ArrayList<>();
+        ArrayList<Exercise> favoritesList = new ArrayList<>();
+
         for (Category category : categories) {
             ArrayList<Exercise> childList = new ArrayList<>();
             for (Exercise exercise : exercises) {
                 if(exercise.getCategory().matches(category.getCategory())){
                     childList.add(exercise);
                 }
+                if(exercise.isFavorite() && !favoritesList.contains(exercise)){
+                    favoritesList.add(exercise);
+                }
             }
             Category parentItem = new Category(category.getCategory(), childList);
             parentList.add(parentItem);
         }
+
+        if(favoritesList.size() > 0){
+            Category parentItem = new Category(getString(R.string.favorites), favoritesList);
+            parentList.add(0, parentItem);
+        }
+
         return parentList;
     }
 
@@ -67,9 +81,7 @@ public class ExercisesFragment extends Fragment {
 
         @Override
         protected ArrayList<Category> doInBackground(Void... params) {
-            getExerciseLists();
-
-            return generateList();
+            return generateList(getCategoryLists(), getExerciseLists());
         }
 
         @Override

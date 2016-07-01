@@ -25,7 +25,7 @@ import com.gymassistant.Models.Category;
 import com.gymassistant.Models.Exercise;
 import com.gymassistant.Models.Series;
 import com.gymassistant.R;
-import com.gymassistant.UIComponents.NumberDialog;
+import com.gymassistant.UIComponents.Dialogs.NumberDialog;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 

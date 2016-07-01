@@ -17,15 +17,17 @@ import com.gymassistant.Database.DimensionDB;
 import com.gymassistant.Database.UserDB;
 import com.gymassistant.Models.Dimension;
 import com.gymassistant.Models.User;
+import com.gymassistant.Preferences;
 import com.gymassistant.R;
 import com.gymassistant.RecyclerView.DimensionAdapter;
-import com.gymassistant.UIComponents.DimensionDialog;
+import com.gymassistant.UIComponents.Dialogs.DimensionDialog;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -67,13 +69,14 @@ public class ProfileFragment extends Fragment {
     }
 
     public void fillTextViews(){
+        Preferences preferences = new Preferences(getActivity());
         User user = getUser();
         if(user.getBirthday() != null){
             ageTextView.setText(String.valueOf(getAge(user.getBirthday())));
         }
-        heightTextView.setText(String.valueOf(user.getHeight()));
-        weightTextView.setText(String.valueOf(user.getWeight()));
-        bmiTextView.setText(String.format("%.2f", getBMI(user.getWeight(), user.getHeight())));
+        heightTextView.setText(String.format("%s %s", String.valueOf(user.getHeight()), preferences.getLengthUnit()));
+        weightTextView.setText(String.format("%s %s", String.valueOf(user.getWeight()), preferences.getWeightUnit()));
+        bmiTextView.setText(getBMI(user.getWeight(), user.getHeight()));
     }
 
     private int getAge(String birth_date){
@@ -83,8 +86,9 @@ public class ProfileFragment extends Fragment {
         return age.getYears();
     }
 
-    private double getBMI(double weight, double height){
-        return 10000 * weight / (height * height);
+    private String getBMI(double weight, double height){
+        double bmi =  10000 * weight / (height * height);
+        return new DecimalFormat("#.##").format(bmi);
     }
 
     private User getUser(){
@@ -131,7 +135,6 @@ public class ProfileFragment extends Fragment {
 
         @Override
         protected LongSparseArray<List<Dimension>> doInBackground(Void... params) {
-
             return groupDimensions();
         }
 
