@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -118,10 +117,14 @@ public class TrainingAssistantAdapter extends RecyclerView.Adapter<TrainingAssis
         });
 
         rowViewHolder.saveCheckBox.setChecked(currentSeriesDone.isSaved());
-        rowViewHolder.saveCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rowViewHolder.saveCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                currentSeriesDone.setSaved(isChecked);
+            public void onClick(View v) {
+                if(rowViewHolder.saveCheckBox.isChecked()){
+                    currentSeriesDone.setSaved(true);
+                } else {
+                    currentSeriesDone.setSaved(false);
+                }
             }
         });
     }

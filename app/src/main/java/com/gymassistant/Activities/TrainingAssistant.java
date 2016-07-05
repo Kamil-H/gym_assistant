@@ -69,6 +69,7 @@ public class TrainingAssistant extends AppCompatActivity {
         List<Series> seriesList = setUpSeriesList();
         for(int i = 0; i < seriesList.size(); i++){
             SeriesDone seriesDone = new SeriesDone(seriesList.get(i));
+            seriesDone.setSaved(true);
             seriesDoneList.add(seriesDone);
         }
     }

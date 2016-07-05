@@ -25,6 +25,16 @@ public class Series {
         this.weight = weight;
     }
 
+    public Series(Series series) {
+        this.training = series.getTraining();
+        this.trainingId = series.getTrainingId();
+        this.exercise = series.getExercise();
+        this.exerciseId = series.getExerciseId();
+        this.order = series.getOrder();
+        this.repeat = series.getRepeat();
+        this.weight = series.getWeight();
+    }
+
     public long getId() {
         return id;
     }

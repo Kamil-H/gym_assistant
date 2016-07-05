@@ -129,8 +129,9 @@ public class SecondPage extends Fragment {
     private List<Series> createSeriesList(Series series){
         List<Series> seriesList = new ArrayList<>();
         for(int i = 0; i < numOfSeries; i++){
-            series.setOrder(i);
-            seriesList.add(series);
+            Series newSeries = new Series(series);
+            newSeries.setOrder(i + 1);
+            seriesList.add(newSeries);
         }
         return seriesList;
     }
@@ -145,6 +146,8 @@ public class SecondPage extends Fragment {
         if(seriesCheckBox.isChecked()){
             seriesCheckBox.setChecked(false);
         }
+        repeatsTextView.setText("1");
+        seriesTextView.setText("1");
     }
 
     private void setUpButtons(){
@@ -191,14 +194,9 @@ public class SecondPage extends Fragment {
             }
 
             @Override
-            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-
-            }
-
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {}
             @Override
-            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-
-            }
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {}
         });
         seriesSeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
@@ -210,14 +208,9 @@ public class SecondPage extends Fragment {
             }
 
             @Override
-            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-
-            }
-
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {}
             @Override
-            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-
-            }
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {}
         });
     }
 

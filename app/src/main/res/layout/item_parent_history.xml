@@ -50,8 +50,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/plan_name"
                     android:id="@+id/textView32"
-                    style="@style/titleTextSmall"
-                    android:layout_marginTop="5dp"/>
+                    style="@style/titleTextSmall"/>
 
                 <TextView
                     android:layout_width="wrap_content"

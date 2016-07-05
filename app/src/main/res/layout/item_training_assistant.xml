@@ -72,9 +72,8 @@
                 android:text="@string/save_series"
                 android:id="@+id/saveCheckBox"
                 android:layout_marginTop="10dp"
-                android:checked="true"
                 style="@style/titleTextSmall"
-                android:textColor="@color/colorText" />
+                android:textColor="@color/colorText"/>
 
         </LinearLayout>
 

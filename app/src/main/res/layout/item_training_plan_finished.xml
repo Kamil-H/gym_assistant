@@ -165,7 +165,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorText"
+                android:background="@color/colorCard"
                 android:id="@+id/view"
                 android:layout_below="@+id/endDateTextView"
                 android:layout_alignParentLeft="true"
