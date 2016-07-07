@@ -125,14 +125,14 @@ public class TrainingDB extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<Integer> getTrainingIdsByTrainingPlanId(long ID){
-        List<Integer> trainingIds = new ArrayList<>();
+    public List<Long> getTrainingIdsByTrainingPlanId(long ID){
+        List<Long> trainingIds = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + TRAINING_PLAN_ID + "=" + ID;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
-                trainingIds.add(cursor.getInt(1));
+                trainingIds.add(cursor.getLong(0));
             } while (cursor.moveToNext());
         }
         db.close();

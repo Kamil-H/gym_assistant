@@ -87,7 +87,7 @@ public class FirstPage extends Fragment {
         List<List<Series>> map = ((WizardActivity)getActivity()).getMap();
         TrainingDB trainingDB = new TrainingDB(getActivity());
         SeriesDB seriesDB = new SeriesDB(getActivity());
-        List<Integer> ids = trainingDB.getTrainingIdsByTrainingPlanId(trainingPlanId);
+        List<Long> ids = trainingDB.getTrainingIdsByTrainingPlanId(trainingPlanId);
         for(int i = 0; i < ids.size(); i++){
             map.set(i, seriesDB.getSeriesByTrainingId(ids.get(i)));
         }

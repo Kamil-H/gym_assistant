@@ -157,6 +157,7 @@
     <string name="current_training">obecny trening</string>
     <string name="last_training">poprzedni trening</string>
     <string name="save_series">zapisz ćwiczenie</string>
+    <string name="click_on_exercise_to_select">kliknij na ćwiczenie aby je zaznaczyć</string>
 
     <string-array name="dimension_types">
         <item>@string/weight</item>

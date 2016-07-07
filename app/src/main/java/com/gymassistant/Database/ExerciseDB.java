@@ -112,6 +112,36 @@ public class ExerciseDB extends SQLiteOpenHelper {
         return exercises;
     }
 
+    public List<Exercise> getFavoritesExercises() {
+        List<Exercise> exercises = new ArrayList<Exercise>();
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + IS_FAVORITE + "=" + 1;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Exercise exercise = new Exercise();
+                exercise.setId(cursor.getLong(0));
+                exercise.setCategory(cursor.getString(1));
+                exercise.setName(cursor.getString(2));
+                exercise.setSecondName(cursor.getString(3));
+                exercise.setImg1(cursor.getString(4));
+                exercise.setImg2(cursor.getString(5));
+                exercise.setImg3(cursor.getString(6));
+                exercise.setVideo(cursor.getString(7));
+                exercise.setMainMuscles(cursor.getString(8));
+                exercise.setAuxMuscles(cursor.getString(9));
+                exercise.setStabilizers(cursor.getString(10));
+                exercise.setHowTo(cursor.getString(11));
+                exercise.setAttentions(cursor.getString(12));
+                exercise.setFavorite(getBooleanFromInt(cursor.getInt(13)));
+
+                exercises.add(exercise);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return exercises;
+    }
+
     public Exercise getExercise(long ID){
         String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + ID;
         SQLiteDatabase db = this.getWritableDatabase();

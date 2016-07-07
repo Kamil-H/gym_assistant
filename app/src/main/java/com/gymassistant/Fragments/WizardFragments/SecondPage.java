@@ -25,6 +25,7 @@ import com.gymassistant.Models.Category;
 import com.gymassistant.Models.Exercise;
 import com.gymassistant.Models.Series;
 import com.gymassistant.R;
+import com.gymassistant.UIComponents.Dialogs.FavoritesDialog;
 import com.gymassistant.UIComponents.Dialogs.NumberDialog;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
@@ -154,17 +155,7 @@ public class SecondPage extends Fragment {
         Button nextButton = (Button) view.findViewById(R.id.nextButton);
         Button backButton = (Button) view.findViewById(R.id.backButton);
         ImageButton addDayButton = (ImageButton) view.findViewById(R.id.addDayButton);
-
-        addDayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<List<Series>> map = ((WizardActivity)getActivity()).getMap();
-                daysAdapter.add(getActivity().getString(R.string.day, map.size() + 1));
-                daysAdapter.notifyDataSetChanged();
-                map.add(null);
-                ((WizardActivity)getActivity()).setMap(map);
-            }
-        });
+        ImageButton favoriteButton = (ImageButton) view.findViewById(R.id.favoriteButton);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +170,49 @@ public class SecondPage extends Fragment {
                 ((WizardActivity)getActivity()).finishWithResult(false);
             }
         });
+
+        addDayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<List<Series>> map = ((WizardActivity)getActivity()).getMap();
+                daysAdapter.add(getActivity().getString(R.string.day, map.size() + 1));
+                daysAdapter.notifyDataSetChanged();
+                map.add(null);
+                ((WizardActivity)getActivity()).setMap(map);
+            }
+        });
+
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFavoritesDialog();
+            }
+        });
+    }
+
+    private void showFavoritesDialog(){
+        DialogFragment newFragment = FavoritesDialog.newInstance();
+        newFragment.setTargetFragment(SecondPage.this, 0);
+        newFragment.show(getActivity().getSupportFragmentManager(), "fav");
+    }
+
+    public void selectExerciseSpinnerItem(String exerciseName){
+        exerciseSpinner.setSelection(getIndex(exerciseSpinner, exerciseName));
+    }
+
+    public void selectMuscleGroupSpinnerItem(String muscleGroupName){
+        muscleGroupSpinner.setSelection(getIndex(muscleGroupSpinner, muscleGroupName));
+    }
+
+    private int getIndex(Spinner spinner, String name) {
+        int index = 0;
+        for (int i = 0; i < spinner.getCount(); i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(name)){
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 
     private void setUpSeekBars(){

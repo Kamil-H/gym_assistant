@@ -3,10 +3,11 @@ package com.gymassistant.Activities;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -152,15 +153,44 @@ public class FillProfileActivity extends AppCompatActivity {
     }
 
     private void showDateDialog(){
+        int[] date = initDate();
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    String date = String.format("%s-%s-%d", DateConverter.hasTwoLatters(dayOfMonth), DateConverter.hasTwoLatters(monthOfYear+1), year);
+                    dateEditText.setText(date);
+                }
+            },date[2], date[1], date[0]);
+            datePickerDialog.show();
+        } else {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog), new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    String date = String.format("%s-%s-%d", DateConverter.hasTwoLatters(dayOfMonth), DateConverter.hasTwoLatters(monthOfYear+1), year);
+                    dateEditText.setText(date);
+                }
+            },date[2], date[1], date[0]);
+            datePickerDialog.show();
+        }
+        dateEditText.clearFocus();
+    }
+
+    private int[] initDate(){
+        User user = getUser();
         Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = new DatePickerDialog(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                String date = String.format("%s-%s-%d", DateConverter.hasTwoLatters(dayOfMonth), DateConverter.hasTwoLatters(monthOfYear+1), year);
-                dateEditText.setText(date);
-            }
-        },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
+        int[] date = new int[3];
+        if(dateEditText.getText().toString().isEmpty()){
+            date[2] = calendar.get(Calendar.YEAR);
+            date[1]  = calendar.get(Calendar.MONTH);
+            date[0]  = calendar.get(Calendar.DAY_OF_MONTH);
+        } else {
+            String[] dateString = user.getBirthday().split("-");
+            date[2]  = Integer.valueOf(dateString[2]);
+            date[1]  = Integer.valueOf(dateString[1]) - 1;
+            date[0]  = Integer.valueOf(dateString[0]);
+        }
+        return date;
     }
 
     private boolean readValues(){
